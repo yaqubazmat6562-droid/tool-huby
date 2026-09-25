@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Grayscale Image - Tool Hub</title>
+    <meta name="theme-color" content="#0f172a">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="grayscale-style.css">
+</head>
+<body>
+
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">
+            <i class="fa-solid fa-wrench"></i>
+            <h2>Tool Hub</h2>
+        </div>
+        <nav>
+            <ul>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-house"></i> Home</li>
+                <li onclick="window.location.href='alltools-index.html'"><i class="fa-solid fa-toolbox"></i> All Tools</li>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-heart"></i> Favorites</li>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-clock-rotate-left"></i> History</li>
+            </ul>
+        </nav>
+        <div class="categories">
+            <h3>Categories</h3>
+            <ul>
+                <li onclick="window.location.href='alltools-index.html?cat=text'"><i class="fa-solid fa-font"></i> Text Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=calc'"><i class="fa-solid fa-calculator"></i> Calculator Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=dev'"><i class="fa-solid fa-code"></i> Developer Tools</li>
+                <li class="active" onclick="window.location.href='alltools-index.html?cat=image'"><i class="fa-solid fa-image"></i> Image Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=gen'"><i class="fa-solid fa-wand-magic-sparkles"></i> Generator Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=date'"><i class="fa-solid fa-calendar-day"></i> Date & Time</li>
+                <li onclick="window.location.href='alltools-index.html?cat=finance'"><i class="fa-solid fa-coins"></i> Finance</li>
+            </ul>
+        </div>
+        <div class="login-box">
+            <i class="fa-solid fa-crown"></i>
+            <p>Save Your Favorite Tools</p>
+            <button>Login / Sign Up</button>
+        </div>
+    </aside>
+
+    <!-- ================= MAIN ================= -->
+    <main class="main-content">
+
+        <!-- Header -->
+        <header>
+            <div class="search-bar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search tools..." id="header-search">
+            </div>
+            <div class="nav-actions">
+                <button id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+                <button class="contact-btn"><i class="fa-solid fa-envelope"></i> Contact</button>
+            </div>
+        </header>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> /
+            <a href="alltools-index.html">All Tools</a> /
+            <span>Grayscale Image</span>
+        </div>
+
+        <!-- Tool Title Bar -->
+        <div class="tool-title-bar">
+            <div class="tool-title-left">
+                <div class="tool-title-icon gs">
+                    <i class="fa-solid fa-circle-half-stroke"></i>
+                </div>
+                <div>
+                    <h1>Grayscale Image</h1>
+                    <p>Convert colored images to grayscale with multiple algorithms & effects</p>
+                </div>
+            </div>
+            <button class="share-btn" onclick="shareGrayscale()">
+                <i class="fa-solid fa-share-nodes"></i> Share
+            </button>
+        </div>
+
+        <!-- ================= GRAYSCALE CARD ================= -->
+        <div class="gs-card" id="gsCard">
+
+            <!-- Upload Zone -->
+            <div class="upload-zone" id="uploadZone">
+                <input type="file" id="fileInput" accept="image/*" multiple style="display:none">
+                <div class="uz-icon">
+                    <i class="fa-solid fa-palette"></i>
+                </div>
+                <div class="uz-title">Drop images here or click to browse</div>
+                <div class="uz-sub">PNG · JPG · JPEG · WebP · GIF · BMP · max 20 MB each</div>
+                <button class="uz-btn" id="browseBtn">
+                    <i class="fa-solid fa-folder-open"></i> Choose Images
+                </button>
+                <div class="uz-badges">
+                    <span><i class="fa-solid fa-bolt"></i> Instant</span>
+                    <span><i class="fa-solid fa-shield-halved"></i> Private</span>
+                    <span><i class="fa-solid fa-infinity"></i> Unlimited</span>
+                </div>
+            </div>
+
+            <!-- Editor Area -->
+            <div class="editor-area" id="editorArea" style="display:none;">
+
+                <!-- Toolbar -->
+                <div class="editor-toolbar">
+                    <div class="et-left">
+                        <div class="et-stats">
+                            <span class="et-stat">
+                                <i class="fa-solid fa-images"></i>
+                                <span id="queueCount">0</span> images
+                            </span>
+                            <span class="et-stat">
+                                <i class="fa-solid fa-database"></i>
+                                <span id="totalSize">0 B</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="et-right">
+                        <button class="tb-btn" id="addMoreBtn" title="Add more">
+                            <i class="fa-solid fa-plus"></i> Add More
+                        </button>
+                        <button class="tb-btn danger" id="clearAllBtn" title="Clear all">
+                            <i class="fa-solid fa-trash-can"></i> Clear
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Main Grid -->
+                <div class="editor-grid">
+
+                    <!-- Left: Preview (split view) -->
+                    <div class="preview-panel">
+                        <div class="preview-header">
+                            <span class="ph-label">
+                                <i class="fa-solid fa-eye"></i> Preview
+                                <span class="ph-active" id="activeName">image.png</span>
+                            </span>
+                            <div class="ph-actions">
+                                <button class="mini-btn" id="toggleOriginalBtn" title="Show original">
+                                    <i class="fa-solid fa-code-compare"></i>
+                                </button>
+                                <button class="mini-btn" id="splitViewBtn" title="Split comparison">
+                                    <i class="fa-solid fa-columns"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="preview-stage" id="previewStage">
+                            <!-- Split slider view -->
+                            <div class="split-container" id="splitContainer" style="display:none;">
+                                <img id="splitImgColor" class="split-img" alt="color" draggable="false">
+                                <img id="splitImgGray" class="split-img gray" alt="grayscale" draggable="false">
+                                <div class="split-divider" id="splitDivider">
+                                    <div class="split-handle">
+                                        <i class="fa-solid fa-arrows-left-right"></i>
+                                    </div>
+                                </div>
+                                <div class="split-label left">ORIGINAL</div>
+                                <div class="split-label right">GRAYSCALE</div>
+                            </div>
+                            <!-- Simple preview -->
+                            <img id="previewImg" class="preview-img" alt="preview" draggable="false">
+                            <img id="previewOriginal" class="preview-img original" alt="original" draggable="false" style="display:none;">
+                            <div class="compare-label" id="compareLabel" style="display:none;">ORIGINAL</div>
+                        </div>
+                        <div class="preview-info">
+                            <div class="pi-item">
+                                <span class="pi-label">File</span>
+                                <span class="pi-value" id="piFile">—</span>
+                            </div>
+                            <div class="pi-item">
+                                <span class="pi-label">Dimensions</span>
+                                <span class="pi-value" id="piDims">—</span>
+                            </div>
+                            <div class="pi-item">
+                                <span class="pi-label">Original Size</span>
+                                <span class="pi-value" id="piSize">—</span>
+                            </div>
+                            <div class="pi-item">
+                                <span class="pi-label">Algorithm</span>
+                                <span class="pi-value" id="piAlgo">Luminance</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Controls -->
+                    <div class="controls-panel">
+
+                        <!-- Algorithm -->
+                        <div class="control-block">
+                            <div class="cb-label">
+                                <i class="fa-solid fa-microchip"></i> Grayscale Algorithm
+                            </div>
+                            <div class="algo-grid" id="algoGrid">
+                                <button class="algo-btn active" data-algo="luminance">
+                                    <i class="fa-solid fa-eye"></i>
+                                    <span>Luminance</span>
+                                    <small>Perceptual (Rec. 709)</small>
+                                </button>
+                                <button class="algo-btn" data-algo="average">
+                                    <i class="fa-solid fa-scale-balanced"></i>
+                                    <span>Average</span>
+                                    <small>(R+G+B)/3</small>
+                                </button>
+                                <button class="algo-btn" data-algo="lightness">
+                                    <i class="fa-solid fa-sun"></i>
+                                    <span>Lightness</span>
+                                    <small>(max+min)/2</small>
+                                </button>
+                                <button class="algo-btn" data-algo="desaturate">
+                                    <i class="fa-solid fa-droplet-slash"></i>
+                                    <span>Desaturate</span>
+                                    <small>HSL S=0</small>
+                                </button>
+                                <button class="algo-btn" data-algo="red">
+                                    <i class="fa-solid fa-circle" style="color:#ef4444"></i>
+                                    <span>Red Channel</span>
+                                    <small>Red only</small>
+                                </button>
+                                <button class="algo-btn" data-algo="green">
+                                    <i class="fa-solid fa-circle" style="color:#10b981"></i>
+                                    <span>Green Channel</span>
+                                    <small>Green only</small>
+                                </button>
+                                <button class="algo-btn" data-algo="blue">
+                                    <i class="fa-solid fa-circle" style="color:#3b82f6"></i>
+                                    <span>Blue Channel</span>
+                                    <small>Blue only</small>
+                                </button>
+                                <button class="algo-btn" data-algo="sepia">
+                                    <i class="fa-solid fa-mug-hot"></i>
+                                    <span>Sepia</span>
+                                    <small>Vintage tone</small>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Intensity -->
+                        <div class="control-block">
+                            <div class="cb-label">
+                                <i class="fa-solid fa-sliders"></i> Intensity
+                                <span class="cb-value" id="intensityValue">100%</span>
+                            </div>
+                            <input type="range" id="intensitySlider" min="0" max="100" value="100" class="intensity-slider">
+                            <div class="intensity-presets-row">
+                                <button class="ip-mini" data-intensity="0">0%</button>
+                                <button class="ip-mini" data-intensity="25">25%</button>
+                                <button class="ip-mini" data-intensity="50">50%</button>
+                                <button class="ip-mini active" data-intensity="100">100%</button>
+                            </div>
+                        </div>
+
+                        <!-- Tint -->
+                        <div class="control-block">
+                            <div class="cb-label">
+                                <i class="fa-solid fa-fill-drip"></i> Tint (optional)
+                            </div>
+                            <div class="tint-row">
+                                <button class="tint-preset active" data-tint="none">
+                                    <span class="tint-preview" style="background: linear-gradient(135deg, #333, #999, #fff)"></span>
+                                    <span class="tint-name">None</span>
+                                </button>
+                                <button class="tint-preset" data-tint="#f5deb3">
+                                    <span class="tint-preview" style="background: #f5deb3"></span>
+                                    <span class="tint-name">Sepia</span>
+                                </button>
+                                <button class="tint-preset" data-tint="#4a5568">
+                                    <span class="tint-preview" style="background: #4a5568"></span>
+                                    <span class="tint-name">Cool</span>
+                                </button>
+                                <button class="tint-preset" data-tint="#8b4513">
+                                    <span class="tint-preview" style="background: #8b4513"></span>
+                                    <span class="tint-name">Warm</span>
+                                </button>
+                                <button class="tint-preset" data-tint="custom">
+                                    <span class="tint-preview custom"><i class="fa-solid fa-eye-dropper"></i></span>
+                                    <span class="tint-name">Custom</span>
+                                </button>
+                            </div>
+                            <div class="custom-tint-row" id="customTintRow" style="display:none;">
+                                <input type="color" id="customTintColor" value="#888888">
+                                <span>Pick custom tint color</span>
+                            </div>
+                        </div>
+
+                        <!-- Extra Effects -->
+                        <div class="control-block">
+                            <div class="cb-label">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i> Extra Effects
+                            </div>
+                            <div class="effect-control">
+                                <label>Contrast</label>
+                                <input type="range" id="contrastSlider" min="-100" max="100" value="0" class="effect-slider">
+                                <span class="effect-value" id="contrastValue">0</span>
+                            </div>
+                            <div class="effect-control">
+                                <label>Brightness</label>
+                                <input type="range" id="brightnessSlider" min="-100" max="100" value="0" class="effect-slider">
+                                <span class="effect-value" id="brightnessValue">0</span>
+                            </div>
+                            <div class="effect-control">
+                                <label>Grain</label>
+                                <input type="range" id="grainSlider" min="0" max="100" value="0" class="effect-slider">
+                                <span class="effect-value" id="grainValue">0</span>
+                            </div>
+                        </div>
+
+                        <!-- Output Format -->
+                        <div class="control-block">
+                            <div class="cb-label">
+                                <i class="fa-solid fa-file-export"></i> Output Format
+                            </div>
+                            <div class="format-pills" id="formatPills">
+                                <button class="fmt-pill active" data-format="image/png">
+                                    <i class="fa-solid fa-file-image"></i> PNG
+                                </button>
+                                <button class="fmt-pill" data-format="image/jpeg">
+                                    <i class="fa-solid fa-file-image"></i> JPEG
+                                </button>
+                                <button class="fmt-pill" data-format="image/webp">
+                                    <i class="fa-solid fa-file-image"></i> WebP
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Quality (JPEG/WebP) -->
+                        <div class="control-block" id="qualityBlock" style="display:none;">
+                            <div class="cb-label">
+                                <i class="fa-solid fa-gauge-high"></i> Quality
+                                <span class="cb-value" id="qualityValue">92%</span>
+                            </div>
+                            <input type="range" id="qualitySlider" min="10" max="100" value="92" class="quality-slider">
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="action-buttons">
+                            <button class="action-btn primary" id="downloadBtn">
+                                <i class="fa-solid fa-download"></i> Download Grayscale
+                            </button>
+                            <button class="action-btn secondary" id="previewBtn">
+                                <i class="fa-solid fa-eye"></i> Update Preview
+                            </button>
+                            <button class="action-btn secondary" id="downloadAllBtn" style="display:none;">
+                                <i class="fa-solid fa-layer-group"></i> Download All (<span id="batchCount">0</span>)
+                            </button>
+                            <button class="action-btn secondary" id="downloadZipBtn" style="display:none;">
+                                <i class="fa-solid fa-file-zipper"></i> Download ZIP
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Thumbnails Strip -->
+                <div class="thumbnails-strip" id="thumbnailsStrip" style="display:none;">
+                    <div class="ts-header">
+                        <span><i class="fa-solid fa-images"></i> Queue (<span id="queueCount2">0</span>)</span>
+                    </div>
+                    <div class="ts-list" id="tsList"></div>
+                </div>
+            </div>
+
+            <!-- Progress -->
+            <div class="progress-wrap" id="progressWrap" style="display:none;">
+                <div class="progress-label" id="progressLabel">Processing…</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width:0%"></div>
+                </div>
+            </div>
+
+            <!-- History -->
+            <div class="gs-history">
+                <div class="history-hdr">
+                    <span><i class="fa-solid fa-clock-rotate-left"></i> Recent Conversions</span>
+                    <button id="clearGsHistory" title="Clear">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+                <div class="history-list" id="gsHistoryList">
+                    <div class="empty-history">No conversions yet</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Keyboard Hint -->
+        <div class="kbd-hint">
+            <span><kbd>Ctrl</kbd>+<kbd>Enter</kbd> Download</span>
+            <span><kbd>Ctrl</kbd>+<kbd>R</kbd> Reset</span>
+            <span><kbd>Esc</kbd> Clear All</span>
+        </div>
+
+    </main>
+
+    <!-- Toast -->
+    <div id="toast" class="toast">Message here</div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script src="grayscale-script.js"></script>
+</body>
+</html>

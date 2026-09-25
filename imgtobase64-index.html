@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Image to Base64 - Tool Hub</title>
+    <meta name="theme-color" content="#0f172a">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="imgtobase64-style.css">
+</head>
+<body>
+
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">
+            <i class="fa-solid fa-wrench"></i>
+            <h2>Tool Hub</h2>
+        </div>
+        <nav>
+            <ul>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-house"></i> Home</li>
+                <li onclick="window.location.href='alltools-index.html'"><i class="fa-solid fa-toolbox"></i> All Tools</li>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-heart"></i> Favorites</li>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-clock-rotate-left"></i> History</li>
+            </ul>
+        </nav>
+        <div class="categories">
+            <h3>Categories</h3>
+            <ul>
+                <li onclick="window.location.href='alltools-index.html?cat=text'"><i class="fa-solid fa-font"></i> Text Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=calc'"><i class="fa-solid fa-calculator"></i> Calculator Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=dev'"><i class="fa-solid fa-code"></i> Developer Tools</li>
+                <li class="active" onclick="window.location.href='alltools-index.html?cat=image'"><i class="fa-solid fa-image"></i> Image Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=gen'"><i class="fa-solid fa-wand-magic-sparkles"></i> Generator Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=date'"><i class="fa-solid fa-calendar-day"></i> Date & Time</li>
+                <li onclick="window.location.href='alltools-index.html?cat=finance'"><i class="fa-solid fa-coins"></i> Finance</li>
+            </ul>
+        </div>
+        <div class="login-box">
+            <i class="fa-solid fa-crown"></i>
+            <p>Save Your Favorite Tools</p>
+            <button>Login / Sign Up</button>
+        </div>
+    </aside>
+
+    <!-- ================= MAIN ================= -->
+    <main class="main-content">
+
+        <!-- Header -->
+        <header>
+            <div class="search-bar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search tools..." id="header-search">
+            </div>
+            <div class="nav-actions">
+                <button id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+                <button class="contact-btn"><i class="fa-solid fa-envelope"></i> Contact</button>
+            </div>
+        </header>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> /
+            <a href="alltools-index.html">All Tools</a> /
+            <span>Image to Base64</span>
+        </div>
+
+        <!-- Tool Title Bar -->
+        <div class="tool-title-bar">
+            <div class="tool-title-left">
+                <div class="tool-title-icon ib64">
+                    <i class="fa-solid fa-code"></i>
+                </div>
+                <div>
+                    <h1>Image to Base64</h1>
+                    <p>Convert images to Base64 data URIs instantly — 100% client-side</p>
+                </div>
+            </div>
+            <button class="share-btn" onclick="shareImgToBase64()">
+                <i class="fa-solid fa-share-nodes"></i> Share
+            </button>
+        </div>
+
+        <!-- ================= CONVERTER CARD ================= -->
+        <div class="ib64-card" id="ib64Card">
+
+            <!-- Upload Zone -->
+            <div class="upload-zone" id="uploadZone">
+                <input type="file" id="fileInput" accept="image/*" multiple style="display:none">
+                <div class="uz-icon">
+                    <i class="fa-solid fa-file-code"></i>
+                </div>
+                <div class="uz-title">Drop images here or click to browse</div>
+                <div class="uz-sub">PNG · JPG · JPEG · WebP · GIF · SVG · ICO · max 10 MB each</div>
+                <button class="uz-btn" id="browseBtn">
+                    <i class="fa-solid fa-folder-open"></i> Choose Images
+                </button>
+                <div class="uz-badges">
+                    <span><i class="fa-solid fa-bolt"></i> Instant</span>
+                    <span><i class="fa-solid fa-shield-halved"></i> Private</span>
+                    <span><i class="fa-solid fa-infinity"></i> Unlimited</span>
+                </div>
+            </div>
+
+            <!-- Editor Area -->
+            <div class="editor-area" id="editorArea" style="display:none;">
+
+                <!-- Toolbar -->
+                <div class="editor-toolbar">
+                    <div class="et-left">
+                        <div class="et-stats">
+                            <span class="et-stat">
+                                <i class="fa-solid fa-images"></i>
+                                <span id="queueCount">0</span> images
+                            </span>
+                            <span class="et-stat">
+                                <i class="fa-solid fa-database"></i>
+                                <span id="totalSize">0 B</span>
+                            </span>
+                            <span class="et-stat">
+                                <i class="fa-solid fa-code"></i>
+                                <span id="totalB64">0 B</span> Base64
+                            </span>
+                        </div>
+                    </div>
+                    <div class="et-right">
+                        <button class="tb-btn" id="addMoreBtn" title="Add more">
+                            <i class="fa-solid fa-plus"></i> Add More
+                        </button>
+                        <button class="tb-btn" id="copyAllB64Btn" title="Copy all Base64">
+                            <i class="fa-solid fa-copy"></i> Copy All
+                        </button>
+                        <button class="tb-btn danger" id="clearAllBtn" title="Clear all">
+                            <i class="fa-solid fa-trash-can"></i> Clear
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Main Grid -->
+                <div class="editor-grid">
+
+                    <!-- Left: Preview -->
+                    <div class="preview-panel">
+                        <div class="preview-header">
+                            <span class="ph-label">
+                                <i class="fa-solid fa-eye"></i> Preview
+                                <span class="ph-active" id="activeName">image.png</span>
+                            </span>
+                            <div class="ph-actions">
+                                <button class="mini-btn" id="copyB64Btn" title="Copy Base64">
+                                    <i class="fa-solid fa-copy"></i>
+                                </button>
+                                <button class="mini-btn" id="downloadB64Btn" title="Download Base64 as .txt">
+                                    <i class="fa-solid fa-download"></i>
+                                </button>
+                                <button class="mini-btn" id="openImageBtn" title="Open image in new tab">
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="preview-stage">
+                            <img id="previewImg" class="preview-img" alt="preview" draggable="false">
+                        </div>
+                        <div class="preview-info">
+                            <div class="pi-item">
+                                <span class="pi-label">File</span>
+                                <span class="pi-value" id="piFile">—</span>
+                            </div>
+                            <div class="pi-item">
+                                <span class="pi-label">Dimensions</span>
+                                <span class="pi-value" id="piDims">—</span>
+                            </div>
+                            <div class="pi-item">
+                                <span class="pi-label">Original Size</span>
+                                <span class="pi-value" id="piSize">—</span>
+                            </div>
+                            <div class="pi-item">
+                                <span class="pi-label">Base64 Size</span>
+                                <span class="pi-value green" id="piB64Size">—</span>
+                            </div>
+                            <div class="pi-item">
+                                <span class="pi-label">Size Overhead</span>
+                                <span class="pi-value orange" id="piOverhead">—</span>
+                            </div>
+                            <div class="pi-item">
+                                <span class="pi-label">MIME Type</span>
+                                <span class="pi-value" id="piMime">—</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Controls -->
+                    <div class="controls-panel">
+
+                        <!-- Output Format -->
+                        <div class="control-block">
+                            <div class="cb-label">
+                                <i class="fa-solid fa-code"></i> Output Format
+                            </div>
+                            <div class="format-grid">
+                                <button class="fmt-btn active" data-format="datauri">
+                                    <i class="fa-solid fa-link"></i>
+                                    <span>Data URI</span>
+                                    <small>data:image/png;base64,...</small>
+                                </button>
+                                <button class="fmt-btn" data-format="raw">
+                                    <i class="fa-solid fa-code"></i>
+                                    <span>Raw Base64</span>
+                                    <small>iVBORw0KGgo...</small>
+                                </button>
+                                <button class="fmt-btn" data-format="css">
+                                    <i class="fa-brands fa-css3-alt"></i>
+                                    <span>CSS</span>
+                                    <small>background-image: url(...)</small>
+                                </button>
+                                <button class="fmt-btn" data-format="html">
+                                    <i class="fa-brands fa-html5"></i>
+                                    <span>HTML</span>
+                                    <small>&lt;img src="..."&gt;</small>
+                                </button>
+                                <button class="fmt-btn" data-format="js">
+                                    <i class="fa-brands fa-js"></i>
+                                    <span>JavaScript</span>
+                                    <small>const img = "..."</small>
+                                </button>
+                                <button class="fmt-btn" data-format="json">
+                                    <i class="fa-solid fa-brackets-curly"></i>
+                                    <span>JSON</span>
+                                    <small>{ "name": ..., "data": ... }</small>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Options -->
+                        <div class="control-block">
+                            <div class="cb-label">
+                                <i class="fa-solid fa-sliders"></i> Options
+                            </div>
+                            <label class="switch-row">
+                                <span>Wrap long lines (76 chars)</span>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="wrapLines">
+                                    <span class="ts-slider"></span>
+                                </label>
+                            </label>
+                            <label class="switch-row" style="margin-top:10px;">
+                                <span>Include image name</span>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="includeName" checked>
+                                    <span class="ts-slider"></span>
+                                </label>
+                            </label>
+                            <label class="switch-row" style="margin-top:10px;">
+                                <span>Progressive JPG for smaller size</span>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="optimizeJpg">
+                                    <span class="ts-slider"></span>
+                                </label>
+                            </label>
+                        </div>
+
+                        <!-- Warning if huge -->
+                        <div class="warning-block" id="warningBlock" style="display:none;">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                            <div>
+                                <strong>Large file warning</strong>
+                                <div>Base64 is ~33% larger than original. For files >100 KB, consider hosting the image and using a URL instead.</div>
+                            </div>
+                        </div>
+
+                        <!-- Live Base64 Output -->
+                        <div class="output-block">
+                            <div class="ob-header">
+                                <span><i class="fa-solid fa-code"></i> Base64 Output</span>
+                                <div class="ob-actions">
+                                    <button class="mini-btn" id="copyOutputBtn" title="Copy output">
+                                        <i class="fa-solid fa-copy"></i>
+                                    </button>
+                                    <button class="mini-btn" id="downloadOutputBtn" title="Download output">
+                                        <i class="fa-solid fa-download"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <pre class="output-pre" id="outputPre">Select an image to see Base64…</pre>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="action-buttons">
+                            <button class="action-btn primary" id="downloadCurrentBtn">
+                                <i class="fa-solid fa-download"></i> Download Current
+                            </button>
+                            <button class="action-btn secondary" id="downloadAllBtn" style="display:none;">
+                                <i class="fa-solid fa-layer-group"></i> Download All (<span id="batchCount">0</span>)
+                            </button>
+                            <button class="action-btn secondary" id="downloadZipBtn" style="display:none;">
+                                <i class="fa-solid fa-file-zipper"></i> Download ZIP
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Thumbnails Strip -->
+                <div class="thumbnails-strip" id="thumbnailsStrip" style="display:none;">
+                    <div class="ts-header">
+                        <span><i class="fa-solid fa-images"></i> Queue (<span id="queueCount2">0</span>)</span>
+                    </div>
+                    <div class="ts-list" id="tsList"></div>
+                </div>
+            </div>
+
+            <!-- Progress -->
+            <div class="progress-wrap" id="progressWrap" style="display:none;">
+                <div class="progress-label" id="progressLabel">Converting…</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width:0%"></div>
+                </div>
+            </div>
+
+            <!-- History -->
+            <div class="ib64-history">
+                <div class="history-hdr">
+                    <span><i class="fa-solid fa-clock-rotate-left"></i> Recent Conversions</span>
+                    <button id="clearIb64History" title="Clear">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+                <div class="history-list" id="ib64HistoryList">
+                    <div class="empty-history">No conversions yet</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Keyboard Hint -->
+        <div class="kbd-hint">
+            <span><kbd>Ctrl</kbd>+<kbd>C</kbd> Copy B64</span>
+            <span><kbd>Ctrl</kbd>+<kbd>S</kbd> Download</span>
+            <span><kbd>Esc</kbd> Clear All</span>
+        </div>
+
+    </main>
+
+    <!-- Toast -->
+    <div id="toast" class="toast">Message here</div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script src="imgtobase64-script.js"></script>
+</body>
+</html>

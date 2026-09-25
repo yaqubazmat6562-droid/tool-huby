@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Barcode Generator - Tool Hub</title>
+    <meta name="theme-color" content="#0f172a">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="barcode-style.css">
+</head>
+<body>
+
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">
+            <i class="fa-solid fa-wrench"></i>
+            <h2>Tool Hub</h2>
+        </div>
+        <nav>
+            <ul>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-house"></i> Home</li>
+                <li onclick="window.location.href='alltools-index.html'"><i class="fa-solid fa-toolbox"></i> All Tools</li>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-heart"></i> Favorites</li>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-clock-rotate-left"></i> History</li>
+            </ul>
+        </nav>
+        <div class="categories">
+            <h3>Categories</h3>
+            <ul>
+                <li onclick="window.location.href='alltools-index.html?cat=text'"><i class="fa-solid fa-font"></i> Text Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=calc'"><i class="fa-solid fa-calculator"></i> Calculator Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=dev'"><i class="fa-solid fa-code"></i> Developer Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=image'"><i class="fa-solid fa-image"></i> Image Tools</li>
+                <li class="active" onclick="window.location.href='alltools-index.html?cat=gen'"><i class="fa-solid fa-wand-magic-sparkles"></i> Generator Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=date'"><i class="fa-solid fa-calendar-day"></i> Date & Time</li>
+                <li onclick="window.location.href='alltools-index.html?cat=finance'"><i class="fa-solid fa-coins"></i> Finance</li>
+            </ul>
+        </div>
+        <div class="login-box">
+            <i class="fa-solid fa-crown"></i>
+            <p>Save Your Favorite Tools</p>
+            <button>Login / Sign Up</button>
+        </div>
+    </aside>
+
+    <!-- ================= MAIN ================= -->
+    <main class="main-content">
+
+        <!-- Header -->
+        <header>
+            <div class="search-bar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search tools..." id="header-search">
+            </div>
+            <div class="nav-actions">
+                <button id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+                <button class="contact-btn"><i class="fa-solid fa-envelope"></i> Contact</button>
+            </div>
+        </header>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> /
+            <a href="alltools-index.html">All Tools</a> /
+            <span>Barcode Generator</span>
+        </div>
+
+        <!-- Tool Title Bar -->
+        <div class="tool-title-bar">
+            <div class="tool-title-left">
+                <div class="tool-title-icon bc">
+                    <i class="fa-solid fa-barcode"></i>
+                </div>
+                <div>
+                    <h1>Barcode Generator</h1>
+                    <p>Generate barcodes in 15+ formats — CODE128, EAN, UPC, CODE39 & more</p>
+                </div>
+            </div>
+            <button class="share-btn" onclick="shareBarcodeGenerator()">
+                <i class="fa-solid fa-share-nodes"></i> Share
+            </button>
+        </div>
+
+        <!-- ================= BARCODE CARD ================= -->
+        <div class="bc-card" id="bcCard">
+
+            <!-- Mode Tabs -->
+            <div class="mode-tabs" id="modeTabs">
+                <button class="mode-tab active" data-mode="single">
+                    <i class="fa-solid fa-barcode"></i> <span>Single Barcode</span>
+                </button>
+                <button class="mode-tab" data-mode="batch">
+                    <i class="fa-solid fa-layer-group"></i> <span>Batch Generate</span>
+                </button>
+            </div>
+
+            <!-- Input Area -->
+            <div class="input-area">
+
+                <!-- ========== SINGLE MODE ========== -->
+                <div class="mode-content active" data-content="single">
+                    <div class="input-block">
+                        <label><i class="fa-solid fa-keyboard"></i> Barcode Content</label>
+                        <div class="bc-input-row">
+                            <input type="text" id="singleInput" class="bc-input mono" placeholder="Enter text or number (e.g. 123456789012)" spellcheck="false" autocomplete="off">
+                            <button class="mini-btn" id="pasteSingleBtn" title="Paste">
+                                <i class="fa-solid fa-paste"></i>
+                            </button>
+                            <button class="mini-btn" id="randomBtn" title="Random value">
+                                <i class="fa-solid fa-dice"></i>
+                            </button>
+                            <button class="mini-btn" id="clearSingleBtn" title="Clear">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                        <div class="hint-row" id="singleHint">
+                            <i class="fa-solid fa-info-circle"></i>
+                            <span id="singleHintText">Enter a value to generate a barcode</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========== BATCH MODE ========== -->
+                <div class="mode-content" data-content="batch">
+                    <div class="input-block">
+                        <label><i class="fa-solid fa-list"></i> Batch Input (one value per line)</label>
+                        <textarea id="batchInput" class="batch-textarea mono" placeholder="123456789012&#10;987654321098&#10;555123456789&#10;..."></textarea>
+                        <div class="hint-row">
+                            <i class="fa-solid fa-info-circle"></i>
+                            <span>Each line generates a separate barcode. Max 100 lines.</span>
+                        </div>
+                    </div>
+                    <div class="input-actions">
+                        <button class="mini-btn-wide" id="pasteBatchBtn">
+                            <i class="fa-solid fa-paste"></i> Paste
+                        </button>
+                        <button class="mini-btn-wide" id="sampleBatchBtn">
+                            <i class="fa-solid fa-flask"></i> Sample
+                        </button>
+                        <button class="mini-btn-wide" id="clearBatchBtn">
+                            <i class="fa-solid fa-xmark"></i> Clear
+                        </button>
+                    </div>
+                </div>
+
+                <div class="error-msg" id="bcError"></div>
+
+                <!-- Format Selection -->
+                <div class="section-block">
+                    <div class="sb-label">
+                        <i class="fa-solid fa-barcode"></i> Barcode Format
+                    </div>
+                    <div class="format-grid" id="formatGrid">
+                        <!-- Injected by JS -->
+                    </div>
+                </div>
+
+                <!-- Format Info -->
+                <div class="format-info" id="formatInfo">
+                    <div class="fi-header">
+                        <i class="fa-solid fa-circle-info"></i>
+                        <span id="fiName">CODE128</span>
+                    </div>
+                    <div class="fi-body">
+                        <div class="fi-desc" id="fiDesc">Code 128 is a high-density linear barcode. It supports all 128 ASCII characters and is widely used for shipping and packaging.</div>
+                        <div class="fi-meta">
+                            <span><b>Example:</b> <code id="fiExample">ABC-12345</code></span>
+                            <span><b>Charset:</b> <span id="fiCharset">ASCII</span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Display Options -->
+                <div class="section-block">
+                    <div class="sb-label">
+                        <i class="fa-solid fa-sliders"></i> Display Options
+                    </div>
+                    <div class="options-grid">
+                        <label class="opt-chip">
+                            <input type="checkbox" id="showText" checked>
+                            <span><i class="fa-solid fa-font"></i> Show Text</span>
+                        </label>
+                        <label class="opt-chip">
+                            <input type="checkbox" id="showBorder">
+                            <span><i class="fa-solid fa-square"></i> Show Border</span>
+                        </label>
+                        <label class="opt-chip">
+                            <input type="checkbox" id="includeCheck">
+                            <span><i class="fa-solid fa-check"></i> Include Check Digit</span>
+                        </label>
+                        <label class="opt-chip">
+                            <input type="checkbox" id="highDensity">
+                            <span><i class="fa-solid fa-compress"></i> High Density</span>
+                        </label>
+                    </div>
+
+                    <div class="slider-row">
+                        <label>Width (px)</label>
+                        <input type="range" id="widthSlider" min="1" max="6" value="2" step="0.5" class="opt-slider">
+                        <span class="slider-value" id="widthValue">2</span>
+                    </div>
+                    <div class="slider-row">
+                        <label>Height (px)</label>
+                        <input type="range" id="heightSlider" min="40" max="200" value="90" step="10" class="opt-slider">
+                        <span class="slider-value" id="heightValue">90</span>
+                    </div>
+                    <div class="slider-row">
+                        <label>Font Size</label>
+                        <input type="range" id="fontSizeSlider" min="10" max="32" value="16" step="1" class="opt-slider">
+                        <span class="slider-value" id="fontSizeValue">16</span>
+                    </div>
+                    <div class="color-row">
+                        <div class="color-picker">
+                            <label>Bar Color</label>
+                            <input type="color" id="barColor" value="#000000">
+                        </div>
+                        <div class="color-picker">
+                            <label>Background</label>
+                            <input type="color" id="bgColor" value="#ffffff">
+                        </div>
+                        <div class="color-picker">
+                            <label>Text Color</label>
+                            <input type="color" id="textColor" value="#000000">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="error-msg" id="bcError2"></div>
+
+                <!-- Actions -->
+                <div class="action-row">
+                    <button class="btn primary" id="generateBtn">
+                        <i class="fa-solid fa-bolt"></i> <span id="processBtnLabel">Generate Barcode</span>
+                    </button>
+                    <button class="btn secondary" id="clearAllBtn" title="Clear all">
+                        <i class="fa-solid fa-eraser"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Output Area -->
+            <div class="output-area" id="outputArea" style="display:none;">
+                <div class="output-header">
+                    <span class="oh-label" id="outputLabel">
+                        <i class="fa-solid fa-barcode"></i> Generated Barcode
+                    </span>
+                    <div class="oh-actions">
+                        <button class="eh-btn" id="copySvgBtn" title="Copy SVG">
+                            <i class="fa-solid fa-copy"></i>
+                        </button>
+                        <button class="eh-btn" id="downloadPngBtn" title="Download PNG">
+                            <i class="fa-solid fa-file-image"></i>
+                        </button>
+                        <button class="eh-btn" id="downloadSvgBtn" title="Download SVG">
+                            <i class="fa-solid fa-file-code"></i>
+                        </button>
+                        <button class="eh-btn" id="printBtn" title="Print">
+                            <i class="fa-solid fa-print"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="barcode-view-wrap" id="barcodeViewWrap">
+                    <svg id="barcodeSvg" xmlns="http://www.w3.org/2000/svg"></svg>
+                </div>
+
+                <div class="output-info" id="outputInfo">
+                    <div class="oi-item">
+                        <span class="oi-label">Format</span>
+                        <span class="oi-value" id="oiFormat">CODE128</span>
+                    </div>
+                    <div class="oi-item">
+                        <span class="oi-label">Value</span>
+                        <span class="oi-value mono" id="oiValue">—</span>
+                    </div>
+                    <div class="oi-item">
+                        <span class="oi-label">Encoding</span>
+                        <span class="oi-value" id="oiEncoding">—</span>
+                    </div>
+                    <div class="oi-item">
+                        <span class="oi-label">Check Digit</span>
+                        <span class="oi-value" id="oiCheck">—</span>
+                    </div>
+                </div>
+
+                <!-- Batch Results -->
+                <div class="batch-results" id="batchResults" style="display:none;">
+                    <div class="br-header">
+                        <span><i class="fa-solid fa-list"></i> Generated Barcodes</span>
+                        <span class="br-count" id="batchCount">0</span>
+                    </div>
+                    <div class="br-grid" id="brGrid"></div>
+                    <div class="br-actions">
+                        <button class="mini-btn-wide" id="downloadZipBtn">
+                            <i class="fa-solid fa-file-zipper"></i> Download ZIP
+                        </button>
+                        <button class="mini-btn-wide" id="printAllBtn">
+                            <i class="fa-solid fa-print"></i> Print All
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- History -->
+            <div class="bc-history">
+                <div class="history-hdr">
+                    <span><i class="fa-solid fa-clock-rotate-left"></i> Recent Barcodes</span>
+                    <button id="clearBcHistory" title="Clear">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+                <div class="history-list" id="bcHistoryList">
+                    <div class="empty-history">No barcodes yet</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Keyboard Hint -->
+        <div class="kbd-hint">
+            <span><kbd>Ctrl</kbd>+<kbd>Enter</kbd> Generate</span>
+            <span><kbd>Ctrl</kbd>+<kbd>S</kbd> Save SVG</span>
+            <span><kbd>Esc</kbd> Clear</span>
+        </div>
+
+    </main>
+
+    <!-- Toast -->
+    <div id="toast" class="toast">Message here</div>
+
+    <!-- JsBarcode library (lightweight, MIT) -->
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script src="barcode-script.js"></script>
+</body>
+</html>

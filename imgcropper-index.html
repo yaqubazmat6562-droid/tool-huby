@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Image Cropper - Tool Hub</title>
+    <meta name="theme-color" content="#0f172a">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="imgcropper-style.css">
+</head>
+<body>
+
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">
+            <i class="fa-solid fa-wrench"></i>
+            <h2>Tool Hub</h2>
+        </div>
+        <nav>
+            <ul>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-house"></i> Home</li>
+                <li onclick="window.location.href='alltools-index.html'"><i class="fa-solid fa-toolbox"></i> All Tools</li>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-heart"></i> Favorites</li>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-clock-rotate-left"></i> History</li>
+            </ul>
+        </nav>
+        <div class="categories">
+            <h3>Categories</h3>
+            <ul>
+                <li onclick="window.location.href='alltools-index.html?cat=text'"><i class="fa-solid fa-font"></i> Text Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=calc'"><i class="fa-solid fa-calculator"></i> Calculator Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=dev'"><i class="fa-solid fa-code"></i> Developer Tools</li>
+                <li class="active" onclick="window.location.href='alltools-index.html?cat=image'"><i class="fa-solid fa-image"></i> Image Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=gen'"><i class="fa-solid fa-wand-magic-sparkles"></i> Generator Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=date'"><i class="fa-solid fa-calendar-day"></i> Date & Time</li>
+                <li onclick="window.location.href='alltools-index.html?cat=finance'"><i class="fa-solid fa-coins"></i> Finance</li>
+            </ul>
+        </div>
+        <div class="login-box">
+            <i class="fa-solid fa-crown"></i>
+            <p>Save Your Favorite Tools</p>
+            <button>Login / Sign Up</button>
+        </div>
+    </aside>
+
+    <!-- ================= MAIN ================= -->
+    <main class="main-content">
+
+        <!-- Header -->
+        <header>
+            <div class="search-bar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search tools..." id="header-search">
+            </div>
+            <div class="nav-actions">
+                <button id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+                <button class="contact-btn"><i class="fa-solid fa-envelope"></i> Contact</button>
+            </div>
+        </header>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> /
+            <a href="alltools-index.html">All Tools</a> /
+            <span>Image Cropper</span>
+        </div>
+
+        <!-- Tool Title Bar -->
+        <div class="tool-title-bar">
+            <div class="tool-title-left">
+                <div class="tool-title-icon ic">
+                    <i class="fa-solid fa-crop"></i>
+                </div>
+                <div>
+                    <h1>Image Cropper</h1>
+                    <p>Crop images interactively with custom aspect ratios & rotate</p>
+                </div>
+            </div>
+            <button class="share-btn" onclick="shareImageCropper()">
+                <i class="fa-solid fa-share-nodes"></i> Share
+            </button>
+        </div>
+
+        <!-- ================= CROPPER CARD ================= -->
+        <div class="ic-card" id="icCard">
+
+            <!-- Upload Zone -->
+            <div class="upload-zone" id="uploadZone">
+                <input type="file" id="fileInput" accept="image/*" style="display:none">
+                <div class="uz-icon">
+                    <i class="fa-solid fa-crop-simple"></i>
+                </div>
+                <div class="uz-title">Drop an image here or click to browse</div>
+                <div class="uz-sub">PNG · JPG · JPEG · WebP · GIF · BMP · SVG · max 20 MB</div>
+                <button class="uz-btn" id="browseBtn">
+                    <i class="fa-solid fa-folder-open"></i> Choose Image
+                </button>
+                <div class="uz-badges">
+                    <span><i class="fa-solid fa-bolt"></i> Instant</span>
+                    <span><i class="fa-solid fa-shield-halved"></i> Private</span>
+                    <span><i class="fa-solid fa-infinity"></i> Unlimited</span>
+                </div>
+            </div>
+
+            <!-- Editor Area -->
+            <div class="editor-area" id="editorArea" style="display:none;">
+
+                <!-- Toolbar -->
+                <div class="editor-toolbar">
+                    <div class="et-left">
+                        <span class="et-badge">
+                            <i class="fa-solid fa-image"></i>
+                            <span id="imageName">image.png</span>
+                        </span>
+                        <span class="et-badge small">
+                            <i class="fa-solid fa-expand"></i>
+                            <span id="imageDims">0 × 0</span>
+                        </span>
+                    </div>
+                    <div class="et-right">
+                        <button class="tb-btn" id="undoBtn" title="Reset crop">
+                            <i class="fa-solid fa-rotate-left"></i> Reset
+                        </button>
+                        <button class="tb-btn danger" id="removeBtn" title="Remove image">
+                            <i class="fa-solid fa-xmark"></i> Remove
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Main Grid -->
+                <div class="editor-grid">
+
+                    <!-- Left: Crop Canvas -->
+                    <div class="canvas-panel">
+                        <div class="canvas-header">
+                            <span class="ch-label"><i class="fa-solid fa-crop"></i> Crop Area</span>
+                            <div class="ch-hint">Drag inside to move · corners to resize</div>
+                        </div>
+                        <div class="canvas-stage" id="canvasStage">
+                            <div class="crop-container" id="cropContainer">
+                                <img id="cropImage" class="crop-image" alt="crop target" draggable="false">
+                                <div class="crop-overlay" id="cropOverlay">
+                                    <!-- The crop box -->
+                                    <div class="crop-box" id="cropBox">
+                                        <!-- Grid lines -->
+                                        <div class="crop-grid">
+                                            <span class="grid-line v1"></span>
+                                            <span class="grid-line v2"></span>
+                                            <span class="grid-line h1"></span>
+                                            <span class="grid-line h2"></span>
+                                        </div>
+                                        <!-- Handles -->
+                                        <span class="crop-handle nw" data-handle="nw"></span>
+                                        <span class="crop-handle n"  data-handle="n"></span>
+                                        <span class="crop-handle ne" data-handle="ne"></span>
+                                        <span class="crop-handle e"  data-handle="e"></span>
+                                        <span class="crop-handle se" data-handle="se"></span>
+                                        <span class="crop-handle s"  data-handle="s"></span>
+                                        <span class="crop-handle sw" data-handle="sw"></span>
+                                        <span class="crop-handle w"  data-handle="w"></span>
+                                        <!-- Size label -->
+                                        <div class="crop-size-label" id="cropSizeLabel">0 × 0</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Loading indicator -->
+                            <div class="canvas-loading" id="canvasLoading" style="display:none;">
+                                <i class="fa-solid fa-spinner fa-spin"></i>
+                                <span>Processing…</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Controls -->
+                    <div class="controls-panel">
+
+                        <!-- Aspect Ratio -->
+                        <div class="control-block">
+                            <div class="cb-label">
+                                <i class="fa-solid fa-crop-simple"></i> Aspect Ratio
+                            </div>
+                            <div class="aspect-grid" id="aspectGrid">
+                                <button class="aspect-btn active" data-aspect="free">
+                                    <span class="ab-icon"><i class="fa-solid fa-expand"></i></span>
+                                    <span class="ab-name">Free</span>
+                                </button>
+                                <button class="aspect-btn" data-aspect="1:1">
+                                    <span class="ab-icon"><i class="fa-solid fa-square"></i></span>
+                                    <span class="ab-name">1:1</span>
+                                </button>
+                                <button class="aspect-btn" data-aspect="4:3">
+                                    <span class="ab-icon">4:3</span>
+                                    <span class="ab-name">Standard</span>
+                                </button>
+                                <button class="aspect-btn" data-aspect="3:2">
+                                    <span class="ab-icon">3:2</span>
+                                    <span class="ab-name">Photo</span>
+                                </button>
+                                <button class="aspect-btn" data-aspect="16:9">
+                                    <span class="ab-icon">16:9</span>
+                                    <span class="ab-name">Wide</span>
+                                </button>
+                                <button class="aspect-btn" data-aspect="9:16">
+                                    <span class="ab-icon">9:16</span>
+                                    <span class="ab-name">Story</span>
+                                </button>
+                                <button class="aspect-btn" data-aspect="4:5">
+                                    <span class="ab-icon">4:5</span>
+                                    <span class="ab-name">Insta</span>
+                                </button>
+                                <button class="aspect-btn" data-aspect="3:4">
+                                    <span class="ab-icon">3:4</span>
+                                    <span class="ab-name">Portrait</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Crop Dimensions -->
+                        <div class="control-block">
+                            <div class="cb-label">
+                                <i class="fa-solid fa-ruler-combined"></i> Crop Dimensions
+                            </div>
+                            <div class="dimension-row">
+                                <div class="dim-input-wrap">
+                                    <label>X</label>
+                                    <input type="number" id="posX" min="0" step="1" inputmode="numeric">
+                                </div>
+                                <div class="dim-input-wrap">
+                                    <label>Y</label>
+                                    <input type="number" id="posY" min="0" step="1" inputmode="numeric">
+                                </div>
+                            </div>
+                            <div class="dimension-row" style="margin-top:8px;">
+                                <div class="dim-input-wrap">
+                                    <label>Width</label>
+                                    <input type="number" id="cropWidth" min="1" step="1" inputmode="numeric">
+                                </div>
+                                <div class="dim-input-wrap">
+                                    <label>Height</label>
+                                    <input type="number" id="cropHeight" min="1" step="1" inputmode="numeric">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Rotate & Flip -->
+                        <div class="control-block">
+                            <div class="cb-label">
+                                <i class="fa-solid fa-rotate"></i> Transform
+                            </div>
+                            <div class="transform-row">
+                                <button class="transform-btn" id="rotateLeftBtn" title="Rotate 90° left">
+                                    <i class="fa-solid fa-rotate-left"></i>
+                                </button>
+                                <button class="transform-btn" id="rotateRightBtn" title="Rotate 90° right">
+                                    <i class="fa-solid fa-rotate-right"></i>
+                                </button>
+                                <button class="transform-btn" id="flipHBtn" title="Flip horizontal">
+                                    <i class="fa-solid fa-arrows-left-right"></i>
+                                </button>
+                                <button class="transform-btn" id="flipVBtn" title="Flip vertical">
+                                    <i class="fa-solid fa-arrows-up-down"></i>
+                                </button>
+                                <button class="transform-btn danger" id="resetTransformBtn" title="Reset transform">
+                                    <i class="fa-solid fa-rotate-left"></i>
+                                </button>
+                            </div>
+                            <div class="transform-info" id="transformInfo">
+                                Rotation: 0° · Flip: none
+                            </div>
+                        </div>
+
+                        <!-- Output Format -->
+                        <div class="control-block">
+                            <div class="cb-label">
+                                <i class="fa-solid fa-file-export"></i> Output Format
+                            </div>
+                            <div class="format-pills" id="formatPills">
+                                <button class="fmt-pill active" data-format="png">
+                                    <i class="fa-solid fa-file-image"></i> PNG
+                                </button>
+                                <button class="fmt-pill" data-format="jpeg">
+                                    <i class="fa-solid fa-file-image"></i> JPEG
+                                </button>
+                                <button class="fmt-pill" data-format="webp">
+                                    <i class="fa-solid fa-file-image"></i> WebP
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Quality (JPEG/WebP) -->
+                        <div class="control-block" id="qualityBlock" style="display:none;">
+                            <div class="cb-label">
+                                <i class="fa-solid fa-sliders"></i> Quality
+                                <span class="cb-value" id="qualityValue">92%</span>
+                            </div>
+                            <input type="range" id="qualitySlider" min="10" max="100" value="92" class="quality-slider">
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="action-buttons">
+                            <button class="action-btn primary" id="cropBtn">
+                                <i class="fa-solid fa-crop-simple"></i> Crop & Download
+                            </button>
+                            <button class="action-btn secondary" id="copyBtn">
+                                <i class="fa-solid fa-clipboard"></i> Copy to Clipboard
+                            </button>
+                            <button class="action-btn secondary" id="resetBtn">
+                                <i class="fa-solid fa-rotate-left"></i> Reset All
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Preview -->
+                <div class="preview-strip" id="previewStrip">
+                    <div class="ps-header">
+                        <span><i class="fa-solid fa-eye"></i> Live Preview</span>
+                    </div>
+                    <div class="ps-body">
+                        <canvas id="previewCanvas" class="ps-canvas"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress -->
+            <div class="progress-wrap" id="progressWrap" style="display:none;">
+                <div class="progress-label" id="progressLabel">Processing…</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width:0%"></div>
+                </div>
+            </div>
+
+            <!-- History -->
+            <div class="ic-history">
+                <div class="history-hdr">
+                    <span><i class="fa-solid fa-clock-rotate-left"></i> Recent Crops</span>
+                    <button id="clearIcHistory" title="Clear">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+                <div class="history-list" id="icHistoryList">
+                    <div class="empty-history">No crops yet</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Keyboard Hint -->
+        <div class="kbd-hint">
+            <span><kbd>Ctrl</kbd>+<kbd>Enter</kbd> Crop</span>
+            <span><kbd>Ctrl</kbd>+<kbd>C</kbd> Copy</span>
+            <span><kbd>Arrow keys</kbd> Move crop</span>
+            <span><kbd>Esc</kbd> Reset</span>
+        </div>
+
+    </main>
+
+    <!-- Toast -->
+    <div id="toast" class="toast">Message here</div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script src="imgcropper-script.js"></script>
+</body>
+</html>

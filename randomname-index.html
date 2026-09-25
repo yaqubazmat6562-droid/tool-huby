@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Random Name Generator - Tool Hub</title>
+    <meta name="theme-color" content="#0f172a">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="randomname-style.css">
+</head>
+<body>
+
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">
+            <i class="fa-solid fa-wrench"></i>
+            <h2>Tool Hub</h2>
+        </div>
+        <nav>
+            <ul>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-house"></i> Home</li>
+                <li onclick="window.location.href='alltools-index.html'"><i class="fa-solid fa-toolbox"></i> All Tools</li>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-heart"></i> Favorites</li>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-clock-rotate-left"></i> History</li>
+            </ul>
+        </nav>
+        <div class="categories">
+            <h3>Categories</h3>
+            <ul>
+                <li onclick="window.location.href='alltools-index.html?cat=text'"><i class="fa-solid fa-font"></i> Text Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=calc'"><i class="fa-solid fa-calculator"></i> Calculator Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=dev'"><i class="fa-solid fa-code"></i> Developer Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=image'"><i class="fa-solid fa-image"></i> Image Tools</li>
+                <li class="active" onclick="window.location.href='alltools-index.html?cat=gen'"><i class="fa-solid fa-wand-magic-sparkles"></i> Generator Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=date'"><i class="fa-solid fa-calendar-day"></i> Date & Time</li>
+                <li onclick="window.location.href='alltools-index.html?cat=finance'"><i class="fa-solid fa-coins"></i> Finance</li>
+            </ul>
+        </div>
+        <div class="login-box">
+            <i class="fa-solid fa-crown"></i>
+            <p>Save Your Favorite Tools</p>
+            <button>Login / Sign Up</button>
+        </div>
+    </aside>
+
+    <!-- ================= MAIN ================= -->
+    <main class="main-content">
+
+        <!-- Header -->
+        <header>
+            <div class="search-bar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search tools..." id="header-search">
+            </div>
+            <div class="nav-actions">
+                <button id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+                <button class="contact-btn"><i class="fa-solid fa-envelope"></i> Contact</button>
+            </div>
+        </header>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> /
+            <a href="alltools-index.html">All Tools</a> /
+            <span>Random Name Generator</span>
+        </div>
+
+        <!-- Tool Title Bar -->
+        <div class="tool-title-bar">
+            <div class="tool-title-left">
+                <div class="tool-title-icon rn">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <div>
+                    <h1>Random Name Generator</h1>
+                    <p>Generate realistic random names for testing, games, or creative writing</p>
+                </div>
+            </div>
+            <button class="share-btn" onclick="shareRandomName()">
+                <i class="fa-solid fa-share-nodes"></i> Share
+            </button>
+        </div>
+
+        <!-- ================= NAME CARD ================= -->
+        <div class="rn-card" id="rnCard">
+
+            <!-- Name Type Tabs -->
+            <div class="type-tabs" id="typeTabs">
+                <button class="type-tab active" data-type="full">
+                    <i class="fa-solid fa-user"></i> <span>Full Name</span>
+                </button>
+                <button class="type-tab" data-type="first">
+                    <i class="fa-solid fa-signature"></i> <span>First Name</span>
+                </button>
+                <button class="type-tab" data-type="last">
+                    <i class="fa-solid fa-family"></i> <span>Last Name</span>
+                </button>
+                <button class="type-tab" data-type="username">
+                    <i class="fa-solid fa-at"></i> <span>Username</span>
+                </button>
+                <button class="type-tab" data-type="business">
+                    <i class="fa-solid fa-building"></i> <span>Business</span>
+                </button>
+                <button class="type-tab" data-type="fantasy">
+                    <i class="fa-solid fa-dragon"></i> <span>Fantasy</span>
+                </button>
+            </div>
+
+            <!-- Options Grid -->
+            <div class="options-area">
+
+                <!-- Gender -->
+                <div class="opt-block">
+                    <label><i class="fa-solid fa-venus-mars"></i> Gender</label>
+                    <div class="gender-chips" id="genderChips">
+                        <button class="gender-chip active" data-gender="any">
+                            <i class="fa-solid fa-people-group"></i> Any
+                        </button>
+                        <button class="gender-chip" data-gender="male">
+                            <i class="fa-solid fa-mars"></i> Male
+                        </button>
+                        <button class="gender-chip" data-gender="female">
+                            <i class="fa-solid fa-venus"></i> Female
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Nationality -->
+                <div class="opt-block">
+                    <label><i class="fa-solid fa-globe"></i> Nationality</label>
+                    <select id="nationalitySelect" class="rn-select">
+                        <option value="all">🌍 Any Nationality</option>
+                        <option value="english">🇬🇧 English</option>
+                        <option value="american">🇺🇸 American</option>
+                        <option value="indian">🇮🇳 Indian</option>
+                        <option value="japanese">🇯🇵 Japanese</option>
+                        <option value="chinese">🇨🇳 Chinese</option>
+                        <option value="korean">🇰🇷 Korean</option>
+                        <option value="arabic">🇸🇦 Arabic</option>
+                        <option value="french">🇫🇷 French</option>
+                        <option value="german">🇩🇪 German</option>
+                        <option value="spanish">🇪🇸 Spanish</option>
+                        <option value="italian">🇮🇹 Italian</option>
+                        <option value="russian">🇷🇺 Russian</option>
+                        <option value="brazilian">🇧🇷 Brazilian</option>
+                        <option value="nigerian">🇳🇬 Nigerian</option>
+                        <option value="pakistani">🇵🇰 Pakistani</option>
+                    </select>
+                </div>
+
+                <!-- Quantity -->
+                <div class="opt-block">
+                    <label><i class="fa-solid fa-hashtag"></i> Quantity</label>
+                    <div class="qty-row">
+                        <input type="number" id="quantityInput" class="rn-input" min="1" max="200" value="10">
+                        <button class="rn-mini-btn" id="qtyDecrease" title="Decrease">
+                            <i class="fa-solid fa-minus"></i>
+                        </button>
+                        <button class="rn-mini-btn" id="qtyIncrease" title="Increase">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                    </div>
+                    <div class="qty-presets">
+                        <button class="qty-preset" data-qty="1">1</button>
+                        <button class="qty-preset" data-qty="5">5</button>
+                        <button class="qty-preset active" data-qty="10">10</button>
+                        <button class="qty-preset" data-qty="25">25</button>
+                        <button class="qty-preset" data-qty="50">50</button>
+                        <button class="qty-preset" data-qty="100">100</button>
+                    </div>
+                </div>
+
+                <!-- Format Options -->
+                <div class="opt-block">
+                    <label><i class="fa-solid fa-sliders"></i> Format Options</label>
+                    <div class="format-options">
+                        <label class="fmt-chip">
+                            <input type="checkbox" id="includeMiddle">
+                            <span><i class="fa-solid fa-signature"></i> Middle Name</span>
+                        </label>
+                        <label class="fmt-chip">
+                            <input type="checkbox" id="includeTitle">
+                            <span><i class="fa-solid fa-crown"></i> Titles (Mr/Ms)</span>
+                        </label>
+                        <label class="fmt-chip">
+                            <input type="checkbox" id="includeSuffix">
+                            <span><i class="fa-solid fa-medal"></i> Suffix (Jr/Sr)</span>
+                        </label>
+                        <label class="fmt-chip">
+                            <input type="checkbox" id="numbered" checked>
+                            <span><i class="fa-solid fa-list-ol"></i> Numbering</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="error-msg" id="rnError"></div>
+
+            <!-- Actions -->
+            <div class="action-row">
+                <button class="btn primary" id="generateBtn">
+                    <i class="fa-solid fa-bolt"></i> Generate Names
+                </button>
+                <button class="btn secondary" id="clearBtn" title="Clear">
+                    <i class="fa-solid fa-eraser"></i>
+                </button>
+            </div>
+
+            <!-- Output Area -->
+            <div class="output-area" id="outputArea" style="display:none;">
+                <div class="output-header">
+                    <span class="oh-label">
+                        <i class="fa-solid fa-list"></i> Generated Names
+                        <span class="oh-count" id="nameCount">0</span>
+                    </span>
+                    <div class="oh-actions">
+                        <button class="eh-btn" id="copyAllBtn" title="Copy all">
+                            <i class="fa-solid fa-copy"></i>
+                        </button>
+                        <button class="eh-btn" id="downloadTxtBtn" title="Download .txt">
+                            <i class="fa-solid fa-file-lines"></i>
+                        </button>
+                        <button class="eh-btn" id="downloadCsvBtn" title="Download .csv">
+                            <i class="fa-solid fa-file-csv"></i>
+                        </button>
+                        <button class="eh-btn" id="downloadJsonBtn" title="Download .json">
+                            <i class="fa-solid fa-file-code"></i>
+                        </button>
+                        <button class="eh-btn" id="printBtn" title="Print">
+                            <i class="fa-solid fa-print"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="names-grid" id="namesGrid">
+                    <!-- Injected -->
+                </div>
+            </div>
+
+            <!-- History -->
+            <div class="rn-history">
+                <div class="history-hdr">
+                    <span><i class="fa-solid fa-clock-rotate-left"></i> Recent Generations</span>
+                    <button id="clearRnHistory" title="Clear">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+                <div class="history-list" id="rnHistoryList">
+                    <div class="empty-history">No generations yet</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Keyboard Hint -->
+        <div class="kbd-hint">
+            <span><kbd>Ctrl</kbd>+<kbd>Enter</kbd> Generate</span>
+            <span><kbd>Ctrl</kbd>+<kbd>C</kbd> Copy All</span>
+            <span><kbd>Esc</kbd> Clear</span>
+        </div>
+
+    </main>
+
+    <!-- Toast -->
+    <div id="toast" class="toast">Message here</div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script src="randomname-script.js"></script>
+</body>
+</html>

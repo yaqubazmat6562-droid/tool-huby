@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Image Metadata Viewer - Tool Hub</title>
+    <meta name="theme-color" content="#0f172a">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="imgmetadata-style.css">
+</head>
+<body>
+
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">
+            <i class="fa-solid fa-wrench"></i>
+            <h2>Tool Hub</h2>
+        </div>
+        <nav>
+            <ul>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-house"></i> Home</li>
+                <li onclick="window.location.href='alltools-index.html'"><i class="fa-solid fa-toolbox"></i> All Tools</li>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-heart"></i> Favorites</li>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-clock-rotate-left"></i> History</li>
+            </ul>
+        </nav>
+        <div class="categories">
+            <h3>Categories</h3>
+            <ul>
+                <li onclick="window.location.href='alltools-index.html?cat=text'"><i class="fa-solid fa-font"></i> Text Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=calc'"><i class="fa-solid fa-calculator"></i> Calculator Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=dev'"><i class="fa-solid fa-code"></i> Developer Tools</li>
+                <li class="active" onclick="window.location.href='alltools-index.html?cat=image'"><i class="fa-solid fa-image"></i> Image Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=gen'"><i class="fa-solid fa-wand-magic-sparkles"></i> Generator Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=date'"><i class="fa-solid fa-calendar-day"></i> Date & Time</li>
+                <li onclick="window.location.href='alltools-index.html?cat=finance'"><i class="fa-solid fa-coins"></i> Finance</li>
+            </ul>
+        </div>
+        <div class="login-box">
+            <i class="fa-solid fa-crown"></i>
+            <p>Save Your Favorite Tools</p>
+            <button>Login / Sign Up</button>
+        </div>
+    </aside>
+
+    <!-- ================= MAIN ================= -->
+    <main class="main-content">
+
+        <!-- Header -->
+        <header>
+            <div class="search-bar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search tools..." id="header-search">
+            </div>
+            <div class="nav-actions">
+                <button id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+                <button class="contact-btn"><i class="fa-solid fa-envelope"></i> Contact</button>
+            </div>
+        </header>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> /
+            <a href="alltools-index.html">All Tools</a> /
+            <span>Image Metadata Viewer</span>
+        </div>
+
+        <!-- Tool Title Bar -->
+        <div class="tool-title-bar">
+            <div class="tool-title-left">
+                <div class="tool-title-icon im">
+                    <i class="fa-solid fa-info-circle"></i>
+                </div>
+                <div>
+                    <h1>Image Metadata Viewer</h1>
+                    <p>View EXIF, GPS, camera info & all metadata hidden in your images</p>
+                </div>
+            </div>
+            <button class="share-btn" onclick="shareImgMetadata()">
+                <i class="fa-solid fa-share-nodes"></i> Share
+            </button>
+        </div>
+
+        <!-- ================= METADATA CARD ================= -->
+        <div class="im-card" id="imCard">
+
+            <!-- Upload Zone -->
+            <div class="upload-zone" id="uploadZone">
+                <input type="file" id="fileInput" accept="image/*" style="display:none">
+                <div class="uz-icon">
+                    <i class="fa-solid fa-file-circle-info"></i>
+                </div>
+                <div class="uz-title">Drop an image here or click to browse</div>
+                <div class="uz-sub">PNG · JPG · JPEG · WebP · TIFF · HEIC · max 30 MB</div>
+                <button class="uz-btn" id="browseBtn">
+                    <i class="fa-solid fa-folder-open"></i> Choose Image
+                </button>
+                <div class="uz-badges">
+                    <span><i class="fa-solid fa-shield-halved"></i> 100% Private</span>
+                    <span><i class="fa-solid fa-bolt"></i> Instant</span>
+                    <span><i class="fa-solid fa-lock"></i> No Upload</span>
+                </div>
+            </div>
+
+            <!-- Viewer Area -->
+            <div class="viewer-area" id="viewerArea" style="display:none;">
+
+                <!-- Toolbar -->
+                <div class="viewer-toolbar">
+                    <div class="vt-left">
+                        <span class="vt-badge">
+                            <i class="fa-solid fa-image"></i>
+                            <span id="imageName">image.jpg</span>
+                        </span>
+                        <span class="vt-badge small">
+                            <i class="fa-solid fa-database"></i>
+                            <span id="imageSize">0 B</span>
+                        </span>
+                    </div>
+                    <div class="vt-right">
+                        <button class="tb-btn" id="copyAllBtn" title="Copy all metadata">
+                            <i class="fa-solid fa-copy"></i> Copy All
+                        </button>
+                        <button class="tb-btn" id="exportJsonBtn" title="Export as JSON">
+                            <i class="fa-solid fa-file-code"></i> JSON
+                        </button>
+                        <button class="tb-btn danger" id="removeBtn" title="Remove image">
+                            <i class="fa-solid fa-xmark"></i> Close
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Main Grid -->
+                <div class="viewer-grid">
+
+                    <!-- Left: Preview + Summary -->
+                    <div class="preview-panel">
+                        <div class="preview-header">
+                            <span class="ph-label"><i class="fa-solid fa-eye"></i> Preview</span>
+                        </div>
+                        <div class="preview-stage">
+                            <img id="previewImg" class="preview-img" alt="preview">
+                        </div>
+
+                        <!-- Quick Stats -->
+                        <div class="quick-stats" id="quickStats">
+                            <!-- Injected -->
+                        </div>
+
+                        <!-- Thumbnail from EXIF -->
+                        <div class="exif-thumb-wrap" id="exifThumbWrap" style="display:none;">
+                            <div class="etw-header">
+                                <i class="fa-solid fa-image"></i> EXIF Thumbnail
+                            </div>
+                            <div class="etw-body">
+                                <img id="exifThumb" alt="exif thumbnail">
+                            </div>
+                        </div>
+
+                        <!-- Histogram -->
+                        <div class="histogram-wrap" id="histogramWrap" style="display:none;">
+                            <div class="hw-header">
+                                <i class="fa-solid fa-chart-simple"></i> RGB Histogram
+                            </div>
+                            <div class="hw-body">
+                                <canvas id="histogramCanvas" class="histogram-canvas"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- GPS Map Link -->
+                        <div class="gps-wrap" id="gpsWrap" style="display:none;">
+                            <div class="gw-header">
+                                <i class="fa-solid fa-map-location-dot"></i> GPS Location
+                            </div>
+                            <div class="gw-body" id="gpsBody"></div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Metadata -->
+                    <div class="metadata-panel">
+                        <!-- Category tabs -->
+                        <div class="meta-tabs" id="metaTabs">
+                            <button class="mt-tab active" data-cat="all">
+                                <i class="fa-solid fa-list"></i> All
+                            </button>
+                            <button class="mt-tab" data-cat="file">
+                                <i class="fa-solid fa-file"></i> File
+                            </button>
+                            <button class="mt-tab" data-cat="image">
+                                <i class="fa-solid fa-image"></i> Image
+                            </button>
+                            <button class="mt-tab" data-cat="camera">
+                                <i class="fa-solid fa-camera"></i> Camera
+                            </button>
+                            <button class="mt-tab" data-cat="exif">
+                                <i class="fa-solid fa-circle-info"></i> EXIF
+                            </button>
+                            <button class="mt-tab" data-cat="gps">
+                                <i class="fa-solid fa-location-dot"></i> GPS
+                            </button>
+                            <button class="mt-tab" data-cat="raw">
+                                <i class="fa-solid fa-code"></i> Raw
+                            </button>
+                        </div>
+
+                        <!-- Search -->
+                        <div class="meta-search">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" id="metaSearch" placeholder="Search metadata... (e.g. make, date, ISO)">
+                            <button class="mini-btn" id="clearSearchBtn" title="Clear" style="display:none;">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+
+                        <!-- Metadata List -->
+                        <div class="meta-list" id="metaList">
+                            <!-- Injected -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading -->
+            <div class="progress-wrap" id="progressWrap" style="display:none;">
+                <div class="progress-label" id="progressLabel">Reading metadata…</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width:0%"></div>
+                </div>
+            </div>
+
+            <!-- Info Section (no metadata) -->
+            <div class="info-banner" id="infoBanner" style="display:none;">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <div>
+                    <strong>No EXIF metadata found</strong>
+                    <div>This image has no embedded metadata (common for PNG, WebP, and screenshots). Only basic file info is available.</div>
+                </div>
+            </div>
+
+            <!-- History -->
+            <div class="im-history">
+                <div class="history-hdr">
+                    <span><i class="fa-solid fa-clock-rotate-left"></i> Recent Scans</span>
+                    <button id="clearImHistory" title="Clear">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+                <div class="history-list" id="imHistoryList">
+                    <div class="empty-history">No scans yet</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Keyboard Hint -->
+        <div class="kbd-hint">
+            <span><kbd>Ctrl</kbd>+<kbd>C</kbd> Copy All</span>
+            <span><kbd>Ctrl</kbd>+<kbd>S</kbd> Save JSON</span>
+            <span><kbd>Esc</kbd> Close</span>
+        </div>
+
+    </main>
+
+    <!-- Toast -->
+    <div id="toast" class="toast">Message here</div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script src="imgmetadata-script.js"></script>
+</body>
+</html>
