@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CSS Formatter - Tool Hub</title>
+    <meta name="theme-color" content="#0f172a">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="cssformatter-style.css">
+</head>
+<body>
+
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">
+            <i class="fa-solid fa-wrench"></i>
+            <h2>Tool Hub</h2>
+        </div>
+        <nav>
+            <ul>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-house"></i> Home</li>
+                <li onclick="window.location.href='alltools-index.html'"><i class="fa-solid fa-toolbox"></i> All Tools</li>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-heart"></i> Favorites</li>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-clock-rotate-left"></i> History</li>
+            </ul>
+        </nav>
+        <div class="categories">
+            <h3>Categories</h3>
+            <ul>
+                <li onclick="window.location.href='alltools-index.html?cat=text'"><i class="fa-solid fa-font"></i> Text Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=calc'"><i class="fa-solid fa-calculator"></i> Calculator Tools</li>
+                <li class="active" onclick="window.location.href='alltools-index.html?cat=dev'"><i class="fa-solid fa-code"></i> Developer Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=image'"><i class="fa-solid fa-image"></i> Image Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=gen'"><i class="fa-solid fa-wand-magic-sparkles"></i> Generator Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=date'"><i class="fa-solid fa-calendar-day"></i> Date & Time</li>
+                <li onclick="window.location.href='alltools-index.html?cat=finance'"><i class="fa-solid fa-coins"></i> Finance</li>
+            </ul>
+        </div>
+        <div class="login-box">
+            <i class="fa-solid fa-crown"></i>
+            <p>Save Your Favorite Tools</p>
+            <button>Login / Sign Up</button>
+        </div>
+    </aside>
+
+    <!-- ================= MAIN ================= -->
+    <main class="main-content">
+
+        <!-- Header -->
+        <header>
+            <div class="search-bar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search tools..." id="header-search">
+            </div>
+            <div class="nav-actions">
+                <button id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+                <button class="contact-btn"><i class="fa-solid fa-envelope"></i> Contact</button>
+            </div>
+        </header>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> /
+            <a href="alltools-index.html">All Tools</a> /
+            <span>CSS Formatter</span>
+        </div>
+
+        <!-- Tool Title Bar -->
+        <div class="tool-title-bar">
+            <div class="tool-title-left">
+                <div class="tool-title-icon css">
+                    <i class="fa-brands fa-css3-alt"></i>
+                </div>
+                <div>
+                    <h1>CSS Formatter</h1>
+                    <p>Format, beautify, minify & validate CSS stylesheets instantly</p>
+                </div>
+            </div>
+            <button class="share-btn" onclick="shareCssFormatter()">
+                <i class="fa-solid fa-share-nodes"></i> Share
+            </button>
+        </div>
+
+        <!-- ================= CSS FORMATTER CARD ================= -->
+        <div class="css-card" id="cssCard">
+
+            <!-- Toolbar -->
+            <div class="css-toolbar">
+                <button class="tb-btn primary" id="formatBtn">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Beautify
+                </button>
+                <button class="tb-btn" id="minifyBtn">
+                    <i class="fa-solid fa-compress"></i> Minify
+                </button>
+                <button class="tb-btn" id="validateBtn">
+                    <i class="fa-solid fa-circle-check"></i> Validate
+                </button>
+                <button class="tb-btn" id="sampleBtn">
+                    <i class="fa-solid fa-flask"></i> Sample
+                </button>
+                <button class="tb-btn danger" id="clearBtn">
+                    <i class="fa-solid fa-trash-can"></i> Clear
+                </button>
+            </div>
+
+            <!-- Options Row -->
+            <div class="css-options">
+                <label class="opt-chip">
+                    <input type="checkbox" id="sortProps">
+                    <span><i class="fa-solid fa-sort"></i> Sort Properties</span>
+                </label>
+                <label class="opt-chip">
+                    <input type="checkbox" id="autoValidate" checked>
+                    <span><i class="fa-solid fa-bolt"></i> Auto Validate</span>
+                </label>
+                <label class="opt-chip">
+                    <input type="checkbox" id="semicolons">
+                    <span><i class="fa-solid fa-semicolon"></i> Always Semicolons</span>
+                </label>
+                <div class="indent-picker">
+                    <span><i class="fa-solid fa-indent"></i> Indent</span>
+                    <button class="indent-btn active" data-indent="2">2</button>
+                    <button class="indent-btn" data-indent="4">4</button>
+                    <button class="indent-btn" data-indent="tab">Tab</button>
+                </div>
+            </div>
+
+            <!-- Editor -->
+            <div class="editor-wrap">
+                <div class="editor-header">
+                    <span class="eh-label">
+                        <i class="fa-solid fa-code"></i> CSS Input
+                    </span>
+                    <div class="eh-actions">
+                        <button class="eh-btn" id="pasteBtn" title="Paste">
+                            <i class="fa-solid fa-paste"></i>
+                        </button>
+                        <button class="eh-btn" id="copyInputBtn" title="Copy input">
+                            <i class="fa-solid fa-copy"></i>
+                        </button>
+                        <button class="eh-btn" id="uploadBtn" title="Upload file">
+                            <i class="fa-solid fa-upload"></i>
+                        </button>
+                        <button class="eh-btn" id="downloadBtn" title="Download CSS">
+                            <i class="fa-solid fa-download"></i>
+                        </button>
+                        <button class="eh-btn" id="fullscreenBtn" title="Fullscreen">
+                            <i class="fa-solid fa-expand"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="editor-body">
+                    <div class="line-numbers" id="lineNumbers">1</div>
+                    <textarea id="cssInput" spellcheck="false" placeholder='Paste messy CSS here...&#10;&#10;Example:&#10;.btn{color:red;padding:10px 20px;border-radius:5px;}&#10;#main{margin:0 auto;width:100%;}'></textarea>
+                    <input type="file" id="fileInput" accept=".css,.txt" style="display:none">
+                </div>
+            </div>
+
+            <!-- Status Bar -->
+            <div class="status-bar" id="statusBar">
+                <div class="status-badge" id="statusBadge">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <span>Ready — paste CSS and click Beautify</span>
+                </div>
+                <div class="status-stats">
+                    <span id="statChars"><i class="fa-solid fa-font"></i> 0 chars</span>
+                    <span id="statLines"><i class="fa-solid fa-list-ol"></i> 0 lines</span>
+                    <span id="statRules"><i class="fa-solid fa-cube"></i> 0 rules</span>
+                </div>
+            </div>
+
+            <!-- Output Area -->
+            <div class="output-area" id="outputArea" style="display:none;">
+
+                <!-- Output tabs -->
+                <div class="output-tabs">
+                    <button class="ot-tab active" data-view="output">
+                        <i class="fa-solid fa-code"></i> Formatted CSS
+                    </button>
+                    <button class="ot-tab" data-view="preview">
+                        <i class="fa-solid fa-eye"></i> Preview
+                    </button>
+                    <button class="ot-tab" data-view="stats">
+                        <i class="fa-solid fa-chart-simple"></i> Stats
+                    </button>
+                </div>
+
+                <!-- Output Content -->
+                <div class="output-view active" data-view="output">
+                    <div class="output-header">
+                        <span class="oh-label">
+                            <i class="fa-solid fa-arrow-right"></i> Output
+                        </span>
+                        <div class="oh-actions">
+                            <span class="oh-stats" id="outputStats"></span>
+                            <button class="eh-btn" id="copyOutputBtn" title="Copy">
+                                <i class="fa-solid fa-copy"></i>
+                            </button>
+                            <button class="eh-btn" id="downloadOutputBtn" title="Download">
+                                <i class="fa-solid fa-download"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <pre class="output-content" id="outputContent"></pre>
+                </div>
+
+                <!-- Preview View -->
+                <div class="output-view" data-view="preview">
+                    <div class="preview-header">
+                        <span class="ph-label">
+                            <i class="fa-solid fa-eye"></i> Live Preview with Sample HTML
+                        </span>
+                        <button class="eh-btn" id="openPreviewBtn" title="Open in new tab">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </button>
+                    </div>
+                    <div class="preview-controls">
+                        <label class="pc-chip">
+                            <input type="radio" name="previewSample" value="buttons" checked>
+                            <span>Buttons</span>
+                        </label>
+                        <label class="pc-chip">
+                            <input type="radio" name="previewSample" value="cards">
+                            <span>Cards</span>
+                        </label>
+                        <label class="pc-chip">
+                            <input type="radio" name="previewSample" value="typography">
+                            <span>Typography</span>
+                        </label>
+                        <label class="pc-chip">
+                            <input type="radio" name="previewSample" value="form">
+                            <span>Form</span>
+                        </label>
+                    </div>
+                    <div class="preview-frame-wrap">
+                        <iframe id="previewFrame" sandbox="allow-same-origin" title="preview"></iframe>
+                    </div>
+                </div>
+
+                <!-- Stats View -->
+                <div class="output-view" data-view="stats">
+                    <div class="stats-grid" id="statsGrid">
+                        <div class="sg-card">
+                            <div class="sg-icon rules"><i class="fa-solid fa-cube"></i></div>
+                            <div class="sg-value" id="stRules">0</div>
+                            <div class="sg-label">CSS Rules</div>
+                        </div>
+                        <div class="sg-card">
+                            <div class="sg-icon selectors"><i class="fa-solid fa-crosshairs"></i></div>
+                            <div class="sg-value" id="stSelectors">0</div>
+                            <div class="sg-label">Selectors</div>
+                        </div>
+                        <div class="sg-card">
+                            <div class="sg-icon props"><i class="fa-solid fa-list"></i></div>
+                            <div class="sg-value" id="stProps">0</div>
+                            <div class="sg-label">Properties</div>
+                        </div>
+                        <div class="sg-card">
+                            <div class="sg-icon media"><i class="fa-solid fa-mobile-screen"></i></div>
+                            <div class="sg-value" id="stMedia">0</div>
+                            <div class="sg-label">@media</div>
+                        </div>
+                        <div class="sg-card">
+                            <div class="sg-icon keyframes"><i class="fa-solid fa-film"></i></div>
+                            <div class="sg-value" id="stKeyframes">0</div>
+                            <div class="sg-label">@keyframes</div>
+                        </div>
+                        <div class="sg-card">
+                            <div class="sg-icon imports"><i class="fa-solid fa-file-import"></i></div>
+                            <div class="sg-value" id="stImports">0</div>
+                            <div class="sg-label">@import</div>
+                        </div>
+                        <div class="sg-card">
+                            <div class="sg-icon depth"><i class="fa-solid fa-layer-group"></i></div>
+                            <div class="sg-value" id="stMaxDepth">0</div>
+                            <div class="sg-label">Max Nesting</div>
+                        </div>
+                        <div class="sg-card">
+                            <div class="sg-icon size"><i class="fa-solid fa-database"></i></div>
+                            <div class="sg-value" id="stSize">0 B</div>
+                            <div class="sg-label">Output Size</div>
+                        </div>
+                    </div>
+
+                    <!-- Property Frequency -->
+                    <div class="tag-freq-section">
+                        <div class="tf-header">
+                            <i class="fa-solid fa-chart-bar"></i> Top Properties
+                        </div>
+                        <div class="tf-list" id="propFreqList"></div>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="result-actions">
+                    <button class="action-btn" id="copyFormattedBtn">
+                        <i class="fa-solid fa-copy"></i> Copy
+                    </button>
+                    <button class="action-btn" id="shareResultBtn">
+                        <i class="fa-solid fa-share-nodes"></i> Share
+                    </button>
+                    <button class="action-btn" id="downloadFormattedBtn">
+                        <i class="fa-solid fa-download"></i> Download
+                    </button>
+                </div>
+            </div>
+
+            <!-- Validation Result -->
+            <div class="validation-area" id="validationArea" style="display:none;">
+                <div class="va-header" id="vaHeader">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    <span id="vaTitle">Validation Issues</span>
+                </div>
+                <div class="va-body" id="vaBody"></div>
+            </div>
+
+            <!-- History -->
+            <div class="css-history">
+                <div class="history-hdr">
+                    <span><i class="fa-solid fa-clock-rotate-left"></i> Recent</span>
+                    <button id="clearCssHistory" title="Clear">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+                <div class="history-list" id="cssHistoryList">
+                    <div class="empty-history">No actions yet</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Keyboard Hint -->
+        <div class="kbd-hint">
+            <span><kbd>Ctrl</kbd>+<kbd>Enter</kbd> Beautify</span>
+            <span><kbd>Ctrl</kbd>+<kbd>M</kbd> Minify</span>
+            <span><kbd>Esc</kbd> Clear</span>
+        </div>
+
+    </main>
+
+    <!-- Toast -->
+    <div id="toast" class="toast">Message here</div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script src="cssformatter-script.js"></script>
+</body>
+</html>

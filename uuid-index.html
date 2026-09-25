@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>UUID Generator - Tool Hub</title>
+    <meta name="theme-color" content="#0f172a">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="uuid-style.css">
+</head>
+<body>
+
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">
+            <i class="fa-solid fa-wrench"></i>
+            <h2>Tool Hub</h2>
+        </div>
+        <nav>
+            <ul>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-house"></i> Home</li>
+                <li onclick="window.location.href='alltools-index.html'"><i class="fa-solid fa-toolbox"></i> All Tools</li>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-heart"></i> Favorites</li>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-clock-rotate-left"></i> History</li>
+            </ul>
+        </nav>
+        <div class="categories">
+            <h3>Categories</h3>
+            <ul>
+                <li onclick="window.location.href='alltools-index.html?cat=text'"><i class="fa-solid fa-font"></i> Text Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=calc'"><i class="fa-solid fa-calculator"></i> Calculator Tools</li>
+                <li class="active" onclick="window.location.href='alltools-index.html?cat=dev'"><i class="fa-solid fa-code"></i> Developer Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=image'"><i class="fa-solid fa-image"></i> Image Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=gen'"><i class="fa-solid fa-wand-magic-sparkles"></i> Generator Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=date'"><i class="fa-solid fa-calendar-day"></i> Date & Time</li>
+                <li onclick="window.location.href='alltools-index.html?cat=finance'"><i class="fa-solid fa-coins"></i> Finance</li>
+            </ul>
+        </div>
+        <div class="login-box">
+            <i class="fa-solid fa-crown"></i>
+            <p>Save Your Favorite Tools</p>
+            <button>Login / Sign Up</button>
+        </div>
+    </aside>
+
+    <!-- ================= MAIN ================= -->
+    <main class="main-content">
+
+        <!-- Header -->
+        <header>
+            <div class="search-bar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search tools..." id="header-search">
+            </div>
+            <div class="nav-actions">
+                <button id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+                <button class="contact-btn"><i class="fa-solid fa-envelope"></i> Contact</button>
+            </div>
+        </header>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> /
+            <a href="alltools-index.html">All Tools</a> /
+            <span>UUID Generator</span>
+        </div>
+
+        <!-- Tool Title Bar -->
+        <div class="tool-title-bar">
+            <div class="tool-title-left">
+                <div class="tool-title-icon uuid">
+                    <i class="fa-solid fa-fingerprint"></i>
+                </div>
+                <div>
+                    <h1>UUID Generator</h1>
+                    <p>Generate RFC-compliant UUID v1, v4, v5 & Nano IDs instantly</p>
+                </div>
+            </div>
+            <button class="share-btn" onclick="shareUuidGenerator()">
+                <i class="fa-solid fa-share-nodes"></i> Share
+            </button>
+        </div>
+
+        <!-- ================= UUID CARD ================= -->
+        <div class="uuid-card" id="uuidCard">
+
+            <!-- Mode Tabs -->
+            <div class="mode-tabs" id="modeTabs">
+                <button class="mode-tab active" data-mode="generate">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> <span>Generate</span>
+                </button>
+                <button class="mode-tab" data-mode="validate">
+                    <i class="fa-solid fa-circle-check"></i> <span>Validate</span>
+                </button>
+                <button class="mode-tab" data-mode="info">
+                    <i class="fa-solid fa-circle-info"></i> <span>UUID Info</span>
+                </button>
+            </div>
+
+            <!-- Input Area -->
+            <div class="input-area">
+
+                <!-- ========== MODE: GENERATE ========== -->
+                <div class="mode-content active" data-content="generate">
+
+                    <!-- Version Selection -->
+                    <div class="section-block">
+                        <div class="sb-label">
+                            <i class="fa-solid fa-tag"></i> UUID Version
+                        </div>
+                        <div class="version-grid" id="versionGrid">
+                            <button class="ver-btn active" data-version="v4">
+                                <div class="ver-icon v4"><i class="fa-solid fa-dice"></i></div>
+                                <div class="ver-info">
+                                    <div class="ver-name">UUID v4</div>
+                                    <div class="ver-desc">Random (recommended)</div>
+                                </div>
+                            </button>
+                            <button class="ver-btn" data-version="v1">
+                                <div class="ver-icon v1"><i class="fa-solid fa-clock"></i></div>
+                                <div class="ver-info">
+                                    <div class="ver-name">UUID v1</div>
+                                    <div class="ver-desc">Time-based</div>
+                                </div>
+                            </button>
+                            <button class="ver-btn" data-version="v5">
+                                <div class="ver-icon v5"><i class="fa-solid fa-hashtag"></i></div>
+                                <div class="ver-info">
+                                    <div class="ver-name">UUID v5</div>
+                                    <div class="ver-desc">Namespace + SHA-1</div>
+                                </div>
+                            </button>
+                            <button class="ver-btn" data-version="nanoid">
+                                <div class="ver-icon nano"><i class="fa-solid fa-bolt"></i></div>
+                                <div class="ver-info">
+                                    <div class="ver-name">Nano ID</div>
+                                    <div class="ver-desc">URL-friendly</div>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- V5 Namespace Panel -->
+                    <div class="v5-panel" id="v5Panel" style="display:none;">
+                        <div class="input-block">
+                            <label><i class="fa-solid fa-globe"></i> Namespace</label>
+                            <select id="v5Namespace">
+                                <option value="6ba7b810-9dad-11d1-80b4-00c04fd430c8">DNS (default)</option>
+                                <option value="6ba7b811-9dad-11d1-80b4-00c04fd430c8">URL</option>
+                                <option value="6ba7b812-9dad-11d1-80b4-00c04fd430c8">OID</option>
+                                <option value="6ba7b814-9dad-11d1-80b4-00c04fd430c8">X500</option>
+                                <option value="custom">Custom…</option>
+                            </select>
+                        </div>
+                        <div class="input-block" id="v5CustomWrap" style="display:none;">
+                            <label><i class="fa-solid fa-key"></i> Custom Namespace UUID</label>
+                            <input type="text" id="v5Custom" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx">
+                        </div>
+                        <div class="input-block">
+                            <label><i class="fa-solid fa-font"></i> Name (string to hash)</label>
+                            <input type="text" id="v5Name" placeholder="e.g. example.com">
+                        </div>
+                    </div>
+
+                    <!-- Nano ID Panel -->
+                    <div class="nano-panel" id="nanoPanel" style="display:none;">
+                        <div class="input-block">
+                            <label><i class="fa-solid fa-ruler"></i> Nano ID Length</label>
+                            <input type="number" id="nanoLength" min="4" max="64" value="21">
+                        </div>
+                        <div class="input-block">
+                            <label><i class="fa-solid fa-abc"></i> Alphabet</label>
+                            <select id="nanoAlphabet">
+                                <option value="default">Default (A-Za-z0-9_-)</option>
+                                <option value="alnum">Alphanumeric only</option>
+                                <option value="lower">Lowercase letters</option>
+                                <option value="upper">Uppercase letters</option>
+                                <option value="num">Numbers only</option>
+                                <option value="hex">Hex (0-9a-f)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Quantity + Format -->
+                    <div class="section-block">
+                        <div class="section-row">
+                            <div class="input-block">
+                                <label><i class="fa-solid fa-hashtag"></i> Quantity</label>
+                                <div class="qty-stepper">
+                                    <button class="qty-btn" data-qty="-" title="Decrease">
+                                        <i class="fa-solid fa-minus"></i>
+                                    </button>
+                                    <input type="number" id="quantity" min="1" max="1000" value="1">
+                                    <button class="qty-btn" data-qty="+" title="Increase">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="input-block">
+                                <label><i class="fa-solid fa-text-height"></i> Format</label>
+                                <select id="formatSelect">
+                                    <option value="standard">Standard (lowercase)</option>
+                                    <option value="uppercase">UPPERCASE</option>
+                                    <option value="nodash">No Dashes</option>
+                                    <option value="braces">With Braces {}</option>
+                                    <option value="urn">URN: uuid:</option>
+                                    <option value="quote">"Quoted"</option>
+                                    <option value="single">'Single Quoted'</option>
+                                    <option value="comma">Comma Separated</option>
+                                    <option value="sql">SQL IN Clause</option>
+                                    <option value="json">JSON Array</option>
+                                    <option value="python">Python List</option>
+                                    <option value="php">PHP Array</option>
+                                    <option value="js">JS Array</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Quantity Buttons -->
+                    <div class="quick-qty">
+                        <button class="qq-btn" data-qvalue="1">1</button>
+                        <button class="qq-btn" data-qvalue="5">5</button>
+                        <button class="qq-btn" data-qvalue="10">10</button>
+                        <button class="qq-btn" data-qvalue="25">25</button>
+                        <button class="qq-btn" data-qvalue="50">50</button>
+                        <button class="qq-btn" data-qvalue="100">100</button>
+                        <button class="qq-btn" data-qvalue="500">500</button>
+                        <button class="qq-btn" data-qvalue="1000">1000</button>
+                    </div>
+                </div>
+
+                <!-- ========== MODE: VALIDATE ========== -->
+                <div class="mode-content" data-content="validate">
+                    <div class="input-block">
+                        <label><i class="fa-solid fa-fingerprint"></i> UUID to Validate</label>
+                        <textarea id="validateInput" class="big-textarea mono" placeholder="Paste one UUID per line...&#10;&#10;Example:&#10;550e8400-e29b-41d4-a716-446655440000&#10;9c858901-8a57-4791-81fe-4c455b099bc9"></textarea>
+                    </div>
+                    <div class="input-actions">
+                        <button class="mini-btn-wide" id="pasteValidate">
+                            <i class="fa-solid fa-paste"></i> Paste
+                        </button>
+                        <button class="mini-btn-wide" id="sampleValidate">
+                            <i class="fa-solid fa-flask"></i> Sample
+                        </button>
+                        <button class="mini-btn-wide" id="clearValidate">
+                            <i class="fa-solid fa-xmark"></i> Clear
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ========== MODE: INFO ========== -->
+                <div class="mode-content" data-content="info">
+                    <div class="input-block">
+                        <label><i class="fa-solid fa-fingerprint"></i> UUID to Inspect</label>
+                        <input type="text" id="infoInput" class="mono" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx">
+                    </div>
+                    <div class="input-actions">
+                        <button class="mini-btn-wide" id="pasteInfo">
+                            <i class="fa-solid fa-paste"></i> Paste
+                        </button>
+                        <button class="mini-btn-wide" id="sampleInfo">
+                            <i class="fa-solid fa-flask"></i> Sample
+                        </button>
+                        <button class="mini-btn-wide" id="clearInfo">
+                            <i class="fa-solid fa-xmark"></i> Clear
+                        </button>
+                    </div>
+                </div>
+
+                <div class="error-msg" id="uuidError"></div>
+
+                <!-- Main Actions -->
+                <div class="action-row" id="mainActions">
+                    <button class="btn primary" id="generateBtn">
+                        <i class="fa-solid fa-bolt"></i> <span id="processBtnLabel">Generate UUID</span>
+                    </button>
+                    <button class="btn secondary" id="regenBtn" title="Regenerate">
+                        <i class="fa-solid fa-rotate"></i>
+                    </button>
+                    <button class="btn secondary" id="clearAllBtn" title="Clear all">
+                        <i class="fa-solid fa-eraser"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Output Area -->
+            <div class="output-area" id="outputArea" style="display:none;">
+                <div class="output-header">
+                    <span class="oh-label" id="outputLabel">
+                        <i class="fa-solid fa-arrow-right"></i> Output
+                    </span>
+                    <div class="oh-actions">
+                        <span class="oh-stats" id="outputStats"></span>
+                        <button class="eh-btn" id="copyOutputBtn" title="Copy">
+                            <i class="fa-solid fa-copy"></i>
+                        </button>
+                        <button class="eh-btn" id="downloadOutputBtn" title="Download">
+                            <i class="fa-solid fa-download"></i>
+                        </button>
+                        <button class="eh-btn" id="sendToValidate" title="Send to Validate">
+                            <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                        </button>
+                    </div>
+                </div>
+                <pre class="output-content mono" id="outputContent"></pre>
+
+                <!-- Per-UUID Copy (only when quantity <= 100) -->
+                <div class="uuid-list-wrap" id="uuidListWrap" style="display:none;">
+                    <div class="ul-header">
+                        <span><i class="fa-solid fa-list"></i> Individual UUIDs</span>
+                        <span class="ul-hint">Click any to copy</span>
+                    </div>
+                    <div class="uuid-list" id="uuidList"></div>
+                </div>
+            </div>
+
+            <!-- Validation Result -->
+            <div class="validation-area" id="validationArea" style="display:none;">
+                <div class="va-header" id="vaHeader">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span id="vaTitle">Validation Results</span>
+                </div>
+                <div class="va-summary" id="vaSummary"></div>
+                <div class="va-body" id="vaBody"></div>
+            </div>
+
+            <!-- UUID Info Result -->
+            <div class="info-area" id="infoArea" style="display:none;">
+                <div class="info-header">
+                    <i class="fa-solid fa-circle-info"></i> UUID Details
+                </div>
+                <div class="info-grid" id="infoGrid"></div>
+            </div>
+
+            <!-- History -->
+            <div class="uuid-history">
+                <div class="history-hdr">
+                    <span><i class="fa-solid fa-clock-rotate-left"></i> Recent</span>
+                    <button id="clearUuidHistory" title="Clear">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+                <div class="history-list" id="uuidHistoryList">
+                    <div class="empty-history">No actions yet</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Keyboard Hint -->
+        <div class="kbd-hint">
+            <span><kbd>Ctrl</kbd>+<kbd>Enter</kbd> Generate</span>
+            <span><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>C</kbd> Copy</span>
+            <span><kbd>Esc</kbd> Clear</span>
+        </div>
+
+    </main>
+
+    <!-- Toast -->
+    <div id="toast" class="toast">Message here</div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script src="uuid-script.js"></script>
+</body>
+</html>

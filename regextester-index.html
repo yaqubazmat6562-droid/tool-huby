@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Regex Tester - Tool Hub</title>
+    <meta name="theme-color" content="#0f172a">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="regextester-style.css">
+</head>
+<body>
+
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">
+            <i class="fa-solid fa-wrench"></i>
+            <h2>Tool Hub</h2>
+        </div>
+        <nav>
+            <ul>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-house"></i> Home</li>
+                <li onclick="window.location.href='alltools-index.html'"><i class="fa-solid fa-toolbox"></i> All Tools</li>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-heart"></i> Favorites</li>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-clock-rotate-left"></i> History</li>
+            </ul>
+        </nav>
+        <div class="categories">
+            <h3>Categories</h3>
+            <ul>
+                <li onclick="window.location.href='alltools-index.html?cat=text'"><i class="fa-solid fa-font"></i> Text Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=calc'"><i class="fa-solid fa-calculator"></i> Calculator Tools</li>
+                <li class="active" onclick="window.location.href='alltools-index.html?cat=dev'"><i class="fa-solid fa-code"></i> Developer Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=image'"><i class="fa-solid fa-image"></i> Image Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=gen'"><i class="fa-solid fa-wand-magic-sparkles"></i> Generator Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=date'"><i class="fa-solid fa-calendar-day"></i> Date & Time</li>
+                <li onclick="window.location.href='alltools-index.html?cat=finance'"><i class="fa-solid fa-coins"></i> Finance</li>
+            </ul>
+        </div>
+        <div class="login-box">
+            <i class="fa-solid fa-crown"></i>
+            <p>Save Your Favorite Tools</p>
+            <button>Login / Sign Up</button>
+        </div>
+    </aside>
+
+    <!-- ================= MAIN ================= -->
+    <main class="main-content">
+
+        <!-- Header -->
+        <header>
+            <div class="search-bar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search tools..." id="header-search">
+            </div>
+            <div class="nav-actions">
+                <button id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+                <button class="contact-btn"><i class="fa-solid fa-envelope"></i> Contact</button>
+            </div>
+        </header>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> /
+            <a href="alltools-index.html">All Tools</a> /
+            <span>Regex Tester</span>
+        </div>
+
+        <!-- Tool Title Bar -->
+        <div class="tool-title-bar">
+            <div class="tool-title-left">
+                <div class="tool-title-icon regex">
+                    <i class="fa-solid fa-asterisk"></i>
+                </div>
+                <div>
+                    <h1>Regex Tester</h1>
+                    <p>Test regular expressions with live matching, highlighting &amp; replace</p>
+                </div>
+            </div>
+            <button class="share-btn" onclick="shareRegexTester()">
+                <i class="fa-solid fa-share-nodes"></i> Share
+            </button>
+        </div>
+
+        <!-- ================= REGEX CARD ================= -->
+        <div class="regex-card" id="regexCard">
+
+            <!-- Pattern Input Row -->
+            <div class="pattern-row">
+                <div class="pattern-input-wrap">
+                    <span class="pattern-slash">/</span>
+                    <input type="text" id="regexPattern" class="pattern-input" placeholder="Enter regex pattern... e.g. \\d+" spellcheck="false" autocomplete="off">
+                    <span class="pattern-slash">/</span>
+                    <input type="text" id="regexFlags" class="flags-input" placeholder="gimsuy" maxlength="10" spellcheck="false" autocomplete="off" value="g">
+                </div>
+                <button class="copy-regex-btn" id="copyRegexBtn" title="Copy full regex">
+                    <i class="fa-solid fa-copy"></i>
+                </button>
+            </div>
+
+            <!-- Flag toggles -->
+            <div class="flag-chips">
+                <span class="fc-label"><i class="fa-solid fa-sliders"></i> Flags:</span>
+                <label class="flag-chip">
+                    <input type="checkbox" data-flag="g" checked>
+                    <span><b>g</b> global</span>
+                </label>
+                <label class="flag-chip">
+                    <input type="checkbox" data-flag="i">
+                    <span><b>i</b> ignore case</span>
+                </label>
+                <label class="flag-chip">
+                    <input type="checkbox" data-flag="m">
+                    <span><b>m</b> multiline</span>
+                </label>
+                <label class="flag-chip">
+                    <input type="checkbox" data-flag="s">
+                    <span><b>s</b> dotall</span>
+                </label>
+                <label class="flag-chip">
+                    <input type="checkbox" data-flag="u">
+                    <span><b>u</b> unicode</span>
+                </label>
+                <label class="flag-chip">
+                    <input type="checkbox" data-flag="y">
+                    <span><b>y</b> sticky</span>
+                </label>
+            </div>
+
+            <!-- Status -->
+            <div class="regex-status" id="regexStatus">
+                <i class="fa-solid fa-circle-info"></i>
+                <span>Enter a pattern to begin testing</span>
+            </div>
+
+            <!-- Mode tabs -->
+            <div class="mode-tabs" id="modeTabs">
+                <button class="mode-tab active" data-mode="match">
+                    <i class="fa-solid fa-bullseye"></i> <span>Match</span>
+                </button>
+                <button class="mode-tab" data-mode="replace">
+                    <i class="fa-solid fa-right-left"></i> <span>Replace</span>
+                </button>
+                <button class="mode-tab" data-mode="explain">
+                    <i class="fa-solid fa-book"></i> <span>Explain</span>
+                </button>
+                <button class="mode-tab" data-mode="library">
+                    <i class="fa-solid fa-bookmark"></i> <span>Library</span>
+                </button>
+                <button class="mode-tab" data-mode="cheatsheet">
+                    <i class="fa-solid fa-table-list"></i> <span>Cheat Sheet</span>
+                </button>
+            </div>
+
+            <!-- Mode Contents -->
+            <div class="mode-contents">
+
+                <!-- ========== MATCH MODE ========== -->
+                <div class="mode-content active" data-content="match">
+                    <div class="editor-header">
+                        <span class="eh-label"><i class="fa-solid fa-file-lines"></i> Test String</span>
+                        <div class="eh-actions">
+                            <button class="eh-btn" id="pasteTest" title="Paste">
+                                <i class="fa-solid fa-paste"></i>
+                            </button>
+                            <button class="eh-btn" id="sampleTest" title="Load sample">
+                                <i class="fa-solid fa-flask"></i>
+                            </button>
+                            <button class="eh-btn" id="clearTest" title="Clear">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <textarea id="testInput" class="test-textarea" spellcheck="false" placeholder="Paste or type your test string here...">Contact us at support@example.com or sales@company.co.uk.
+Our phone numbers are +1 (555) 123-4567 and 555-987-6543.
+Visit https://tool-hub.example.com or http://test.org for more info.
+Dates: 2024-01-15, 2025-12-31, 12/25/2025.
+IDs: ABC-123, XYZ-789, DEF-456.</textarea>
+
+                    <!-- Highlight Preview -->
+                    <div class="preview-wrap">
+                        <div class="preview-header">
+                            <span class="ph-label"><i class="fa-solid fa-eye"></i> Highlighted Matches</span>
+                            <span class="ph-count" id="matchCount">0 matches</span>
+                        </div>
+                        <div class="preview-content" id="previewContent"></div>
+                    </div>
+
+                    <!-- Match Details -->
+                    <div class="matches-wrap" id="matchesWrap" style="display:none;">
+                        <div class="matches-header">
+                            <span><i class="fa-solid fa-list-ol"></i> Match Details</span>
+                            <div class="matches-actions">
+                                <button class="mini-btn" id="copyMatchesBtn" title="Copy all matches">
+                                    <i class="fa-solid fa-copy"></i> Copy All
+                                </button>
+                                <button class="mini-btn" id="exportMatchesBtn" title="Export as JSON">
+                                    <i class="fa-solid fa-download"></i> JSON
+                                </button>
+                            </div>
+                        </div>
+                        <div class="matches-list" id="matchesList"></div>
+                    </div>
+                </div>
+
+                <!-- ========== REPLACE MODE ========== -->
+                <div class="mode-content" data-content="replace">
+                    <div class="editor-header">
+                        <span class="eh-label"><i class="fa-solid fa-arrow-right-arrow-left"></i> Replacement String</span>
+                        <span class="eh-hint">Use $1, $2, $&amp;, $`, $' in replacement</span>
+                    </div>
+                    <input type="text" id="replaceInput" class="replace-input" placeholder="e.g. [REDACTED] or $1-$2" spellcheck="false">
+
+                    <div class="replace-preview-wrap">
+                        <div class="preview-header">
+                            <span class="ph-label"><i class="fa-solid fa-eye"></i> Result Preview</span>
+                            <button class="mini-btn" id="copyReplaceResult" title="Copy result">
+                                <i class="fa-solid fa-copy"></i>
+                            </button>
+                        </div>
+                        <pre class="replace-preview" id="replacePreview"></pre>
+                    </div>
+                </div>
+
+                <!-- ========== EXPLAIN MODE ========== -->
+                <div class="mode-content" data-content="explain">
+                    <div class="explain-wrap">
+                        <div class="explain-header">
+                            <span><i class="fa-solid fa-book"></i> Pattern Explanation</span>
+                            <span class="explain-tokens" id="explainTokens">0 tokens</span>
+                        </div>
+                        <div class="explain-list" id="explainList"></div>
+                    </div>
+                </div>
+
+                <!-- ========== LIBRARY MODE ========== -->
+                <div class="mode-content" data-content="library">
+                    <div class="library-search">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="librarySearch" placeholder="Search patterns... (email, phone, url)">
+                    </div>
+                    <div class="library-grid" id="libraryGrid"></div>
+                </div>
+
+                <!-- ========== CHEAT SHEET MODE ========== -->
+                <div class="mode-content" data-content="cheatsheet">
+                    <div class="cheatsheet-grid" id="cheatsheetGrid"></div>
+                </div>
+            </div>
+
+            <!-- History -->
+            <div class="regex-history">
+                <div class="history-hdr">
+                    <span><i class="fa-solid fa-clock-rotate-left"></i> Recent Patterns</span>
+                    <button id="clearRegexHistory" title="Clear">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+                <div class="history-list" id="regexHistoryList">
+                    <div class="empty-history">No patterns tested yet</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Keyboard Hint -->
+        <div class="kbd-hint">
+            <span><kbd>Ctrl</kbd>+<kbd>Enter</kbd> Copy Regex</span>
+            <span><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>L</kbd> Library</span>
+            <span><kbd>Esc</kbd> Clear</span>
+        </div>
+
+    </main>
+
+    <!-- Toast -->
+    <div id="toast" class="toast">Message here</div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script src="regextester-script.js"></script>
+</body>
+</html>

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Color Converter - Tool Hub</title>
+    <meta name="theme-color" content="#0f172a">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="colorconverter-style.css">
+</head>
+<body>
+
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">
+            <i class="fa-solid fa-wrench"></i>
+            <h2>Tool Hub</h2>
+        </div>
+        <nav>
+            <ul>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-house"></i> Home</li>
+                <li onclick="window.location.href='alltools-index.html'"><i class="fa-solid fa-toolbox"></i> All Tools</li>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-heart"></i> Favorites</li>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-clock-rotate-left"></i> History</li>
+            </ul>
+        </nav>
+        <div class="categories">
+            <h3>Categories</h3>
+            <ul>
+                <li onclick="window.location.href='alltools-index.html?cat=text'"><i class="fa-solid fa-font"></i> Text Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=calc'"><i class="fa-solid fa-calculator"></i> Calculator Tools</li>
+                <li class="active" onclick="window.location.href='alltools-index.html?cat=dev'"><i class="fa-solid fa-code"></i> Developer Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=image'"><i class="fa-solid fa-image"></i> Image Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=gen'"><i class="fa-solid fa-wand-magic-sparkles"></i> Generator Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=date'"><i class="fa-solid fa-calendar-day"></i> Date & Time</li>
+                <li onclick="window.location.href='alltools-index.html?cat=finance'"><i class="fa-solid fa-coins"></i> Finance</li>
+            </ul>
+        </div>
+        <div class="login-box">
+            <i class="fa-solid fa-crown"></i>
+            <p>Save Your Favorite Tools</p>
+            <button>Login / Sign Up</button>
+        </div>
+    </aside>
+
+    <!-- ================= MAIN ================= -->
+    <main class="main-content">
+
+        <!-- Header -->
+        <header>
+            <div class="search-bar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search tools..." id="header-search">
+            </div>
+            <div class="nav-actions">
+                <button id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+                <button class="contact-btn"><i class="fa-solid fa-envelope"></i> Contact</button>
+            </div>
+        </header>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> /
+            <a href="alltools-index.html">All Tools</a> /
+            <span>Color Converter</span>
+        </div>
+
+        <!-- Tool Title Bar -->
+        <div class="tool-title-bar">
+            <div class="tool-title-left">
+                <div class="tool-title-icon cc">
+                    <i class="fa-solid fa-palette"></i>
+                </div>
+                <div>
+                    <h1>Color Converter</h1>
+                    <p>Convert between HEX, RGB, HSL, HSV, CMYK, HWB & more</p>
+                </div>
+            </div>
+            <button class="share-btn" onclick="shareColorConverter()">
+                <i class="fa-solid fa-share-nodes"></i> Share
+            </button>
+        </div>
+
+        <!-- ================= COLOR CARD ================= -->
+        <div class="cc-card" id="ccCard">
+
+            <!-- Color Preview + Picker -->
+            <div class="preview-section">
+                <div class="preview-swatch" id="previewSwatch">
+                    <div class="swatch-info" id="swatchInfo">
+                        <div class="swatch-hex" id="swatchHex">#3B82F6</div>
+                        <div class="swatch-name" id="swatchName">Blue</div>
+                    </div>
+                    <input type="color" id="nativeColorPicker" value="#3b82f6" title="Pick a color">
+                </div>
+
+                <div class="preview-actions">
+                    <button class="mini-btn-wide" id="randomColorBtn" title="Random color">
+                        <i class="fa-solid fa-dice"></i> Random
+                    </button>
+                    <button class="mini-btn-wide" id="copyHexBtn" title="Copy HEX">
+                        <i class="fa-solid fa-copy"></i> Copy HEX
+                    </button>
+                    <button class="mini-btn-wide" id="clearColorBtn" title="Reset">
+                        <i class="fa-solid fa-rotate-left"></i> Reset
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mode Tabs -->
+            <div class="mode-tabs" id="modeTabs">
+                <button class="mode-tab active" data-mode="convert">
+                    <i class="fa-solid fa-right-left"></i> <span>Convert</span>
+                </button>
+                <button class="mode-tab" data-mode="palette">
+                    <i class="fa-solid fa-swatchbook"></i> <span>Palette</span>
+                </button>
+                <button class="mode-tab" data-mode="shades">
+                    <i class="fa-solid fa-layer-group"></i> <span>Shades & Tints</span>
+                </button>
+                <button class="mode-tab" data-mode="contrast">
+                    <i class="fa-solid fa-circle-half-stroke"></i> <span>Contrast</span>
+                </button>
+                <button class="mode-tab" data-mode="harmony">
+                    <i class="fa-solid fa-yin-yang"></i> <span>Harmony</span>
+                </button>
+            </div>
+
+            <!-- Mode Contents -->
+            <div class="mode-contents">
+
+                <!-- ========== CONVERT MODE ========== -->
+                <div class="mode-content active" data-content="convert">
+
+                    <!-- Input Row -->
+                    <div class="input-block">
+                        <label><i class="fa-solid fa-keyboard"></i> Enter Color (any format)</label>
+                        <div class="cc-input-row">
+                            <input type="text" id="colorInput" class="cc-input mono" placeholder="#3B82F6 · rgb(59,130,246) · hsl(217,91%,60%)" spellcheck="false" autocomplete="off">
+                            <button class="mini-btn" id="pasteColorBtn" title="Paste">
+                                <i class="fa-solid fa-paste"></i>
+                            </button>
+                            <button class="mini-btn" id="clearColorInput" title="Clear">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                        <div class="cc-hint">
+                            Supports: HEX · RGB · RGBA · HSL · HSLA · HSV · CMYK · HWB · Named colors
+                        </div>
+                    </div>
+
+                    <!-- Format Results Grid -->
+                    <div class="formats-grid" id="formatsGrid">
+                        <!-- Injected -->
+                    </div>
+
+                    <!-- CSS Variables Block -->
+                    <div class="css-block">
+                        <div class="css-header">
+                            <span><i class="fa-brands fa-css3-alt"></i> CSS Variables</span>
+                            <button class="mini-btn" id="copyCssVars" title="Copy CSS">
+                                <i class="fa-solid fa-copy"></i>
+                            </button>
+                        </div>
+                        <pre class="css-output" id="cssOutput"></pre>
+                    </div>
+                </div>
+
+                <!-- ========== PALETTE MODE ========== -->
+                <div class="mode-content" data-content="palette">
+                    <div class="section-block">
+                        <div class="sb-label"><i class="fa-solid fa-palette"></i> Palette Type</div>
+                        <div class="palette-types" id="paletteTypes">
+                            <button class="pt-btn active" data-type="complementary">
+                                <i class="fa-solid fa-circle-half-stroke"></i> Complementary
+                            </button>
+                            <button class="pt-btn" data-type="analogous">
+                                <i class="fa-solid fa-water"></i> Analogous
+                            </button>
+                            <button class="pt-btn" data-type="triadic">
+                                <i class="fa-solid fa-play"></i> Triadic
+                            </button>
+                            <button class="pt-btn" data-type="tetradic">
+                                <i class="fa-solid fa-square"></i> Tetradic
+                            </button>
+                            <button class="pt-btn" data-type="split">
+                                <i class="fa-solid fa-code-branch"></i> Split-Comp
+                            </button>
+                            <button class="pt-btn" data-type="monochrome">
+                                <i class="fa-solid fa-circle"></i> Monochrome
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="palette-grid" id="paletteGrid"></div>
+
+                    <div class="palette-actions">
+                        <button class="mini-btn-wide" id="copyPaletteHex">
+                            <i class="fa-solid fa-copy"></i> Copy HEX
+                        </button>
+                        <button class="mini-btn-wide" id="exportPaletteCss">
+                            <i class="fa-brands fa-css3-alt"></i> CSS Vars
+                        </button>
+                        <button class="mini-btn-wide" id="exportPaletteSvg">
+                            <i class="fa-solid fa-image"></i> SVG
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ========== SHADES & TINTS ========== -->
+                <div class="mode-content" data-content="shades">
+                    <div class="section-block">
+                        <div class="sb-label"><i class="fa-solid fa-layer-group"></i> Base Color</div>
+                        <div class="base-color-display" id="baseColorDisplay">
+                            <div class="bcd-swatch" id="bcdSwatch"></div>
+                            <div class="bcd-info">
+                                <div class="bcd-hex" id="bcdHex">#3B82F6</div>
+                                <div class="bcd-rgb" id="bcdRgb">rgb(59, 130, 246)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-block">
+                        <div class="sb-label"><i class="fa-solid fa-arrow-down-long"></i> Shades (darker)</div>
+                        <div class="shades-grid" id="shadesGrid"></div>
+                    </div>
+
+                    <div class="section-block">
+                        <div class="sb-label"><i class="fa-solid fa-arrow-up-long"></i> Tints (lighter)</div>
+                        <div class="shades-grid" id="tintsGrid"></div>
+                    </div>
+
+                    <div class="section-block">
+                        <div class="sb-label"><i class="fa-solid fa-palette"></i> Tones (muted)</div>
+                        <div class="shades-grid" id="tonesGrid"></div>
+                    </div>
+                </div>
+
+                <!-- ========== CONTRAST ========== -->
+                <div class="mode-content" data-content="contrast">
+                    <div class="section-block">
+                        <div class="sb-label"><i class="fa-solid fa-circle-half-stroke"></i> Choose Background</div>
+                        <div class="contrast-bg-picker" id="contrastBgPicker">
+                            <button class="bg-pill active" data-bg="#ffffff">
+                                <span style="background:#ffffff"></span> White
+                            </button>
+                            <button class="bg-pill" data-bg="#000000">
+                                <span style="background:#000000"></span> Black
+                            </button>
+                            <button class="bg-pill" data-bg="#f8fafc">
+                                <span style="background:#f8fafc"></span> Light Gray
+                            </button>
+                            <button class="bg-pill" data-bg="#1e293b">
+                                <span style="background:#1e293b"></span> Dark Slate
+                            </button>
+                            <button class="bg-pill" data-bg="#3b82f6">
+                                <span style="background:#3b82f6"></span> Blue
+                            </button>
+                            <button class="bg-pill" data-bg="custom">
+                                <i class="fa-solid fa-eye-dropper"></i> Custom
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Contrast Results -->
+                    <div class="contrast-results" id="contrastResults"></div>
+
+                    <!-- Preview Box -->
+                    <div class="contrast-preview" id="contrastPreview">
+                        <div class="cp-sample">
+                            <h3>Sample Heading</h3>
+                            <p>This is sample text showing how your color looks on the selected background. The quick brown fox jumps over the lazy dog.</p>
+                            <p style="font-size: 0.85rem; opacity: 0.8;">Smaller text sample for readability testing.</p>
+                        </div>
+                    </div>
+
+                    <!-- WCAG Standards -->
+                    <div class="wcag-block">
+                        <div class="wb-header">
+                            <i class="fa-solid fa-book"></i> WCAG Guidelines
+                        </div>
+                        <div class="wb-grid">
+                            <div class="wb-item">
+                                <div class="wb-badge aa">AA</div>
+                                <div class="wb-desc">
+                                    <div class="wb-title">Normal Text</div>
+                                    <div class="wb-req">≥ 4.5:1</div>
+                                </div>
+                            </div>
+                            <div class="wb-item">
+                                <div class="wb-badge aaa">AAA</div>
+                                <div class="wb-desc">
+                                    <div class="wb-title">Normal Text</div>
+                                    <div class="wb-req">≥ 7:1</div>
+                                </div>
+                            </div>
+                            <div class="wb-item">
+                                <div class="wb-badge aa">AA</div>
+                                <div class="wb-desc">
+                                    <div class="wb-title">Large Text</div>
+                                    <div class="wb-req">≥ 3:1</div>
+                                </div>
+                            </div>
+                            <div class="wb-item">
+                                <div class="wb-badge aaa">AAA</div>
+                                <div class="wb-desc">
+                                    <div class="wb-title">Large Text</div>
+                                    <div class="wb-req">≥ 4.5:1</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========== HARMONY ========== -->
+                <div class="mode-content" data-content="harmony">
+                    <div class="section-block">
+                        <div class="sb-label"><i class="fa-solid fa-yin-yang"></i> Color Harmony Wheel</div>
+                        <div class="harmony-wheel-wrap">
+                            <div class="harmony-wheel" id="harmonyWheel">
+                                <div class="hw-center" id="hwCenter"></div>
+                                <!-- Harmony dots will be absolutely positioned -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-block">
+                        <div class="sb-label"><i class="fa-solid fa-list"></i> Color Details</div>
+                        <div class="harmony-details" id="harmonyDetails"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- History -->
+            <div class="cc-history">
+                <div class="history-hdr">
+                    <span><i class="fa-solid fa-clock-rotate-left"></i> Recent Colors</span>
+                    <button id="clearCcHistory" title="Clear">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+                <div class="history-list" id="ccHistoryList">
+                    <div class="empty-history">No colors yet</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Keyboard Hint -->
+        <div class="kbd-hint">
+            <span><kbd>Ctrl</kbd>+<kbd>Enter</kbd> Convert</span>
+            <span><kbd>Ctrl</kbd>+<kbd>R</kbd> Random</span>
+            <span><kbd>Esc</kbd> Clear</span>
+        </div>
+
+    </main>
+
+    <!-- Toast -->
+    <div id="toast" class="toast">Message here</div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script src="colorconverter-script.js"></script>
+</body>
+</html>

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Timestamp Converter - Tool Hub</title>
+    <meta name="theme-color" content="#0f172a">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="timestamp-style.css">
+</head>
+<body>
+
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">
+            <i class="fa-solid fa-wrench"></i>
+            <h2>Tool Hub</h2>
+        </div>
+        <nav>
+            <ul>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-house"></i> Home</li>
+                <li onclick="window.location.href='alltools-index.html'"><i class="fa-solid fa-toolbox"></i> All Tools</li>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-heart"></i> Favorites</li>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-clock-rotate-left"></i> History</li>
+            </ul>
+        </nav>
+        <div class="categories">
+            <h3>Categories</h3>
+            <ul>
+                <li onclick="window.location.href='alltools-index.html?cat=text'"><i class="fa-solid fa-font"></i> Text Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=calc'"><i class="fa-solid fa-calculator"></i> Calculator Tools</li>
+                <li class="active" onclick="window.location.href='alltools-index.html?cat=dev'"><i class="fa-solid fa-code"></i> Developer Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=image'"><i class="fa-solid fa-image"></i> Image Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=gen'"><i class="fa-solid fa-wand-magic-sparkles"></i> Generator Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=date'"><i class="fa-solid fa-calendar-day"></i> Date & Time</li>
+                <li onclick="window.location.href='alltools-index.html?cat=finance'"><i class="fa-solid fa-coins"></i> Finance</li>
+            </ul>
+        </div>
+        <div class="login-box">
+            <i class="fa-solid fa-crown"></i>
+            <p>Save Your Favorite Tools</p>
+            <button>Login / Sign Up</button>
+        </div>
+    </aside>
+
+    <!-- ================= MAIN ================= -->
+    <main class="main-content">
+
+        <!-- Header -->
+        <header>
+            <div class="search-bar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search tools..." id="header-search">
+            </div>
+            <div class="nav-actions">
+                <button id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+                <button class="contact-btn"><i class="fa-solid fa-envelope"></i> Contact</button>
+            </div>
+        </header>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> /
+            <a href="alltools-index.html">All Tools</a> /
+            <span>Timestamp Converter</span>
+        </div>
+
+        <!-- Tool Title Bar -->
+        <div class="tool-title-bar">
+            <div class="tool-title-left">
+                <div class="tool-title-icon ts">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                </div>
+                <div>
+                    <h1>Timestamp Converter</h1>
+                    <p>Convert Unix timestamps to human-readable dates & vice versa</p>
+                </div>
+            </div>
+            <button class="share-btn" onclick="shareTimestamp()">
+                <i class="fa-solid fa-share-nodes"></i> Share
+            </button>
+        </div>
+
+        <!-- ================= TIMESTAMP CARD ================= -->
+        <div class="ts-card" id="tsCard">
+
+            <!-- Live Clock -->
+            <div class="live-clock" id="liveClock">
+                <div class="lc-item">
+                    <div class="lc-label">UNIX NOW</div>
+                    <div class="lc-value" id="liveUnix">0</div>
+                </div>
+                <div class="lc-divider"></div>
+                <div class="lc-item">
+                    <div class="lc-label">ISO 8601</div>
+                    <div class="lc-value iso" id="liveIso">—</div>
+                </div>
+                <div class="lc-divider"></div>
+                <div class="lc-item">
+                    <div class="lc-label">UTC</div>
+                    <div class="lc-value" id="liveUtc">—</div>
+                </div>
+            </div>
+
+            <!-- Mode Tabs -->
+            <div class="mode-tabs" id="modeTabs">
+                <button class="mode-tab active" data-mode="ts-to-date">
+                    <i class="fa-solid fa-arrow-right"></i> <span>Timestamp → Date</span>
+                </button>
+                <button class="mode-tab" data-mode="date-to-ts">
+                    <i class="fa-solid fa-arrow-left"></i> <span>Date → Timestamp</span>
+                </button>
+                <button class="mode-tab" data-mode="batch">
+                    <i class="fa-solid fa-list"></i> <span>Batch Convert</span>
+                </button>
+            </div>
+
+            <!-- Input Area -->
+            <div class="input-area">
+
+                <!-- ========== MODE: TS → DATE ========== -->
+                <div class="mode-content active" data-content="ts-to-date">
+                    <div class="input-block">
+                        <label><i class="fa-solid fa-hashtag"></i> Unix Timestamp</label>
+                        <div class="ts-input-row">
+                            <input type="text" id="tsInput" class="mono" placeholder="e.g. 1735000000 or 1735000000000" spellcheck="false" autocomplete="off">
+                            <button class="mini-btn" id="pasteTs" title="Paste">
+                                <i class="fa-solid fa-paste"></i>
+                            </button>
+                            <button class="mini-btn" id="nowTs" title="Use current time">
+                                <i class="fa-solid fa-clock"></i>
+                            </button>
+                            <button class="mini-btn" id="clearTs" title="Clear">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="input-block">
+                        <label><i class="fa-solid fa-ruler"></i> Unit</label>
+                        <div class="unit-pills" id="unitPills">
+                            <button class="unit-pill active" data-unit="auto">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i> Auto
+                            </button>
+                            <button class="unit-pill" data-unit="s">
+                                <i class="fa-solid fa-clock"></i> Seconds
+                            </button>
+                            <button class="unit-pill" data-unit="ms">
+                                <i class="fa-solid fa-bolt"></i> Milliseconds
+                            </button>
+                            <button class="unit-pill" data-unit="us">
+                                <i class="fa-solid fa-microchip"></i> Microseconds
+                            </button>
+                            <button class="unit-pill" data-unit="ns">
+                                <i class="fa-solid fa-atom"></i> Nanoseconds
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="input-block">
+                        <label><i class="fa-solid fa-globe"></i> Timezone</label>
+                        <select id="tzSelect">
+                            <!-- Populated by JS -->
+                        </select>
+                    </div>
+
+                    <div class="input-block">
+                        <label><i class="fa-solid fa-list"></i> Output Format</label>
+                        <select id="formatSelect">
+                            <option value="all">Show All Formats</option>
+                            <option value="iso">ISO 8601</option>
+                            <option value="rfc">RFC 2822</option>
+                            <option value="utc">UTC String</option>
+                            <option value="locale">Local (Locale)</option>
+                            <option value="dateOnly">Date Only</option>
+                            <option value="timeOnly">Time Only</option>
+                            <option value="relative">Relative (ago/from now)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- ========== MODE: DATE → TS ========== -->
+                <div class="mode-content" data-content="date-to-ts">
+                    <div class="input-block">
+                        <label><i class="fa-solid fa-calendar-days"></i> Date & Time</label>
+                        <input type="datetime-local" id="dateInput" step="1">
+                    </div>
+
+                    <div class="input-block">
+                        <label><i class="fa-solid fa-globe"></i> Input Timezone</label>
+                        <select id="tzInputSelect">
+                            <!-- Populated by JS -->
+                        </select>
+                    </div>
+
+                    <div class="input-block">
+                        <label><i class="fa-solid fa-list"></i> Output Format</label>
+                        <select id="tsFormatSelect">
+                            <option value="all">Show All</option>
+                            <option value="s">Seconds</option>
+                            <option value="ms">Milliseconds</option>
+                            <option value="us">Microseconds</option>
+                            <option value="ns">Nanoseconds</option>
+                        </select>
+                    </div>
+
+                    <div class="input-actions">
+                        <button class="mini-btn-wide" id="nowDate">
+                            <i class="fa-solid fa-clock"></i> Now
+                        </button>
+                        <button class="mini-btn-wide" id="clearDate">
+                            <i class="fa-solid fa-xmark"></i> Clear
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ========== MODE: BATCH ========== -->
+                <div class="mode-content" data-content="batch">
+                    <div class="input-block">
+                        <label><i class="fa-solid fa-list"></i> Batch Timestamps / Dates (one per line)</label>
+                        <textarea id="batchInput" class="big-textarea mono" placeholder="1735000000&#10;1735100000&#10;1735200000&#10;..."></textarea>
+                    </div>
+                    <div class="input-actions">
+                        <button class="mini-btn-wide" id="pasteBatch">
+                            <i class="fa-solid fa-paste"></i> Paste
+                        </button>
+                        <button class="mini-btn-wide" id="sampleBatch">
+                            <i class="fa-solid fa-flask"></i> Sample
+                        </button>
+                        <button class="mini-btn-wide" id="clearBatch">
+                            <i class="fa-solid fa-xmark"></i> Clear
+                        </button>
+                        <button class="mini-btn-wide" id="exportBatch">
+                            <i class="fa-solid fa-download"></i> CSV
+                        </button>
+                    </div>
+                </div>
+
+                <div class="error-msg" id="tsError"></div>
+
+                <!-- Actions -->
+                <div class="action-row" id="mainActions">
+                    <button class="btn primary" id="convertBtn">
+                        <i class="fa-solid fa-bolt"></i> <span id="processBtnLabel">Convert</span>
+                    </button>
+                    <button class="btn secondary" id="clearAllBtn" title="Clear all">
+                        <i class="fa-solid fa-eraser"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Output Area -->
+            <div class="output-area" id="outputArea" style="display:none;">
+
+                <!-- Hero Result -->
+                <div class="result-hero" id="resultHero">
+                    <div class="rh-label" id="rhLabel">RESULT</div>
+                    <div class="rh-value" id="rhValue">—</div>
+                    <div class="rh-sub" id="rhSub">—</div>
+                </div>
+
+                <!-- Result Grid -->
+                <div class="result-grid" id="resultGrid"></div>
+
+                <!-- Result Actions -->
+                <div class="result-actions">
+                    <button class="action-btn" id="copyResultBtn">
+                        <i class="fa-solid fa-copy"></i> Copy All
+                    </button>
+                    <button class="action-btn" id="shareResultBtn">
+                        <i class="fa-solid fa-share-nodes"></i> Share
+                    </button>
+                    <button class="action-btn" id="clearResultBtn">
+                        <i class="fa-solid fa-xmark"></i> Clear
+                    </button>
+                </div>
+            </div>
+
+            <!-- Batch Results -->
+            <div class="batch-area" id="batchArea" style="display:none;">
+                <div class="batch-header">
+                    <span><i class="fa-solid fa-list-ol"></i> Batch Results</span>
+                    <span class="batch-count" id="batchCount">0 rows</span>
+                </div>
+                <div class="batch-table-wrap">
+                    <table class="batch-table" id="batchTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Input</th>
+                                <th>Result</th>
+                            </tr>
+                        </thead>
+                        <tbody id="batchBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Quick Timestamps -->
+            <div class="quick-ts">
+                <div class="qt-header">
+                    <i class="fa-solid fa-bolt"></i> Quick Timestamps
+                </div>
+                <div class="qt-grid" id="quickTsGrid">
+                    <!-- Injected -->
+                </div>
+            </div>
+
+            <!-- History -->
+            <div class="ts-history">
+                <div class="history-hdr">
+                    <span><i class="fa-solid fa-clock-rotate-left"></i> Recent</span>
+                    <button id="clearTsHistory" title="Clear">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+                <div class="history-list" id="tsHistoryList">
+                    <div class="empty-history">No conversions yet</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Keyboard Hint -->
+        <div class="kbd-hint">
+            <span><kbd>Ctrl</kbd>+<kbd>Enter</kbd> Convert</span>
+            <span><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>C</kbd> Copy</span>
+            <span><kbd>Esc</kbd> Clear</span>
+        </div>
+
+    </main>
+
+    <!-- Toast -->
+    <div id="toast" class="toast">Message here</div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script src="timestamp-script.js"></script>
+</body>
+</html>
