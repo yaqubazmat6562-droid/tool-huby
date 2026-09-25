@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compound Interest Calculator - Tool Hub</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Compound Interest Calculator CSS -->
+    <link rel="stylesheet" href="compound-style.css">
+</head>
+<body>
+
+    <!-- ============ TOP NAVBAR ============ -->
+    <header class="top-navbar">
+        <div class="navbar-left">
+            <a href="index.html" class="back-btn" title="Back to Home">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <a href="index.html" class="navbar-logo">
+                <i class="fa-solid fa-wrench"></i>
+                <span>Tool Hub</span>
+            </a>
+        </div>
+        <div class="navbar-right">
+            <button id="theme-toggle" title="Toggle Theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+            <button class="share-btn" onclick="shareTool()" title="Share this tool">
+                <i class="fa-solid fa-share-nodes"></i> <span>Share</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ============ BREADCRUMB ============ -->
+    <div class="breadcrumb-bar">
+        <div class="breadcrumb">
+            <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+            <i class="fa-solid fa-chevron-right"></i>
+            <a href="alltools-index.html?cat=finance">Finance</a>
+            <i class="fa-solid fa-chevron-right"></i>
+            <span>Compound Interest Calculator</span>
+        </div>
+    </div>
+
+    <!-- ============ MAIN CONTENT ============ -->
+    <main class="container">
+
+        <!-- Tool Header -->
+        <div class="tool-header">
+            <div class="tool-icon">
+                <i class="fa-solid fa-chart-line"></i>
+            </div>
+            <div>
+                <h1>Compound Interest Calculator</h1>
+                <p>Calculate compound interest, maturity amount &amp; growth breakdown. With monthly contributions &amp; multiple compounding options.</p>
+            </div>
+        </div>
+
+        <!-- ============ FORMULA BANNER ============ -->
+        <div class="formula-banner">
+            <div class="formula-label">
+                <i class="fa-solid fa-square-root-variable"></i> Formula
+            </div>
+            <div class="formula-content">
+                <code>A = P(1 + r/n)<sup>nt</sup></code>
+                <span class="formula-legend">
+                    <b>A</b> = Final, <b>P</b> = Principal, <b>r</b> = Rate, <b>n</b> = Compounding/year, <b>t</b> = Time
+                </span>
+            </div>
+        </div>
+
+        <!-- ============ MAIN LAYOUT ============ -->
+        <div class="ci-layout">
+
+            <!-- ============ INPUT PANEL ============ -->
+            <div class="input-panel">
+                <div class="input-header">
+                    <h3><i class="fa-solid fa-keyboard"></i> Investment Details</h3>
+                </div>
+
+                <div class="input-grid">
+
+                    <!-- Principal -->
+                    <div class="input-field full-width">
+                        <label for="principal">
+                            <i class="fa-solid fa-money-bill-wave"></i> Initial Principal
+                            <span class="value-badge" id="principal-badge">$10,000</span>
+                        </label>
+                        <div class="input-wrap">
+                            <span class="input-prefix">$</span>
+                            <input type="number" id="principal" class="has-prefix"
+                                   value="10000" min="0" step="1000"
+                                   placeholder="Enter principal">
+                        </div>
+                        <input type="range" id="principal-slider" min="1000" max="1000000" value="10000" step="1000">
+                        <div class="range-labels">
+                            <span>$1K</span>
+                            <span>$500K</span>
+                            <span>$1M</span>
+                        </div>
+                    </div>
+
+                    <!-- Monthly Contribution -->
+                    <div class="input-field full-width">
+                        <label for="monthly-contrib">
+                            <i class="fa-solid fa-plus-circle"></i> Monthly Contribution (optional)
+                            <span class="value-badge" id="contrib-badge">$0</span>
+                        </label>
+                        <div class="input-wrap">
+                            <span class="input-prefix">$</span>
+                            <input type="number" id="monthly-contrib" class="has-prefix"
+                                   value="0" min="0" step="100"
+                                   placeholder="0">
+                        </div>
+                        <input type="range" id="contrib-slider" min="0" max="10000" value="0" step="100">
+                        <div class="range-labels">
+                            <span>$0</span>
+                            <span>$5K</span>
+                            <span>$10K</span>
+                        </div>
+                    </div>
+
+                    <!-- Interest Rate -->
+                    <div class="input-field full-width">
+                        <label for="rate">
+                            <i class="fa-solid fa-percent"></i> Annual Interest Rate
+                            <span class="value-badge" id="rate-badge">8%</span>
+                        </label>
+                        <div class="input-wrap">
+                            <input type="number" id="rate" class="has-suffix"
+                                   value="8" min="0" max="50" step="0.1"
+                                   placeholder="Enter rate">
+                            <span class="input-suffix">%</span>
+                        </div>
+                        <input type="range" id="rate-slider" min="0.1" max="25" value="8" step="0.1">
+                        <div class="range-labels">
+                            <span>0.1%</span>
+                            <span>12%</span>
+                            <span>25%</span>
+                        </div>
+                    </div>
+
+                    <!-- Time Period -->
+                    <div class="input-field full-width">
+                        <label>
+                            <i class="fa-solid fa-clock"></i> Time Period
+                            <span class="value-badge" id="time-badge">10 Years</span>
+                        </label>
+                        <div class="tenure-wrap">
+                            <input type="number" id="time-period" 
+                                   value="10" min="1" max="50" step="1">
+                            <select id="time-unit" class="select-input-sm">
+                                <option value="years" selected>Years</option>
+                                <option value="months">Months</option>
+                            </select>
+                        </div>
+                        <input type="range" id="time-slider" min="1" max="50" value="10" step="1">
+                        <div class="range-labels">
+                            <span>1Y</span>
+                            <span>25Y</span>
+                            <span>50Y</span>
+                        </div>
+                    </div>
+
+                    <!-- Compounding Frequency -->
+                    <div class="input-field full-width">
+                        <label>
+                            <i class="fa-solid fa-sync"></i> Compounding Frequency
+                        </label>
+                        <div class="freq-grid">
+                            <button class="freq-btn" data-freq="1" onclick="setFrequency(1)">
+                                <i class="fa-solid fa-calendar"></i>
+                                <span>Yearly</span>
+                                <small>1×/year</small>
+                            </button>
+                            <button class="freq-btn" data-freq="2" onclick="setFrequency(2)">
+                                <i class="fa-solid fa-calendar-week"></i>
+                                <span>Half-Yearly</span>
+                                <small>2×/year</small>
+                            </button>
+                            <button class="freq-btn" data-freq="4" onclick="setFrequency(4)">
+                                <i class="fa-solid fa-calendar-days"></i>
+                                <span>Quarterly</span>
+                                <small>4×/year</small>
+                            </button>
+                            <button class="freq-btn active" data-freq="12" onclick="setFrequency(12)">
+                                <i class="fa-solid fa-calendar-day"></i>
+                                <span>Monthly</span>
+                                <small>12×/year</small>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="input-actions">
+                    <button class="btn btn-primary btn-large" onclick="calculate()">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Calculate
+                    </button>
+                    <button class="btn btn-secondary" onclick="loadSample()">
+                        <i class="fa-solid fa-flask"></i> Sample
+                    </button>
+                    <button class="btn btn-warning" onclick="resetAll()">
+                        <i class="fa-solid fa-eraser"></i> Reset
+                    </button>
+                </div>
+            </div>
+
+            <!-- ============ RESULT PANEL ============ -->
+            <div class="result-panel">
+
+                <!-- Main Result -->
+                <div class="main-result">
+                    <div class="main-result-label">Maturity Amount</div>
+                    <div class="main-result-value" id="maturity-value">$0.00</div>
+                    <div class="main-result-sub" id="maturity-sub">—</div>
+                </div>
+
+                <!-- Donut Chart -->
+                <div class="donut-section">
+                    <div class="donut-wrapper">
+                        <svg class="donut-chart" viewBox="0 0 200 200">
+                            <circle class="donut-bg" cx="100" cy="100" r="80"></circle>
+                            <circle class="donut-principal" id="donut-principal" cx="100" cy="100" r="80"></circle>
+                            <circle class="donut-contrib" id="donut-contrib" cx="100" cy="100" r="80"></circle>
+                            <circle class="donut-interest" id="donut-interest" cx="100" cy="100" r="80"></circle>
+                        </svg>
+                        <div class="donut-center">
+                            <div class="donut-center-label">Total</div>
+                            <div class="donut-center-value" id="donut-total">$0</div>
+                        </div>
+                    </div>
+
+                    <div class="donut-legend">
+                        <div class="legend-row">
+                            <div class="legend-item">
+                                <span class="legend-dot principal"></span>
+                                <span class="legend-text">Principal</span>
+                            </div>
+                            <span class="legend-value" id="legend-principal">$0</span>
+                        </div>
+                        <div class="legend-row">
+                            <div class="legend-item">
+                                <span class="legend-dot contrib"></span>
+                                <span class="legend-text">Contributions</span>
+                            </div>
+                            <span class="legend-value" id="legend-contrib">$0</span>
+                        </div>
+                        <div class="legend-row">
+                            <div class="legend-item">
+                                <span class="legend-dot interest"></span>
+                                <span class="legend-text">Interest</span>
+                            </div>
+                            <span class="legend-value" id="legend-interest">$0</span>
+                        </div>
+                        <div class="legend-row total">
+                            <div class="legend-item">
+                                <span class="legend-dot total"></span>
+                                <span class="legend-text">Maturity Amount</span>
+                            </div>
+                            <span class="legend-value" id="legend-total">$0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-sack-dollar"></i></div>
+                        <div class="stat-label">Total Invested</div>
+                        <div class="stat-value" id="stat-invested">$0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon highlight"><i class="fa-solid fa-percent"></i></div>
+                        <div class="stat-label">Interest Earned</div>
+                        <div class="stat-value highlight" id="stat-interest">$0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-arrow-trend-up"></i></div>
+                        <div class="stat-label">Growth %</div>
+                        <div class="stat-value" id="stat-growth">0%</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-calendar-check"></i></div>
+                        <div class="stat-label">Effective Rate</div>
+                        <div class="stat-value" id="stat-effective">0%</div>
+                    </div>
+                </div>
+
+                <!-- Action Row -->
+                <div class="result-actions">
+                    <button class="btn btn-success" onclick="copyResult()">
+                        <i class="fa-solid fa-copy"></i> Copy
+                    </button>
+                    <button class="btn btn-info" onclick="saveToHistory()">
+                        <i class="fa-solid fa-bookmark"></i> Save
+                    </button>
+                    <button class="btn btn-secondary" onclick="shareResult()">
+                        <i class="fa-solid fa-share-nodes"></i> Share
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ============ YEARLY BREAKDOWN ============ -->
+        <div class="breakdown-panel" id="breakdown-panel" style="display: none;">
+            <div class="breakdown-header">
+                <h3><i class="fa-solid fa-table-list"></i> Yearly Growth Breakdown</h3>
+                <div class="breakdown-actions">
+                    <span class="breakdown-info" id="breakdown-info">—</span>
+                    <button class="mini-btn" onclick="downloadBreakdownCSV()" title="Download CSV">
+                        <i class="fa-solid fa-download"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="breakdown-table-wrap">
+                <table class="breakdown-table">
+                    <thead>
+                        <tr>
+                            <th>Year</th>
+                            <th>Opening Balance</th>
+                            <th>Contributed</th>
+                            <th>Interest Earned</th>
+                            <th>Total Interest</th>
+                            <th>Closing Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody id="breakdown-body">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ============ COMPARISON PANEL ============ -->
+        <div class="comparison-panel" id="comparison-panel" style="display: none;">
+            <div class="comparison-header">
+                <h3><i class="fa-solid fa-code-compare"></i> Compounding Frequency Comparison</h3>
+                <span class="hint">Same investment, different frequencies</span>
+            </div>
+            <div class="comparison-grid" id="comparison-grid">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+
+        <!-- ============ QUICK PRESETS ============ -->
+        <div class="presets-panel">
+            <div class="presets-header">
+                <h3><i class="fa-solid fa-bolt"></i> Quick Presets</h3>
+                <span class="hint">Common investment scenarios</span>
+            </div>
+            <div class="presets-grid">
+                <button class="preset-btn" onclick="applyPreset('sip')">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <div>
+                        <span class="preset-title">SIP Investment</span>
+                        <small>$500/mo • 12% • 10Y</small>
+                    </div>
+                </button>
+                <button class="preset-btn" onclick="applyPreset('fd')">
+                    <i class="fa-solid fa-vault"></i>
+                    <div>
+                        <span class="preset-title">Fixed Deposit</span>
+                        <small>$50K • 7% • 5Y</small>
+                    </div>
+                </button>
+                <button class="preset-btn" onclick="applyPreset('retirement')">
+                    <i class="fa-solid fa-umbrella-beach"></i>
+                    <div>
+                        <span class="preset-title">Retirement</span>
+                        <small>$100K • 8% • 30Y</small>
+                    </div>
+                </button>
+                <button class="preset-btn" onclick="applyPreset('education')">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    <div>
+                        <span class="preset-title">Education Fund</span>
+                        <small>$10K + $200/mo • 10% • 15Y</small>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <!-- ============ HISTORY ============ -->
+        <div class="history-panel" id="history-panel" style="display: none;">
+            <div class="history-header">
+                <h3><i class="fa-solid fa-clock-rotate-left"></i> Saved Calculations</h3>
+                <button class="clear-history-btn" onclick="clearHistory()">
+                    <i class="fa-solid fa-trash"></i> Clear
+                </button>
+            </div>
+            <div class="history-list" id="history-list"></div>
+        </div>
+
+        <!-- Help Section -->
+        <div class="help-box">
+            <h4><i class="fa-solid fa-circle-question"></i> How to Use Compound Interest Calculator</h4>
+            <ul>
+                <li><b>Initial Principal</b> — starting investment amount enter karein.</li>
+                <li><b>Monthly Contribution</b> (optional) — har mahine kitna add karna hai.</li>
+                <li><b>Interest Rate</b> (annual) — expected return rate.</li>
+                <li><b>Time Period</b> — years ya months mein select karein.</li>
+                <li><b>Compounding Frequency</b> — Yearly, Half-Yearly, Quarterly, Monthly.</li>
+                <li><b>Live Calculation</b> — koi bhi value change karte hi result update.</li>
+                <li><b>Maturity Amount</b>, <b>Total Interest</b>, <b>Growth %</b> sab visible.</li>
+                <li><b>Donut Chart</b> — Principal + Contributions vs Interest ka visual.</li>
+                <li><b>Yearly Breakdown</b> — Har saal ka growth aur cumulative interest.</li>
+                <li><b>Frequency Comparison</b> — Same investment with different compounding.</li>
+                <li><b>CSV Download</b> se breakdown export karein.</li>
+                <li><b>Effective Annual Rate</b> — compounding ka asar dekhein.</li>
+                <li>Sab kuch <b>client-side</b> hai — koi data server par nahi jata.</li>
+            </ul>
+        </div>
+
+    </main>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="footer">
+        <p>© 2025 Tool Hub — All Your Online Tools in One Place</p>
+    </footer>
+
+    <!-- ============ TOAST ============ -->
+    <div id="toast" class="toast">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toast-message">Message</span>
+    </div>
+
+    <!-- Compound Interest Calculator JS -->
+    <script src="compound-script.js"></script>
+</body>
+</html>

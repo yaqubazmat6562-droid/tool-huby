@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan/EMI Calculator - Tool Hub</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- EMI Calculator CSS -->
+    <link rel="stylesheet" href="emi-style.css">
+</head>
+<body>
+
+    <!-- ============ TOP NAVBAR ============ -->
+    <header class="top-navbar">
+        <div class="navbar-left">
+            <a href="index.html" class="back-btn" title="Back to Home">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <a href="index.html" class="navbar-logo">
+                <i class="fa-solid fa-wrench"></i>
+                <span>Tool Hub</span>
+            </a>
+        </div>
+        <div class="navbar-right">
+            <button id="theme-toggle" title="Toggle Theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+            <button class="share-btn" onclick="shareTool()" title="Share this tool">
+                <i class="fa-solid fa-share-nodes"></i> <span>Share</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ============ BREADCRUMB ============ -->
+    <div class="breadcrumb-bar">
+        <div class="breadcrumb">
+            <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+            <i class="fa-solid fa-chevron-right"></i>
+            <a href="alltools-index.html?cat=finance">Finance</a>
+            <i class="fa-solid fa-chevron-right"></i>
+            <span>Loan/EMI Calculator</span>
+        </div>
+    </div>
+
+    <!-- ============ MAIN CONTENT ============ -->
+    <main class="container">
+
+        <!-- Tool Header -->
+        <div class="tool-header">
+            <div class="tool-icon">
+                <i class="fa-solid fa-building-columns"></i>
+            </div>
+            <div>
+                <h1>Loan/EMI Calculator</h1>
+                <p>Calculate monthly EMI, total interest, total payment &amp; amortization schedule for home, car, personal or any loan.</p>
+            </div>
+        </div>
+
+        <!-- ============ LOAN TYPE TABS ============ -->
+        <div class="type-panel">
+            <div class="type-tabs">
+                <button class="type-tab active" data-type="home" onclick="setLoanType('home')">
+                    <i class="fa-solid fa-house-chimney"></i>
+                    <span>Home</span>
+                </button>
+                <button class="type-tab" data-type="car" onclick="setLoanType('car')">
+                    <i class="fa-solid fa-car"></i>
+                    <span>Car</span>
+                </button>
+                <button class="type-tab" data-type="personal" onclick="setLoanType('personal')">
+                    <i class="fa-solid fa-user"></i>
+                    <span>Personal</span>
+                </button>
+                <button class="type-tab" data-type="education" onclick="setLoanType('education')">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    <span>Education</span>
+                </button>
+                <button class="type-tab" data-type="business" onclick="setLoanType('business')">
+                    <i class="fa-solid fa-briefcase"></i>
+                    <span>Business</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ============ MAIN LAYOUT ============ -->
+        <div class="emi-layout">
+
+            <!-- ============ INPUT PANEL ============ -->
+            <div class="input-panel">
+                <div class="input-header">
+                    <h3><i class="fa-solid fa-keyboard"></i> Loan Details</h3>
+                </div>
+
+                <div class="input-grid">
+
+                    <!-- Loan Amount -->
+                    <div class="input-field full-width">
+                        <label for="loan-amount">
+                            <i class="fa-solid fa-money-bill-wave"></i> Loan Amount
+                            <span class="value-badge" id="amount-badge">$100,000</span>
+                        </label>
+                        <div class="input-wrap">
+                            <span class="input-prefix">$</span>
+                            <input type="number" id="loan-amount" class="has-prefix"
+                                   value="100000" min="0" step="1000"
+                                   placeholder="Enter loan amount">
+                        </div>
+                        <input type="range" id="loan-amount-slider" min="1000" max="1000000" value="100000" step="1000">
+                        <div class="range-labels">
+                            <span>$1K</span>
+                            <span>$500K</span>
+                            <span>$1M</span>
+                        </div>
+                    </div>
+
+                    <!-- Interest Rate -->
+                    <div class="input-field full-width">
+                        <label for="interest-rate">
+                            <i class="fa-solid fa-percent"></i> Interest Rate (Annual)
+                            <span class="value-badge" id="rate-badge">8.5%</span>
+                        </label>
+                        <div class="input-wrap">
+                            <input type="number" id="interest-rate" class="has-suffix"
+                                   value="8.5" min="0" max="50" step="0.1"
+                                   placeholder="Enter interest rate">
+                            <span class="input-suffix">%</span>
+                        </div>
+                        <input type="range" id="interest-rate-slider" min="0.1" max="25" value="8.5" step="0.1">
+                        <div class="range-labels">
+                            <span>0.1%</span>
+                            <span>12%</span>
+                            <span>25%</span>
+                        </div>
+                    </div>
+
+                    <!-- Loan Tenure -->
+                    <div class="input-field full-width">
+                        <label>
+                            <i class="fa-solid fa-calendar-days"></i> Loan Tenure
+                            <span class="value-badge" id="tenure-badge">5 Years</span>
+                        </label>
+                        <div class="tenure-wrap">
+                            <input type="number" id="loan-tenure" 
+                                   value="5" min="1" max="40" step="1">
+                            <select id="tenure-unit" class="select-input-sm">
+                                <option value="years" selected>Years</option>
+                                <option value="months">Months</option>
+                            </select>
+                        </div>
+                        <input type="range" id="loan-tenure-slider" min="1" max="30" value="5" step="1">
+                        <div class="range-labels">
+                            <span>1Y</span>
+                            <span>15Y</span>
+                            <span>30Y</span>
+                        </div>
+                    </div>
+
+                    <!-- Extra: Processing Fee (Advanced) -->
+                    <div class="input-field full-width">
+                        <label for="processing-fee">
+                            <i class="fa-solid fa-receipt"></i> Processing Fee (optional)
+                        </label>
+                        <div class="input-wrap">
+                            <span class="input-prefix">$</span>
+                            <input type="number" id="processing-fee" class="has-prefix"
+                                   value="0" min="0" step="100"
+                                   placeholder="0">
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="input-actions">
+                    <button class="btn btn-primary btn-large" onclick="calculateEMI()">
+                        <i class="fa-solid fa-calculator"></i> Calculate EMI
+                    </button>
+                    <button class="btn btn-secondary" onclick="loadSample()">
+                        <i class="fa-solid fa-flask"></i> Sample
+                    </button>
+                    <button class="btn btn-warning" onclick="resetAll()">
+                        <i class="fa-solid fa-eraser"></i> Reset
+                    </button>
+                </div>
+            </div>
+
+            <!-- ============ RESULT PANEL ============ -->
+            <div class="result-panel">
+
+                <!-- EMI Hero -->
+                <div class="emi-hero">
+                    <div class="emi-hero-label">Monthly EMI</div>
+                    <div class="emi-hero-value" id="emi-value">$0.00</div>
+                    <div class="emi-hero-sub" id="emi-sub">—</div>
+                </div>
+
+                <!-- Donut Chart -->
+                <div class="donut-section">
+                    <div class="donut-wrapper">
+                        <svg class="donut-chart" viewBox="0 0 200 200">
+                            <circle class="donut-bg" cx="100" cy="100" r="80"></circle>
+                            <circle class="donut-principal" id="donut-principal" cx="100" cy="100" r="80"></circle>
+                            <circle class="donut-interest" id="donut-interest" cx="100" cy="100" r="80"></circle>
+                        </svg>
+                        <div class="donut-center">
+                            <div class="donut-center-label">Total</div>
+                            <div class="donut-center-value" id="donut-total">$0</div>
+                        </div>
+                    </div>
+
+                    <div class="donut-legend">
+                        <div class="legend-row">
+                            <div class="legend-item">
+                                <span class="legend-dot principal"></span>
+                                <span class="legend-text">Principal</span>
+                            </div>
+                            <span class="legend-value" id="legend-principal">$0</span>
+                        </div>
+                        <div class="legend-row">
+                            <div class="legend-item">
+                                <span class="legend-dot interest"></span>
+                                <span class="legend-text">Interest</span>
+                            </div>
+                            <span class="legend-value" id="legend-interest">$0</span>
+                        </div>
+                        <div class="legend-row total">
+                            <div class="legend-item">
+                                <span class="legend-dot total"></span>
+                                <span class="legend-text">Total Payment</span>
+                            </div>
+                            <span class="legend-value" id="legend-total">$0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-money-bill-wave"></i></div>
+                        <div class="stat-label">Principal</div>
+                        <div class="stat-value" id="stat-principal">$0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon highlight"><i class="fa-solid fa-percent"></i></div>
+                        <div class="stat-label">Total Interest</div>
+                        <div class="stat-value highlight" id="stat-interest">$0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-sack-dollar"></i></div>
+                        <div class="stat-label">Total Payment</div>
+                        <div class="stat-value" id="stat-total">$0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-calendar-check"></i></div>
+                        <div class="stat-label">Total Months</div>
+                        <div class="stat-value" id="stat-months">0</div>
+                    </div>
+                </div>
+
+                <!-- Extra Stats (Advanced) -->
+                <div class="extra-stats" id="extra-stats" style="display: none;">
+                    <div class="extra-row">
+                        <span><i class="fa-solid fa-receipt"></i> Processing Fee</span>
+                        <b id="extra-fee">$0</b>
+                    </div>
+                    <div class="extra-row">
+                        <span><i class="fa-solid fa-hand-holding-dollar"></i> Effective Cost</span>
+                        <b id="extra-effective">$0</b>
+                    </div>
+                    <div class="extra-row">
+                        <span><i class="fa-solid fa-percent"></i> Interest Percentage</span>
+                        <b id="extra-percent">0%</b>
+                    </div>
+                </div>
+
+                <!-- Action Row -->
+                <div class="result-actions">
+                    <button class="btn btn-success" onclick="copyResult()">
+                        <i class="fa-solid fa-copy"></i> Copy Result
+                    </button>
+                    <button class="btn btn-info" onclick="toggleSchedule()">
+                        <i class="fa-solid fa-table-list"></i> Schedule
+                    </button>
+                    <button class="btn btn-secondary" onclick="shareResult()">
+                        <i class="fa-solid fa-share-nodes"></i> Share
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ============ AMORTIZATION SCHEDULE ============ -->
+        <div class="schedule-panel" id="schedule-panel" style="display: none;">
+            <div class="schedule-header">
+                <h3><i class="fa-solid fa-table-list"></i> Amortization Schedule</h3>
+                <div class="schedule-actions">
+                    <span class="schedule-info" id="schedule-info">—</span>
+                    <button class="mini-btn" onclick="downloadScheduleCSV()" title="Download CSV">
+                        <i class="fa-solid fa-download"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="schedule-table-wrap">
+                <table class="schedule-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Month</th>
+                            <th>EMI</th>
+                            <th>Principal</th>
+                            <th>Interest</th>
+                            <th>Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody id="schedule-body">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="schedule-footer">
+                <button class="btn btn-secondary" id="load-more-btn" onclick="loadMoreSchedule()" style="display: none;">
+                    <i class="fa-solid fa-plus"></i> Load More
+                </button>
+            </div>
+        </div>
+
+        <!-- ============ QUICK PRESETS ============ -->
+        <div class="presets-panel">
+            <div class="presets-header">
+                <h3><i class="fa-solid fa-bolt"></i> Quick Presets</h3>
+                <span class="hint">Common loan scenarios</span>
+            </div>
+            <div class="presets-grid">
+                <button class="preset-btn" onclick="applyPreset('home20')">
+                    <i class="fa-solid fa-house-chimney"></i>
+                    <div>
+                        <span class="preset-title">Home Loan</span>
+                        <small>$200K • 7% • 20Y</small>
+                    </div>
+                </button>
+                <button class="preset-btn" onclick="applyPreset('car5')">
+                    <i class="fa-solid fa-car"></i>
+                    <div>
+                        <span class="preset-title">Car Loan</span>
+                        <small>$30K • 9% • 5Y</small>
+                    </div>
+                </button>
+                <button class="preset-btn" onclick="applyPreset('personal3')">
+                    <i class="fa-solid fa-user"></i>
+                    <div>
+                        <span class="preset-title">Personal Loan</span>
+                        <small>$10K • 12% • 3Y</small>
+                    </div>
+                </button>
+                <button class="preset-btn" onclick="applyPreset('education4')">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    <div>
+                        <span class="preset-title">Education Loan</span>
+                        <small>$50K • 6% • 10Y</small>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <!-- ============ SAVED LOANS ============ -->
+        <div class="saved-panel" id="saved-panel" style="display: none;">
+            <div class="saved-header">
+                <h3><i class="fa-solid fa-bookmark"></i> Saved Calculations</h3>
+                <button class="clear-saved-btn" onclick="clearAllSaved()">
+                    <i class="fa-solid fa-trash"></i> Clear All
+                </button>
+            </div>
+            <div class="saved-list" id="saved-list"></div>
+        </div>
+
+        <!-- Help Section -->
+        <div class="help-box">
+            <h4><i class="fa-solid fa-circle-question"></i> How to Use Loan/EMI Calculator</h4>
+            <ul>
+                <li><b>Loan Type</b> select karein: Home, Car, Personal, Education ya Business.</li>
+                <li><b>Loan Amount</b> enter karein ya slider se adjust karein.</li>
+                <li><b>Interest Rate</b> (annual) — bank jo rate de raha hai wo enter karein.</li>
+                <li><b>Loan Tenure</b> — years ya months mein select karein.</li>
+                <li><b>Processing Fee</b> (optional) — bank ke charges se effective cost dekhein.</li>
+                <li><b>Calculate EMI</b> button dabayein — instant result milega.</li>
+                <li><b>Monthly EMI</b>, <b>Total Interest</b>, <b>Total Payment</b> sab visible.</li>
+                <li><b>Donut Chart</b> principal vs interest ka visual breakdown.</li>
+                <li><b>Amortization Schedule</b> — har month ka breakdown (EMI, Principal, Interest, Balance).</li>
+                <li><b>CSV Download</b> se poora schedule export karein.</li>
+                <li><b>Copy Result</b> se summary clipboard mein.</li>
+                <li><b>Quick Presets</b> se common loan scenarios ek click mein test karein.</li>
+                <li>Sab kuch <b>client-side</b> hai — koi data server par nahi jata.</li>
+            </ul>
+        </div>
+
+    </main>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="footer">
+        <p>© 2025 Tool Hub — All Your Online Tools in One Place</p>
+    </footer>
+
+    <!-- ============ TOAST ============ -->
+    <div id="toast" class="toast">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toast-message">Message</span>
+    </div>
+
+    <!-- EMI Calculator JS -->
+    <script src="emi-script.js"></script>
+</body>
+</html>

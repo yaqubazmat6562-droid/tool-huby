@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duplicate Line Remover - Tool Hub</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Duplicate Line Remover CSS -->
+    <link rel="stylesheet" href="dupe-style.css">
+</head>
+<body>
+
+    <!-- ============ TOP NAVBAR ============ -->
+    <header class="top-navbar">
+        <div class="navbar-left">
+            <a href="index.html" class="back-btn" title="Back to Home">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <a href="index.html" class="navbar-logo">
+                <i class="fa-solid fa-wrench"></i>
+                <span>Tool Hub</span>
+            </a>
+        </div>
+        <div class="navbar-right">
+            <button id="theme-toggle" title="Toggle Theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+            <button class="share-btn" onclick="shareTool()" title="Share this tool">
+                <i class="fa-solid fa-share-nodes"></i> <span>Share</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ============ BREADCRUMB ============ -->
+    <div class="breadcrumb-bar">
+        <div class="breadcrumb">
+            <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+            <i class="fa-solid fa-chevron-right"></i>
+            <a href="alltools-index.html?cat=text">Text Tools</a>
+            <i class="fa-solid fa-chevron-right"></i>
+            <span>Duplicate Line Remover</span>
+        </div>
+    </div>
+
+    <!-- ============ MAIN CONTENT ============ -->
+    <main class="container">
+
+        <!-- Tool Header -->
+        <div class="tool-header">
+            <div class="tool-icon">
+                <i class="fa-solid fa-clone"></i>
+            </div>
+            <div>
+                <h1>Duplicate Line Remover</h1>
+                <p>Remove duplicate lines instantly with case-insensitive, trim, keep-first/last &amp; empty-line options. 100% free &amp; private.</p>
+            </div>
+        </div>
+
+        <!-- ============ QUICK ACTIONS ============ -->
+        <div class="quick-actions-panel">
+            <div class="quick-header">
+                <h3><i class="fa-solid fa-bolt"></i> Quick Actions</h3>
+                <span class="hint">One-click cleanup presets</span>
+            </div>
+            <div class="quick-grid">
+                <button class="quick-btn active" onclick="quickAction('basic')">
+                    <i class="fa-solid fa-clone"></i>
+                    <span>Basic Dedupe</span>
+                    <small>Exact duplicates only</small>
+                </button>
+                <button class="quick-btn" onclick="quickAction('smart')">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <span>Smart Clean</span>
+                    <small>Trim + case-insensitive</small>
+                </button>
+                <button class="quick-btn" onclick="quickAction('aggressive')">
+                    <i class="fa-solid fa-broom"></i>
+                    <span>Aggressive</span>
+                    <small>Everything + empty lines</small>
+                </button>
+                <button class="quick-btn" onclick="quickAction('sort')">
+                    <i class="fa-solid fa-arrow-down-a-z"></i>
+                    <span>Dedupe + Sort</span>
+                    <small>Remove &amp; sort A-Z</small>
+                </button>
+            </div>
+        </div>
+
+        <!-- ============ ADVANCED OPTIONS ============ -->
+        <div class="options-panel">
+            <div class="options-header" onclick="toggleOptions()">
+                <h3><i class="fa-solid fa-sliders"></i> Advanced Options</h3>
+                <button class="toggle-btn" id="options-toggle">
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+            </div>
+
+            <div class="options-body" id="options-body">
+                <div class="options-grid">
+                    <label class="option-card">
+                        <input type="checkbox" id="opt-case-insensitive" onchange="processText()">
+                        <span class="option-check"></span>
+                        <div class="option-content">
+                            <div class="option-title">
+                                <i class="fa-solid fa-a"></i> Case-Insensitive
+                            </div>
+                            <div class="option-desc">"Hello" aur "hello" ko same treat karein</div>
+                        </div>
+                    </label>
+
+                    <label class="option-card">
+                        <input type="checkbox" id="opt-trim" onchange="processText()">
+                        <span class="option-check"></span>
+                        <div class="option-content">
+                            <div class="option-title">
+                                <i class="fa-solid fa-crop-simple"></i> Trim Whitespace
+                            </div>
+                            <div class="option-desc">Compare se pehle leading/trailing spaces hatayein</div>
+                        </div>
+                    </label>
+
+                    <label class="option-card">
+                        <input type="checkbox" id="opt-remove-empty" checked onchange="processText()">
+                        <span class="option-check"></span>
+                        <div class="option-content">
+                            <div class="option-title">
+                                <i class="fa-solid fa-align-justify"></i> Remove Empty Lines
+                            </div>
+                            <div class="option-desc">Khali lines ko bilkul hata dein</div>
+                        </div>
+                    </label>
+
+                    <label class="option-card">
+                        <input type="checkbox" id="opt-sort-result" onchange="processText()">
+                        <span class="option-check"></span>
+                        <div class="option-content">
+                            <div class="option-title">
+                                <i class="fa-solid fa-arrow-down-a-z"></i> Sort Result (A→Z)
+                            </div>
+                            <div class="option-desc">Dedupe ke baad alphabetically sort karein</div>
+                        </div>
+                    </label>
+
+                    <label class="option-card">
+                        <input type="checkbox" id="opt-auto-process" checked onchange="processText()">
+                        <span class="option-check"></span>
+                        <div class="option-content">
+                            <div class="option-title">
+                                <i class="fa-solid fa-bolt"></i> Auto-Process
+                            </div>
+                            <div class="option-desc">Text badalte hi automatically dedupe ho</div>
+                        </div>
+                    </label>
+
+                    <label class="option-card">
+                        <input type="checkbox" id="opt-preserve-order" checked onchange="processText()">
+                        <span class="option-check"></span>
+                        <div class="option-content">
+                            <div class="option-title">
+                                <i class="fa-solid fa-list-ol"></i> Preserve Original Order
+                            </div>
+                            <div class="option-desc">Pehli occurrence ki tarteeb barqarar rakhein</div>
+                        </div>
+                    </label>
+                </div>
+
+                <!-- Keep Mode -->
+                <div class="extra-options-row">
+                    <label class="extra-label">
+                        <i class="fa-solid fa-bookmark"></i> Keep which occurrence?
+                    </label>
+                    <div class="keep-modes">
+                        <label class="radio-card">
+                            <input type="radio" name="keep-mode" value="first" checked onchange="processText()">
+                            <span class="radio-check"></span>
+                            <span class="radio-label">Keep First</span>
+                        </label>
+                        <label class="radio-card">
+                            <input type="radio" name="keep-mode" value="last" onchange="processText()">
+                            <span class="radio-check"></span>
+                            <span class="radio-label">Keep Last</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Separator Mode -->
+                <div class="extra-options-row">
+                    <label class="extra-label">
+                        <i class="fa-solid fa-grip-lines"></i> Preserve blank lines between groups
+                    </label>
+                    <div class="separator-row">
+                        <label class="switch">
+                            <input type="checkbox" id="opt-keep-separator" onchange="processText()">
+                            <span class="slider"></span>
+                        </label>
+                        <span class="separator-hint">Blank lines ko groups ke beech me rakhein</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ STATS BAR ============ -->
+        <div class="stats-bar">
+            <div class="stat-item">
+                <i class="fa-solid fa-list"></i>
+                <div>
+                    <div class="stat-label">Input Lines</div>
+                    <div class="stat-value" id="stat-input-lines">0</div>
+                </div>
+            </div>
+            <div class="stat-item">
+                <i class="fa-solid fa-check-double"></i>
+                <div>
+                    <div class="stat-label">Unique Lines</div>
+                    <div class="stat-value" id="stat-output-lines">0</div>
+                </div>
+            </div>
+            <div class="stat-item highlight-danger">
+                <i class="fa-solid fa-clone"></i>
+                <div>
+                    <div class="stat-label">Duplicates</div>
+                    <div class="stat-value" id="stat-dupes">0</div>
+                </div>
+            </div>
+            <div class="stat-item highlight">
+                <i class="fa-solid fa-percent"></i>
+                <div>
+                    <div class="stat-label">Reduction</div>
+                    <div class="stat-value" id="stat-reduction">0%</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ EDITOR LAYOUT ============ -->
+        <div class="editor-layout">
+
+            <!-- Input Panel -->
+            <div class="editor-panel">
+                <div class="panel-header">
+                    <div class="panel-title">
+                        <i class="fa-solid fa-keyboard"></i> Input Lines
+                        <span class="input-badge" id="input-badge">0</span>
+                    </div>
+                    <div class="panel-actions">
+                        <button class="mini-btn" onclick="pasteText()" title="Paste">
+                            <i class="fa-solid fa-paste"></i>
+                        </button>
+                        <button class="mini-btn" onclick="loadSample()" title="Sample">
+                            <i class="fa-solid fa-flask"></i>
+                        </button>
+                        <button class="mini-btn" onclick="clearInput()" title="Clear">
+                            <i class="fa-solid fa-eraser"></i>
+                        </button>
+                    </div>
+                </div>
+                <textarea 
+                    id="dupe-input" 
+                    class="dupe-textarea" 
+                    placeholder="Paste lines here with duplicates...&#10;&#10;Example:&#10;apple&#10;banana&#10;apple&#10;cherry&#10;banana&#10;apple"
+                    spellcheck="false"
+                ></textarea>
+                <div class="panel-footer">
+                    <span><i class="fa-solid fa-list"></i> <b id="input-lines">0</b> lines</span>
+                    <span><i class="fa-solid fa-text-width"></i> <b id="input-chars">0</b> chars</span>
+                </div>
+            </div>
+
+            <!-- Arrow (Desktop) -->
+            <div class="arrow-divider">
+                <i class="fa-solid fa-arrow-right"></i>
+            </div>
+
+            <!-- Output Panel -->
+            <div class="editor-panel output-panel">
+                <div class="panel-header">
+                    <div class="panel-title">
+                        <i class="fa-solid fa-file-code"></i> Unique Output
+                        <span class="output-badge" id="output-badge">CLEAN</span>
+                    </div>
+                    <div class="panel-actions">
+                        <button class="mini-btn" onclick="copyOutput()" title="Copy">
+                            <i class="fa-solid fa-copy"></i>
+                        </button>
+                        <button class="mini-btn" onclick="downloadOutput()" title="Download">
+                            <i class="fa-solid fa-download"></i>
+                        </button>
+                        <button class="mini-btn" onclick="useAsInput()" title="Use as input">
+                            <i class="fa-solid fa-arrow-up"></i>
+                        </button>
+                    </div>
+                </div>
+                <textarea 
+                    id="dupe-output" 
+                    class="dupe-textarea" 
+                    placeholder="Unique lines will appear here..."
+                    spellcheck="false"
+                    readonly
+                ></textarea>
+                <div class="panel-footer">
+                    <span><i class="fa-solid fa-list"></i> <b id="output-lines">0</b> lines</span>
+                    <span><i class="fa-solid fa-text-width"></i> <b id="output-chars">0</b> chars</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ============ ACTION ROW ============ -->
+        <div class="action-row">
+            <button class="btn btn-primary btn-large" onclick="processText()">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Remove Duplicates
+            </button>
+            <button class="btn btn-success" onclick="copyOutput()">
+                <i class="fa-solid fa-copy"></i> Copy Result
+            </button>
+            <button class="btn btn-info" onclick="downloadOutput()">
+                <i class="fa-solid fa-download"></i> Download
+            </button>
+            <button class="btn btn-secondary" onclick="useAsInput()">
+                <i class="fa-solid fa-arrow-up"></i> Reuse
+            </button>
+            <button class="btn btn-warning" onclick="clearAll()">
+                <i class="fa-solid fa-eraser"></i> Clear All
+            </button>
+        </div>
+
+        <!-- ============ DUPLICATE PREVIEW ============ -->
+        <div class="dupes-panel" id="dupes-panel" style="display: none;">
+            <div class="dupes-header">
+                <h3><i class="fa-solid fa-magnifying-glass-chart"></i> Duplicate Analysis</h3>
+                <span class="hint">Most frequent duplicates</span>
+            </div>
+            <div class="dupes-grid" id="dupes-grid"></div>
+        </div>
+
+        <!-- ============ QUICK EXAMPLES ============ -->
+        <div class="examples-panel">
+            <div class="examples-header">
+                <h3><i class="fa-solid fa-flask"></i> Quick Examples</h3>
+                <span class="hint">Click to try with sample data</span>
+            </div>
+            <div class="examples-grid">
+                <button class="example-btn" onclick="tryExample('simple')">
+                    <i class="fa-solid fa-clone"></i>
+                    <span>Simple Dupes</span>
+                </button>
+                <button class="example-btn" onclick="tryExample('case')">
+                    <i class="fa-solid fa-font"></i>
+                    <span>Case Variants</span>
+                </button>
+                <button class="example-btn" onclick="tryExample('spaces')">
+                    <i class="fa-solid fa-arrows-left-right"></i>
+                    <span>With Spaces</span>
+                </button>
+                <button class="example-btn" onclick="tryExample('email')">
+                    <i class="fa-solid fa-envelope"></i>
+                    <span>Email List</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Help Section -->
+        <div class="help-box">
+            <h4><i class="fa-solid fa-circle-question"></i> How to Use Duplicate Line Remover</h4>
+            <ul>
+                <li>Apni lines <b>Input</b> box mein paste karein (ek line ek row).</li>
+                <li><b>Quick Actions</b> se one-click preset apply karein:
+                    <br>• <b>Basic Dedupe</b> — exact duplicates hatayein
+                    <br>• <b>Smart Clean</b> — trim + case-insensitive dedupe
+                    <br>• <b>Aggressive</b> — sab kuch + empty lines
+                    <br>• <b>Dedupe + Sort</b> — remove aur sort A-Z
+                </li>
+                <li><b>Advanced Options</b> se fine-tune karein:
+                    <br>• <b>Case-Insensitive</b> — "Hello" aur "hello" same treat
+                    <br>• <b>Trim Whitespace</b> — compare se pehle spaces hatayein
+                    <br>• <b>Remove Empty Lines</b> — khali lines bilkul hata dein
+                    <br>• <b>Sort Result</b> — result ko A-Z sort karein
+                    <br>• <b>Preserve Original Order</b> — pehli occurrence ki jagah barqarar
+                </li>
+                <li><b>Keep Mode</b>: <b>First</b> — pehli occurrence rakho; <b>Last</b> — aakhri rakho.</li>
+                <li><b>Preserve Blank Lines</b> — groups ke beech blank line rakhein.</li>
+                <li><b>Duplicate Analysis</b> mein dekhein kaunse lines sabse zyada repeat ho rahe hain.</li>
+                <li><b>Auto-Process</b> on hone par typing ke saath hi dedupe hoga.</li>
+                <li><b>Stats bar</b> mein dekhein kitni lines remove hui aur kitna % reduction hua.</li>
+                <li>Sab kuch <b>client-side</b> hai — aapka data kabhi server par nahi jata.</li>
+            </ul>
+        </div>
+
+    </main>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="footer">
+        <p>© 2025 Tool Hub — All Your Online Tools in One Place</p>
+    </footer>
+
+    <!-- ============ TOAST ============ -->
+    <div id="toast" class="toast">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toast-message">Message</span>
+    </div>
+
+    <!-- Duplicate Line Remover JS -->
+    <script src="dupe-script.js"></script>
+</body>
+</html>

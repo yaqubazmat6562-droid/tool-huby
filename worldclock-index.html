@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World Clock - Tool Hub</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- World Clock CSS -->
+    <link rel="stylesheet" href="worldclock-style.css">
+</head>
+<body>
+
+    <!-- ============ TOP NAVBAR ============ -->
+    <header class="top-navbar">
+        <div class="navbar-left">
+            <a href="index.html" class="back-btn" title="Back to Home">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <a href="index.html" class="navbar-logo">
+                <i class="fa-solid fa-wrench"></i>
+                <span>Tool Hub</span>
+            </a>
+        </div>
+        <div class="navbar-right">
+            <button id="theme-toggle" title="Toggle Theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+            <button class="share-btn" onclick="shareTool()" title="Share this tool">
+                <i class="fa-solid fa-share-nodes"></i> <span>Share</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ============ BREADCRUMB ============ -->
+    <div class="breadcrumb-bar">
+        <div class="breadcrumb">
+            <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+            <i class="fa-solid fa-chevron-right"></i>
+            <a href="alltools-index.html?cat=date">Date &amp; Time</a>
+            <i class="fa-solid fa-chevron-right"></i>
+            <span>World Clock</span>
+        </div>
+    </div>
+
+    <!-- ============ MAIN CONTENT ============ -->
+    <main class="container">
+
+        <!-- Tool Header -->
+        <div class="tool-header">
+            <div class="tool-icon">
+                <i class="fa-solid fa-globe"></i>
+            </div>
+            <div>
+                <h1>World Clock</h1>
+                <p>Check current time in any city worldwide. Live seconds, day/night indicator &amp; timezone offset — all in one place.</p>
+            </div>
+        </div>
+
+        <!-- ============ HERO CLOCK (Local Time) ============ -->
+        <div class="hero-clock">
+            <div class="hero-clock-header">
+                <div class="hero-location">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <span id="local-city">Your Location</span>
+                </div>
+                <button class="hero-toggle" onclick="toggleFormat()" title="Toggle 12/24 hour">
+                    <i class="fa-solid fa-clock"></i> <span id="format-label">24H</span>
+                </button>
+            </div>
+
+            <div class="hero-time">
+                <div class="hero-time-digits" id="hero-time">00:00:00</div>
+                <div class="hero-period" id="hero-period">AM</div>
+            </div>
+
+            <div class="hero-date" id="hero-date">Monday, January 1, 2025</div>
+
+            <div class="hero-meta">
+                <div class="hero-meta-item">
+                    <i class="fa-solid fa-sun" id="local-daynight-icon"></i>
+                    <span id="local-daynight-text">Daytime</span>
+                </div>
+                <div class="hero-meta-item">
+                    <i class="fa-solid fa-clock"></i>
+                    <span id="local-timezone">UTC+00:00</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ CONTROLS ============ -->
+        <div class="controls-panel">
+            <div class="controls-row">
+
+                <!-- Search -->
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="city-search" placeholder="Search city... (e.g. London, Tokyo, Dubai)">
+                    <button class="clear-btn" id="clear-search" onclick="clearSearch()" style="display: none;">
+                        <i class="fa-solid fa-times"></i>
+                    </button>
+                </div>
+
+                <!-- Quick Filter Chips -->
+                <div class="filter-chips">
+                    <button class="chip active" data-filter="all" onclick="filterByRegion('all')">
+                        <i class="fa-solid fa-globe"></i> All
+                    </button>
+                    <button class="chip" data-filter="favorites" onclick="filterByRegion('favorites')">
+                        <i class="fa-solid fa-star"></i> Favorites
+                    </button>
+                    <button class="chip" data-filter="americas" onclick="filterByRegion('americas')">
+                        <i class="fa-solid fa-earth-americas"></i> Americas
+                    </button>
+                    <button class="chip" data-filter="europe" onclick="filterByRegion('europe')">
+                        <i class="fa-solid fa-earth-europe"></i> Europe
+                    </button>
+                    <button class="chip" data-filter="asia" onclick="filterByRegion('asia')">
+                        <i class="fa-solid fa-earth-asia"></i> Asia
+                    </button>
+                    <button class="chip" data-filter="africa" onclick="filterByRegion('africa')">
+                        <i class="fa-solid fa-earth-africa"></i> Africa
+                    </button>
+                    <button class="chip" data-filter="oceania" onclick="filterByRegion('oceania')">
+                        <i class="fa-solid fa-earth-oceania"></i> Oceania
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="controls-info">
+                <span id="results-count">Showing 20 cities</span>
+                <button class="add-custom-btn" onclick="toggleAddPanel()">
+                    <i class="fa-solid fa-plus"></i> Add Custom City
+                </button>
+            </div>
+        </div>
+
+        <!-- ============ ADD CUSTOM CITY PANEL ============ -->
+        <div class="add-panel" id="add-panel" style="display: none;">
+            <div class="add-panel-header">
+                <h3><i class="fa-solid fa-plus-circle"></i> Add Custom City</h3>
+                <button class="close-btn" onclick="toggleAddPanel()">
+                    <i class="fa-solid fa-times"></i>
+                </button>
+            </div>
+            <div class="add-panel-body">
+                <div class="add-field">
+                    <label>City / Label Name</label>
+                    <input type="text" id="custom-city-name" placeholder="e.g. My Office">
+                </div>
+                <div class="add-field">
+                    <label>Timezone (IANA)</label>
+                    <select id="custom-city-tz" class="select-input">
+                        <!-- Populated by JS -->
+                    </select>
+                </div>
+                <button class="btn btn-primary" onclick="addCustomCity()">
+                    <i class="fa-solid fa-check"></i> Add City
+                </button>
+            </div>
+        </div>
+
+        <!-- ============ CLOCKS GRID ============ -->
+        <div class="clocks-grid" id="clocks-grid">
+            <!-- Populated by JS -->
+        </div>
+
+        <!-- ============ NO RESULTS ============ -->
+        <div class="no-results" id="no-results" style="display: none;">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <h3>No cities found</h3>
+            <p>Try a different search or filter</p>
+        </div>
+
+        <!-- ============ TIMEZONE CONVERTER ============ -->
+        <div class="converter-panel">
+            <div class="converter-header">
+                <h3><i class="fa-solid fa-right-left"></i> Timezone Converter</h3>
+                <span class="hint">Convert time between two cities</span>
+            </div>
+
+            <div class="converter-body">
+                <div class="converter-row">
+                    <div class="converter-field">
+                        <label>From</label>
+                        <select id="conv-from" class="select-input"></select>
+                    </div>
+
+                    <div class="converter-field">
+                        <label>Time</label>
+                        <input type="time" id="conv-time" class="time-input" value="12:00">
+                    </div>
+
+                    <div class="converter-field">
+                        <label>To</label>
+                        <select id="conv-to" class="select-input"></select>
+                    </div>
+                </div>
+
+                <div class="converter-result" id="converter-result">
+                    <div class="converter-result-label">Converted Time</div>
+                    <div class="converter-result-value" id="converter-value">—</div>
+                    <div class="converter-result-sub" id="converter-sub">Select cities to convert</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Help Section -->
+        <div class="help-box">
+            <h4><i class="fa-solid fa-circle-question"></i> How to Use World Clock</h4>
+            <ul>
+                <li><b>Hero Clock</b> aapke local time ko live seconds ke saath dikhata hai.</li>
+                <li><b>Search bar</b> mein city name type karein (jaise London, Tokyo, Dubai).</li>
+                <li><b>Filter chips</b> se continents ke hisaab se cities filter karein.</li>
+                <li><b>Star icon</b> par click karke cities ko favorites mein add karein.</li>
+                <li><b>12H / 24H</b> button se time format toggle karein.</li>
+                <li><b>Day/Night indicator</b> batata hai ke wahan din hai ya raat.</li>
+                <li><b>Timezone offset</b> aapke local time se difference dikhata hai.</li>
+                <li><b>Timezone Converter</b> se do cities ke beech time convert karein.</li>
+                <li><b>Add Custom City</b> se apne favorite timezone add karein.</li>
+                <li>Sab kuch <b>client-side</b> hai — koi data server par nahi jata.</li>
+                <li>Favorites aur custom cities <b>localStorage</b> mein save hote hain.</li>
+            </ul>
+        </div>
+
+    </main>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="footer">
+        <p>© 2025 Tool Hub — All Your Online Tools in One Place</p>
+    </footer>
+
+    <!-- ============ TOAST ============ -->
+    <div id="toast" class="toast">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toast-message">Message</span>
+    </div>
+
+    <!-- World Clock JS -->
+    <script src="worldclock-script.js"></script>
+</body>
+</html>

@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tip Calculator - Tool Hub</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tip Calculator CSS -->
+    <link rel="stylesheet" href="tip-style.css">
+</head>
+<body>
+
+    <!-- ============ TOP NAVBAR ============ -->
+    <header class="top-navbar">
+        <div class="navbar-left">
+            <a href="index.html" class="back-btn" title="Back to Home">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <a href="index.html" class="navbar-logo">
+                <i class="fa-solid fa-wrench"></i>
+                <span>Tool Hub</span>
+            </a>
+        </div>
+        <div class="navbar-right">
+            <button id="theme-toggle" title="Toggle Theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+            <button class="share-btn" onclick="shareTool()" title="Share this tool">
+                <i class="fa-solid fa-share-nodes"></i> <span>Share</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ============ BREADCRUMB ============ -->
+    <div class="breadcrumb-bar">
+        <div class="breadcrumb">
+            <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+            <i class="fa-solid fa-chevron-right"></i>
+            <a href="alltools-index.html?cat=finance">Finance</a>
+            <i class="fa-solid fa-chevron-right"></i>
+            <span>Tip Calculator</span>
+        </div>
+    </div>
+
+    <!-- ============ MAIN CONTENT ============ -->
+    <main class="container">
+
+        <!-- Tool Header -->
+        <div class="tool-header">
+            <div class="tool-icon">
+                <i class="fa-solid fa-receipt"></i>
+            </div>
+            <div>
+                <h1>Tip Calculator</h1>
+                <p>Calculate tip, tax, discount &amp; split the bill fairly among friends. Free, fast &amp; mobile-friendly.</p>
+            </div>
+        </div>
+
+        <!-- ============ INPUT PANEL ============ -->
+        <div class="input-panel">
+            <div class="input-header">
+                <h3><i class="fa-solid fa-keyboard"></i> Bill Details</h3>
+            </div>
+
+            <div class="input-grid">
+
+                <!-- Bill Amount -->
+                <div class="input-field full-width">
+                    <label for="bill-amount">
+                        <i class="fa-solid fa-dollar-sign"></i> Bill Amount
+                    </label>
+                    <div class="input-wrap">
+                        <span class="input-prefix">$</span>
+                        <input type="number" id="bill-amount" class="has-prefix"
+                               value="50" min="0" step="0.01" 
+                               placeholder="Enter bill amount">
+                    </div>
+                    <div class="amount-presets">
+                        <button class="preset-chip" onclick="setBill(10)">$10</button>
+                        <button class="preset-chip" onclick="setBill(25)">$25</button>
+                        <button class="preset-chip" onclick="setBill(50)">$50</button>
+                        <button class="preset-chip" onclick="setBill(100)">$100</button>
+                        <button class="preset-chip" onclick="setBill(200)">$200</button>
+                    </div>
+                </div>
+
+                <!-- Tip Percentage -->
+                <div class="input-field full-width">
+                    <label>
+                        <i class="fa-solid fa-percent"></i> Tip Percentage
+                        <span class="value-badge" id="tip-badge">15%</span>
+                    </label>
+                    <div class="tip-presets">
+                        <button class="tip-btn" data-tip="5" onclick="setTip(5)">5%</button>
+                        <button class="tip-btn" data-tip="10" onclick="setTip(10)">10%</button>
+                        <button class="tip-btn active" data-tip="15" onclick="setTip(15)">15%</button>
+                        <button class="tip-btn" data-tip="18" onclick="setTip(18)">18%</button>
+                        <button class="tip-btn" data-tip="20" onclick="setTip(20)">20%</button>
+                        <button class="tip-btn" data-tip="25" onclick="setTip(25)">25%</button>
+                    </div>
+                    <input type="range" id="tip-slider" min="0" max="50" value="15" step="1">
+                    <div class="range-labels">
+                        <span>0%</span>
+                        <span>25%</span>
+                        <span>50%</span>
+                    </div>
+                </div>
+
+                <!-- Split Count -->
+                <div class="input-field">
+                    <label for="split-count">
+                        <i class="fa-solid fa-users"></i> Split Between
+                    </label>
+                    <div class="split-control">
+                        <button class="split-btn" onclick="changeSplit(-1)">
+                            <i class="fa-solid fa-minus"></i>
+                        </button>
+                        <input type="number" id="split-count" class="split-input" 
+                               value="1" min="1" max="100" step="1">
+                        <button class="split-btn" onclick="changeSplit(1)">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Rounding -->
+                <div class="input-field">
+                    <label for="rounding">
+                        <i class="fa-solid fa-circle-half-stroke"></i> Rounding
+                    </label>
+                    <select id="rounding" class="select-input">
+                        <option value="none" selected>No Rounding</option>
+                        <option value="nearest">Nearest Dollar</option>
+                        <option value="up">Round Up</option>
+                        <option value="down">Round Down</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <!-- Advanced Options -->
+            <div class="advanced-toggle" onclick="toggleAdvanced()">
+                <h4>
+                    <i class="fa-solid fa-sliders"></i> Advanced Options (Tax &amp; Discount)
+                    <i class="fa-solid fa-chevron-down toggle-icon" id="advanced-icon"></i>
+                </h4>
+            </div>
+
+            <div class="advanced-body" id="advanced-body">
+                <div class="input-grid">
+                    <!-- Tax -->
+                    <div class="input-field">
+                        <label for="tax-percent">
+                            <i class="fa-solid fa-receipt"></i> Tax %
+                        </label>
+                        <div class="input-wrap">
+                            <input type="number" id="tax-percent" class="has-suffix"
+                                   value="0" min="0" max="100" step="0.1"
+                                   placeholder="0">
+                            <span class="input-suffix">%</span>
+                        </div>
+                    </div>
+
+                    <!-- Discount -->
+                    <div class="input-field">
+                        <label for="discount-percent">
+                            <i class="fa-solid fa-tags"></i> Discount %
+                        </label>
+                        <div class="input-wrap">
+                            <input type="number" id="discount-percent" class="has-suffix"
+                                   value="0" min="0" max="100" step="0.1"
+                                   placeholder="0">
+                            <span class="input-suffix">%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="input-actions">
+                <button class="btn btn-primary btn-large" onclick="calculate()">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Calculate Tip
+                </button>
+                <button class="btn btn-secondary" onclick="loadSample()">
+                    <i class="fa-solid fa-flask"></i> Sample
+                </button>
+                <button class="btn btn-warning" onclick="resetAll()">
+                    <i class="fa-solid fa-eraser"></i> Reset
+                </button>
+            </div>
+        </div>
+
+        <!-- ============ RESULT PANEL ============ -->
+        <div class="result-panel">
+            <div class="result-header">
+                <h3><i class="fa-solid fa-trophy"></i> Bill Summary</h3>
+                <div class="result-badge">LIVE</div>
+            </div>
+
+            <!-- Main Result -->
+            <div class="main-result" id="main-result">
+                <div class="main-result-label">Total per Person</div>
+                <div class="main-result-value" id="main-result-value">$0.00</div>
+                <div class="main-result-sub" id="main-result-sub">—</div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-receipt"></i></div>
+                    <div class="stat-label">Bill</div>
+                    <div class="stat-value" id="stat-bill">$0.00</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+                    <div class="stat-label">Tip</div>
+                    <div class="stat-value highlight" id="stat-tip">$0.00</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+                    <div class="stat-label">Tax</div>
+                    <div class="stat-value" id="stat-tax">$0.00</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-tags"></i></div>
+                    <div class="stat-label">Discount</div>
+                    <div class="stat-value positive" id="stat-discount">-$0.00</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-money-bill-wave"></i></div>
+                    <div class="stat-label">Total Bill</div>
+                    <div class="stat-value" id="stat-total">$0.00</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+                    <div class="stat-label">Per Person</div>
+                    <div class="stat-value highlight" id="stat-per-person">$0.00</div>
+                </div>
+            </div>
+
+            <!-- Tip Distribution (Visual) -->
+            <div class="tip-visual">
+                <div class="tip-visual-header">
+                    <span><i class="fa-solid fa-chart-pie"></i> Bill Composition</span>
+                    <span id="composition-total">$0.00</span>
+                </div>
+                <div class="tip-visual-bar">
+                    <div class="bar-segment bar-bill" id="bar-bill" style="width: 0%"></div>
+                    <div class="bar-segment bar-tax" id="bar-tax" style="width: 0%"></div>
+                    <div class="bar-segment bar-tip" id="bar-tip" style="width: 0%"></div>
+                </div>
+                <div class="tip-visual-legend">
+                    <div class="legend-item">
+                        <span class="legend-dot bill"></span> Bill
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-dot tax"></span> Tax
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-dot tip"></span> Tip
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Row -->
+            <div class="result-actions">
+                <button class="btn btn-success" onclick="copyResult()">
+                    <i class="fa-solid fa-copy"></i> Copy Summary
+                </button>
+                <button class="btn btn-info" onclick="saveToHistory()">
+                    <i class="fa-solid fa-bookmark"></i> Save
+                </button>
+                <button class="btn btn-secondary" onclick="shareResult()">
+                    <i class="fa-solid fa-share-nodes"></i> Share
+                </button>
+            </div>
+        </div>
+
+        <!-- ============ TIP GUIDE ============ -->
+        <div class="guide-panel">
+            <div class="guide-header">
+                <h3><i class="fa-solid fa-book"></i> Tipping Guide</h3>
+                <span class="hint">Common tipping practices</span>
+            </div>
+            <div class="guide-grid">
+                <div class="guide-item">
+                    <div class="guide-icon"><i class="fa-solid fa-mug-hot"></i></div>
+                    <div class="guide-info">
+                        <b>Restaurant (Waiter)</b>
+                        <p>15-20% of bill</p>
+                    </div>
+                </div>
+                <div class="guide-item">
+                    <div class="guide-icon"><i class="fa-solid fa-bell-concierge"></i></div>
+                    <div class="guide-info">
+                        <b>Hotel Bellhop</b>
+                        <p>$2-5 per bag</p>
+                    </div>
+                </div>
+                <div class="guide-item">
+                    <div class="guide-icon"><i class="fa-solid fa-car"></i></div>
+                    <div class="guide-info">
+                        <b>Taxi / Uber</b>
+                        <p>10-15% of fare</p>
+                    </div>
+                </div>
+                <div class="guide-item">
+                    <div class="guide-icon"><i class="fa-solid fa-spa"></i></div>
+                    <div class="guide-info">
+                        <b>Spa / Salon</b>
+                        <p>15-20% of service</p>
+                    </div>
+                </div>
+                <div class="guide-item">
+                    <div class="guide-icon"><i class="fa-solid fa-scissors"></i></div>
+                    <div class="guide-info">
+                        <b>Hair Stylist</b>
+                        <p>15-20% of bill</p>
+                    </div>
+                </div>
+                <div class="guide-item">
+                    <div class="guide-icon"><i class="fa-solid fa-pizza-slice"></i></div>
+                    <div class="guide-info">
+                        <b>Food Delivery</b>
+                        <p>10-15% or $2-5</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ HISTORY ============ -->
+        <div class="history-panel" id="history-panel" style="display: none;">
+            <div class="history-header">
+                <h3><i class="fa-solid fa-clock-rotate-left"></i> Saved Calculations</h3>
+                <button class="clear-history-btn" onclick="clearHistory()">
+                    <i class="fa-solid fa-trash"></i> Clear
+                </button>
+            </div>
+            <div class="history-list" id="history-list"></div>
+        </div>
+
+        <!-- Help Section -->
+        <div class="help-box">
+            <h4><i class="fa-solid fa-circle-question"></i> How to Use Tip Calculator</h4>
+            <ul>
+                <li><b>Bill Amount</b> enter karein ya quick preset chips ($10, $25, $50, $100, $200) se select karein.</li>
+                <li><b>Tip %</b> set karein — either quick buttons (5/10/15/18/20/25%) se ya slider se.</li>
+                <li><b>Split Between</b> se bill kitne logon mein divide karna hai wo choose karein.</li>
+                <li><b>Rounding</b> option se final amount ko nearest dollar, round up, ya round down karein.</li>
+                <li><b>Advanced Options</b> mein <b>Tax %</b> aur <b>Discount %</b> bhi add kar sakte hain.</li>
+                <li><b>Live Calculation</b> — koi bhi value change karte hi result update hota hai.</li>
+                <li><b>Bill Summary</b> mein: Bill, Tip, Tax, Discount, Total &amp; Per Person amounts.</li>
+                <li><b>Bill Composition</b> bar mein visual breakdown dekhein.</li>
+                <li><b>Tipping Guide</b> se common scenarios ke liye tip percentages dekhein.</li>
+                <li><b>Copy Summary</b> se formatted result copy karein.</li>
+                <li><b>Save</b> button se calculation history mein save karein (localStorage).</li>
+                <li>Sab kuch <b>client-side</b> hai — aapka data kisi server par nahi jata.</li>
+            </ul>
+        </div>
+
+    </main>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="footer">
+        <p>© 2025 Tool Hub — All Your Online Tools in One Place</p>
+    </footer>
+
+    <!-- ============ TOAST ============ -->
+    <div id="toast" class="toast">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toast-message">Message</span>
+    </div>
+
+    <!-- Tip Calculator JS -->
+    <script src="tip-script.js"></script>
+</body>
+</html>

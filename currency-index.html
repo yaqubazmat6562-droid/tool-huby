@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Converter - Tool Hub</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Currency Converter CSS -->
+    <link rel="stylesheet" href="currency-style.css">
+</head>
+<body>
+
+    <!-- ============ TOP NAVBAR ============ -->
+    <header class="top-navbar">
+        <div class="navbar-left">
+            <a href="index.html" class="back-btn" title="Back to Home">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <a href="index.html" class="navbar-logo">
+                <i class="fa-solid fa-wrench"></i>
+                <span>Tool Hub</span>
+            </a>
+        </div>
+        <div class="navbar-right">
+            <button id="theme-toggle" title="Toggle Theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+            <button class="share-btn" onclick="shareTool()" title="Share this tool">
+                <i class="fa-solid fa-share-nodes"></i> <span>Share</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ============ BREADCRUMB ============ -->
+    <div class="breadcrumb-bar">
+        <div class="breadcrumb">
+            <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+            <i class="fa-solid fa-chevron-right"></i>
+            <a href="alltools-index.html?cat=finance">Finance</a>
+            <i class="fa-solid fa-chevron-right"></i>
+            <span>Currency Converter</span>
+        </div>
+    </div>
+
+    <!-- ============ MAIN CONTENT ============ -->
+    <main class="container">
+
+        <!-- Tool Header -->
+        <div class="tool-header">
+            <div class="tool-icon">
+                <i class="fa-solid fa-money-bill-transfer"></i>
+            </div>
+            <div>
+                <h1>Currency Converter</h1>
+                <p>Convert between 170+ currencies with live exchange rates. Free, fast &amp; no signup required.</p>
+            </div>
+        </div>
+
+        <!-- ============ MAIN CONVERTER ============ -->
+        <div class="converter-panel">
+            <div class="converter-header">
+                <h3><i class="fa-solid fa-right-left"></i> Currency Conversion</h3>
+                <div class="rate-status" id="rate-status">
+                    <span class="status-dot" id="status-dot"></span>
+                    <span id="status-text">Loading rates...</span>
+                </div>
+            </div>
+
+            <div class="converter-body">
+
+                <!-- Amount Input -->
+                <div class="amount-row">
+                    <label class="field-label">
+                        <i class="fa-solid fa-coins"></i> Amount
+                    </label>
+                    <div class="amount-input-wrap">
+                        <input type="number" id="amount-input" class="amount-input" 
+                               value="100" min="0" step="any" placeholder="Enter amount">
+                        <div class="amount-presets">
+                            <button class="preset-chip" onclick="setAmount(1)">1</button>
+                            <button class="preset-chip" onclick="setAmount(10)">10</button>
+                            <button class="preset-chip" onclick="setAmount(100)">100</button>
+                            <button class="preset-chip" onclick="setAmount(1000)">1K</button>
+                            <button class="preset-chip" onclick="setAmount(10000)">10K</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- From / To Row -->
+                <div class="conversion-row">
+                    <!-- From Currency -->
+                    <div class="currency-box">
+                        <label class="field-label">
+                            <i class="fa-solid fa-arrow-up-from-bracket"></i> From
+                        </label>
+                        <div class="currency-select-wrap">
+                            <div class="currency-flag" id="from-flag">🇺🇸</div>
+                            <select id="from-currency" class="currency-select" onchange="onCurrencyChange()">
+                                <!-- Populated by JS -->
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Swap Button -->
+                    <button class="swap-btn" onclick="swapCurrencies()" title="Swap currencies">
+                        <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                    </button>
+
+                    <!-- To Currency -->
+                    <div class="currency-box">
+                        <label class="field-label">
+                            <i class="fa-solid fa-arrow-down-to-bracket"></i> To
+                        </label>
+                        <div class="currency-select-wrap">
+                            <div class="currency-flag" id="to-flag">🇪🇺</div>
+                            <select id="to-currency" class="currency-select" onchange="onCurrencyChange()">
+                                <!-- Populated by JS -->
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Result Display -->
+                <div class="result-box" id="result-box">
+                    <div class="result-main" id="result-main">
+                        <span class="result-amount" id="result-amount">—</span>
+                        <span class="result-currency" id="result-currency"></span>
+                    </div>
+                    <div class="result-sub" id="result-sub">Loading exchange rate...</div>
+                </div>
+
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="converter-actions">
+                <button class="btn btn-primary btn-large" onclick="convertCurrency()">
+                    <i class="fa-solid fa-calculator"></i> Convert
+                </button>
+                <button class="btn btn-secondary" onclick="refreshRates()">
+                    <i class="fa-solid fa-rotate"></i> Refresh Rates
+                </button>
+                <button class="btn btn-secondary" onclick="copyResult()">
+                    <i class="fa-solid fa-copy"></i> Copy
+                </button>
+            </div>
+        </div>
+
+        <!-- ============ QUICK CONVERSIONS ============ -->
+        <div class="quick-panel">
+            <div class="quick-header">
+                <h3><i class="fa-solid fa-bolt"></i> Quick Conversions</h3>
+                <span class="hint">Popular currency pairs</span>
+            </div>
+            <div class="quick-grid" id="quick-grid">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+
+        <!-- ============ POPULAR RATES ============ -->
+        <div class="rates-panel">
+            <div class="rates-header">
+                <h3><i class="fa-solid fa-chart-line"></i> Popular Exchange Rates</h3>
+                <span class="hint">1 USD equals</span>
+            </div>
+            <div class="rates-grid" id="rates-grid">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+
+        <!-- ============ CONVERSION HISTORY ============ -->
+        <div class="history-panel" id="history-panel" style="display: none;">
+            <div class="history-header">
+                <h3><i class="fa-solid fa-clock-rotate-left"></i> Conversion History</h3>
+                <button class="clear-history-btn" onclick="clearHistory()">
+                    <i class="fa-solid fa-trash"></i> Clear
+                </button>
+            </div>
+            <div class="history-list" id="history-list">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+
+        <!-- Help Section -->
+        <div class="help-box">
+            <h4><i class="fa-solid fa-circle-question"></i> How to Use Currency Converter</h4>
+            <ul>
+                <li><b>Amount</b> enter karein ya quick preset (1, 10, 100, 1K, 10K) se select karein.</li>
+                <li><b>From</b> aur <b>To</b> currencies dropdown se choose karein.</li>
+                <li><b>Swap</b> button se currencies exchange karein (⇄).</li>
+                <li>Exchange rate <b>live fetch</b> hoti hai Frankfurter API se (ECB data).</li>
+                <li><b>Result</b> mein converted amount aur exchange rate dono dikhte hain.</li>
+                <li><b>Quick Conversions</b> se popular pairs ek click mein convert karein.</li>
+                <li><b>Popular Rates</b> mein 1 USD ke against 8 major currencies ke rates dekhein.</li>
+                <li><b>Conversion History</b> local storage mein save hoti hai — last 20 conversions.</li>
+                <li><b>Refresh Rates</b> button se latest rates dobara fetch karein.</li>
+                <li>Rates <b>daily update</b> hoti hain (ECB working days). Offline hone par <b>cached rates</b> use hote hain.</li>
+                <li>Sab kuch <b>client-side</b> hai — aapka data kisi server par nahi jata.</li>
+            </ul>
+        </div>
+
+    </main>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="footer">
+        <p>© 2025 Tool Hub — All Your Online Tools in One Place</p>
+    </footer>
+
+    <!-- ============ TOAST ============ -->
+    <div id="toast" class="toast">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toast-message">Message</span>
+    </div>
+
+    <!-- Currency Converter JS -->
+    <script src="currency-script.js"></script>
+</body>
+</html>

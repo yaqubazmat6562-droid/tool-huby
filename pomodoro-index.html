@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Pomodoro Timer - Tool Hub</title>
+    <meta name="theme-color" content="#0f172a">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="pomodoro-style.css">
+</head>
+<body>
+
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">
+            <i class="fa-solid fa-wrench"></i>
+            <h2>Tool Hub</h2>
+        </div>
+        <nav>
+            <ul>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-house"></i> Home</li>
+                <li onclick="window.location.href='alltools-index.html'"><i class="fa-solid fa-toolbox"></i> All Tools</li>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-heart"></i> Favorites</li>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-clock-rotate-left"></i> History</li>
+            </ul>
+        </nav>
+        <div class="categories">
+            <h3>Categories</h3>
+            <ul>
+                <li onclick="window.location.href='alltools-index.html?cat=text'"><i class="fa-solid fa-font"></i> Text Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=calc'"><i class="fa-solid fa-calculator"></i> Calculator Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=dev'"><i class="fa-solid fa-code"></i> Developer Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=image'"><i class="fa-solid fa-image"></i> Image Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=gen'"><i class="fa-solid fa-wand-magic-sparkles"></i> Generator Tools</li>
+                <li class="active" onclick="window.location.href='alltools-index.html?cat=date'"><i class="fa-solid fa-calendar-day"></i> Date & Time</li>
+                <li onclick="window.location.href='alltools-index.html?cat=finance'"><i class="fa-solid fa-coins"></i> Finance</li>
+            </ul>
+        </div>
+        <div class="login-box">
+            <i class="fa-solid fa-crown"></i>
+            <p>Save Your Favorite Tools</p>
+            <button>Login / Sign Up</button>
+        </div>
+    </aside>
+
+    <!-- ================= MAIN ================= -->
+    <main class="main-content">
+
+        <!-- Header -->
+        <header>
+            <div class="search-bar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search tools..." id="header-search">
+            </div>
+            <div class="nav-actions">
+                <button id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+                <button class="contact-btn"><i class="fa-solid fa-envelope"></i> Contact</button>
+            </div>
+        </header>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> /
+            <a href="alltools-index.html">All Tools</a> /
+            <span>Pomodoro Timer</span>
+        </div>
+
+        <!-- Tool Title Bar -->
+        <div class="tool-title-bar">
+            <div class="tool-title-left">
+                <div class="tool-title-icon pomo">
+                    <i class="fa-solid fa-clock"></i>
+                </div>
+                <div>
+                    <h1>Pomodoro Timer</h1>
+                    <p>Boost productivity with 25-minute focus sessions</p>
+                </div>
+            </div>
+            <button class="share-btn" onclick="sharePomodoro()">
+                <i class="fa-solid fa-share-nodes"></i> Share
+            </button>
+        </div>
+
+        <!-- ================= POMODORO CARD ================= -->
+        <div class="pomo-card" id="pomoCard">
+
+            <!-- Mode Tabs -->
+            <div class="mode-tabs">
+                <button class="mode-tab active" data-mode="focus">
+                    <i class="fa-solid fa-brain"></i> Focus
+                </button>
+                <button class="mode-tab" data-mode="short">
+                    <i class="fa-solid fa-mug-hot"></i> Short Break
+                </button>
+                <button class="mode-tab" data-mode="long">
+                    <i class="fa-solid fa-couch"></i> Long Break
+                </button>
+            </div>
+
+            <!-- Ring + Timer -->
+            <div class="ring-wrap">
+                <svg class="progress-ring" viewBox="0 0 260 260">
+                    <circle class="ring-bg" cx="130" cy="130" r="118"></circle>
+                    <circle class="ring-fg" cx="130" cy="130" r="118" id="ringProgress"></circle>
+                </svg>
+
+                <div class="display">
+                    <div class="label" id="statusLabel">READY TO FOCUS</div>
+                    <div class="time" id="displayTime">25:00</div>
+                    <div class="session-info" id="sessionInfo">Session 1 of 4</div>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="controls">
+                <button class="btn primary" id="startPauseBtn">
+                    <i class="fa-solid fa-play"></i> <span>Start</span>
+                </button>
+                <button class="btn secondary" id="resetBtn" title="Reset">
+                    <i class="fa-solid fa-rotate-left"></i>
+                </button>
+                <button class="btn secondary" id="skipBtn" title="Skip to next session">
+                    <i class="fa-solid fa-forward-step"></i>
+                </button>
+            </div>
+
+            <!-- Stats Row -->
+            <div class="stats">
+                <div class="stat-box">
+                    <span class="stat-label">Completed</span>
+                    <span class="stat-value" id="completedCount">0</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-label">Focus Time</span>
+                    <span class="stat-value" id="totalFocus">0m</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-label">Cycles</span>
+                    <span class="stat-value" id="cycleCount">0</span>
+                </div>
+            </div>
+
+            <!-- Settings Toggle -->
+            <button class="settings-toggle" id="settingsToggle">
+                <i class="fa-solid fa-gear"></i> Customize Durations
+            </button>
+
+            <!-- Settings Panel -->
+            <div class="settings-panel" id="settingsPanel">
+                <div class="setting-row">
+                    <label><i class="fa-solid fa-brain"></i> Focus (min)</label>
+                    <input type="number" id="focusInput" min="1" max="90" value="25">
+                </div>
+                <div class="setting-row">
+                    <label><i class="fa-solid fa-mug-hot"></i> Short Break (min)</label>
+                    <input type="number" id="shortInput" min="1" max="30" value="5">
+                </div>
+                <div class="setting-row">
+                    <label><i class="fa-solid fa-couch"></i> Long Break (min)</label>
+                    <input type="number" id="longInput" min="1" max="60" value="15">
+                </div>
+                <div class="setting-row">
+                    <label><i class="fa-solid fa-repeat"></i> Long break after (sessions)</label>
+                    <input type="number" id="cycleInput" min="2" max="10" value="4">
+                </div>
+                <div class="setting-row toggle-row">
+                    <label><i class="fa-solid fa-bell"></i> Sound Notification</label>
+                    <label class="switch">
+                        <input type="checkbox" id="soundToggle" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <button class="save-settings-btn" id="saveSettings">
+                    <i class="fa-solid fa-check"></i> Save Settings
+                </button>
+            </div>
+
+            <!-- Session History -->
+            <div class="session-history">
+                <div class="history-header">
+                    <span><i class="fa-solid fa-list-check"></i> Today's Sessions</span>
+                    <button id="clearHistoryBtn" title="Clear">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+                <div class="history-list" id="historyList">
+                    <div class="empty-history">No sessions yet — start your first focus!</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Keyboard Hint -->
+        <div class="kbd-hint">
+            <span><kbd>Space</kbd> Start/Pause</span>
+            <span><kbd>R</kbd> Reset</span>
+            <span><kbd>S</kbd> Skip</span>
+        </div>
+
+    </main>
+
+    <!-- Toast -->
+    <div id="toast" class="toast">Message here</div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script src="pomodoro-script.js"></script>
+</body>
+</html>

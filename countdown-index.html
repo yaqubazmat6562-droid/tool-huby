@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer - Tool Hub</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Countdown Timer CSS -->
+    <link rel="stylesheet" href="countdown-style.css">
+</head>
+<body>
+
+    <!-- ============ TOP NAVBAR ============ -->
+    <header class="top-navbar">
+        <div class="navbar-left">
+            <a href="index.html" class="back-btn" title="Back to Home">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <a href="index.html" class="navbar-logo">
+                <i class="fa-solid fa-wrench"></i>
+                <span>Tool Hub</span>
+            </a>
+        </div>
+        <div class="navbar-right">
+            <button id="theme-toggle" title="Toggle Theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+            <button class="share-btn" onclick="shareTool()" title="Share this tool">
+                <i class="fa-solid fa-share-nodes"></i> <span>Share</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ============ BREADCRUMB ============ -->
+    <div class="breadcrumb-bar">
+        <div class="breadcrumb">
+            <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+            <i class="fa-solid fa-chevron-right"></i>
+            <a href="alltools-index.html?cat=date">Date &amp; Time</a>
+            <i class="fa-solid fa-chevron-right"></i>
+            <span>Countdown Timer</span>
+        </div>
+    </div>
+
+    <!-- ============ MAIN CONTENT ============ -->
+    <main class="container">
+
+        <!-- Tool Header -->
+        <div class="tool-header">
+            <div class="tool-icon">
+                <i class="fa-solid fa-hourglass-half"></i>
+            </div>
+            <div>
+                <h1>Countdown Timer</h1>
+                <p>Set countdown to any date, event or duration. With live ticking, presets, alarm sound &amp; multiple timers.</p>
+            </div>
+        </div>
+
+        <!-- ============ MODE TABS ============ -->
+        <div class="mode-panel">
+            <div class="mode-tabs">
+                <button class="mode-tab active" data-mode="duration" onclick="setMode('duration')">
+                    <i class="fa-solid fa-clock"></i>
+                    <span>Duration</span>
+                    <small>Hours : Minutes : Seconds</small>
+                </button>
+                <button class="mode-tab" data-mode="datetime" onclick="setMode('datetime')">
+                    <i class="fa-solid fa-calendar-day"></i>
+                    <span>Until Date</span>
+                    <small>Target date &amp; time</small>
+                </button>
+            </div>
+        </div>
+
+        <!-- ============ INPUT PANEL ============ -->
+        <div class="input-panel">
+
+            <!-- Duration Mode -->
+            <div class="mode-body" id="mode-duration">
+                <div class="duration-grid">
+                    <div class="duration-field">
+                        <label for="dur-hours">Hours</label>
+                        <input type="number" id="dur-hours" min="0" max="99" value="0" step="1">
+                        <div class="duration-stepper">
+                            <button onclick="stepValue('dur-hours', 1, 0, 99)"><i class="fa-solid fa-chevron-up"></i></button>
+                            <button onclick="stepValue('dur-hours', -1, 0, 99)"><i class="fa-solid fa-chevron-down"></i></button>
+                        </div>
+                    </div>
+                    <div class="duration-field">
+                        <label for="dur-minutes">Minutes</label>
+                        <input type="number" id="dur-minutes" min="0" max="59" value="5" step="1">
+                        <div class="duration-stepper">
+                            <button onclick="stepValue('dur-minutes', 1, 0, 59)"><i class="fa-solid fa-chevron-up"></i></button>
+                            <button onclick="stepValue('dur-minutes', -1, 0, 59)"><i class="fa-solid fa-chevron-down"></i></button>
+                        </div>
+                    </div>
+                    <div class="duration-field">
+                        <label for="dur-seconds">Seconds</label>
+                        <input type="number" id="dur-seconds" min="0" max="59" value="0" step="1">
+                        <div class="duration-stepper">
+                            <button onclick="stepValue('dur-seconds', 1, 0, 59)"><i class="fa-solid fa-chevron-up"></i></button>
+                            <button onclick="stepValue('dur-seconds', -1, 0, 59)"><i class="fa-solid fa-chevron-down"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Date Time Mode -->
+            <div class="mode-body" id="mode-datetime" style="display: none;">
+                <div class="datetime-grid">
+                    <div class="datetime-field">
+                        <label for="target-date">
+                            <i class="fa-solid fa-calendar"></i> Target Date
+                        </label>
+                        <input type="date" id="target-date" class="text-input">
+                    </div>
+                    <div class="datetime-field">
+                        <label for="target-time">
+                            <i class="fa-solid fa-clock"></i> Target Time
+                        </label>
+                        <input type="time" id="target-time" class="text-input" value="00:00">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Timer Label -->
+            <div class="label-field">
+                <label for="timer-label">
+                    <i class="fa-solid fa-tag"></i> Timer Label (optional)
+                </label>
+                <input type="text" id="timer-label" class="text-input" 
+                       placeholder="e.g. New Year, Meeting, Exam..."
+                       maxlength="50">
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="input-actions">
+                <button class="btn btn-primary btn-large" id="start-btn" onclick="startTimer()">
+                    <i class="fa-solid fa-play"></i> Start Countdown
+                </button>
+                <button class="btn btn-warning" id="pause-btn" onclick="togglePause()" style="display: none;">
+                    <i class="fa-solid fa-pause"></i> Pause
+                </button>
+                <button class="btn btn-danger" id="reset-btn" onclick="resetTimer()" style="display: none;">
+                    <i class="fa-solid fa-rotate-left"></i> Reset
+                </button>
+            </div>
+
+        </div>
+
+        <!-- ============ COUNTDOWN DISPLAY ============ -->
+        <div class="countdown-panel" id="countdown-panel">
+            <div class="countdown-label" id="countdown-label">
+                <i class="fa-solid fa-hourglass-half"></i> Countdown
+            </div>
+
+            <!-- Main Big Countdown -->
+            <div class="countdown-main">
+                <div class="countdown-unit" id="cd-days-wrap">
+                    <div class="countdown-value" id="cd-days">00</div>
+                    <div class="countdown-unit-label">Days</div>
+                </div>
+                <div class="countdown-sep">:</div>
+                <div class="countdown-unit">
+                    <div class="countdown-value" id="cd-hours">00</div>
+                    <div class="countdown-unit-label">Hours</div>
+                </div>
+                <div class="countdown-sep">:</div>
+                <div class="countdown-unit">
+                    <div class="countdown-value" id="cd-minutes">05</div>
+                    <div class="countdown-unit-label">Minutes</div>
+                </div>
+                <div class="countdown-sep">:</div>
+                <div class="countdown-unit">
+                    <div class="countdown-value" id="cd-seconds">00</div>
+                    <div class="countdown-unit-label">Seconds</div>
+                </div>
+            </div>
+
+            <!-- Progress Ring -->
+            <div class="progress-ring-wrap">
+                <svg class="progress-ring" viewBox="0 0 120 120">
+                    <circle class="progress-ring-bg" cx="60" cy="60" r="52"></circle>
+                    <circle class="progress-ring-fill" id="progress-ring-fill" cx="60" cy="60" r="52"></circle>
+                </svg>
+                <div class="progress-ring-text">
+                    <span id="progress-percent">100%</span>
+                </div>
+            </div>
+
+            <!-- Target Info -->
+            <div class="target-info" id="target-info" style="display: none;">
+                <i class="fa-solid fa-bullseye"></i>
+                <span id="target-info-text">Target: —</span>
+            </div>
+        </div>
+
+        <!-- ============ PRESETS ============ -->
+        <div class="presets-panel">
+            <div class="presets-header">
+                <h3><i class="fa-solid fa-bolt"></i> Quick Presets</h3>
+                <span class="hint">Common countdown scenarios</span>
+            </div>
+            <div class="presets-grid">
+                <button class="preset-btn" onclick="applyPreset('1min')">
+                    <i class="fa-solid fa-stopwatch"></i>
+                    <span>1 Minute</span>
+                </button>
+                <button class="preset-btn" onclick="applyPreset('5min')">
+                    <i class="fa-solid fa-mug-hot"></i>
+                    <span>5 Minutes</span>
+                </button>
+                <button class="preset-btn" onclick="applyPreset('10min')">
+                    <i class="fa-solid fa-hourglass"></i>
+                    <span>10 Minutes</span>
+                </button>
+                <button class="preset-btn" onclick="applyPreset('25min')">
+                    <i class="fa-solid fa-brain"></i>
+                    <span>Pomodoro (25m)</span>
+                </button>
+                <button class="preset-btn" onclick="applyPreset('1hour')">
+                    <i class="fa-solid fa-clock"></i>
+                    <span>1 Hour</span>
+                </button>
+                <button class="preset-btn" onclick="applyPreset('newyear')">
+                    <i class="fa-solid fa-champagne-glasses"></i>
+                    <span>New Year</span>
+                </button>
+                <button class="preset-btn" onclick="applyPreset('tomorrow')">
+                    <i class="fa-solid fa-sun"></i>
+                    <span>Tomorrow 9AM</span>
+                </button>
+                <button class="preset-btn" onclick="applyPreset('weekend')">
+                    <i class="fa-solid fa-umbrella-beach"></i>
+                    <span>Next Weekend</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ============ SAVED TIMERS ============ -->
+        <div class="saved-panel" id="saved-panel" style="display: none;">
+            <div class="saved-header">
+                <h3><i class="fa-solid fa-bookmark"></i> Saved Timers</h3>
+                <button class="clear-saved-btn" onclick="clearAllSaved()">
+                    <i class="fa-solid fa-trash"></i> Clear All
+                </button>
+            </div>
+            <div class="saved-list" id="saved-list"></div>
+        </div>
+
+        <!-- Help Section -->
+        <div class="help-box">
+            <h4><i class="fa-solid fa-circle-question"></i> How to Use Countdown Timer</h4>
+            <ul>
+                <li>Do modes available: <b>Duration</b> (Hours:Minutes:Seconds) aur <b>Until Date</b> (specific date/time).</li>
+                <li><b>Duration Mode</b>: Kitne ghante, minute, seconds ka countdown chahiye set karein.</li>
+                <li><b>Until Date Mode</b>: Kisi bhi future date aur time ka countdown set karein.</li>
+                <li><b>Timer Label</b> dein (optional) — jaise "New Year", "Meeting", "Exam".</li>
+                <li><b>Start Countdown</b> button dabayein aur live ticking dekhein.</li>
+                <li><b>Pause/Resume</b> button se timer rok sakte hain.</li>
+                <li><b>Reset</b> button se timer ko restart karein.</li>
+                <li>Timer <b>complete</b> hone par alarm bajega aur notification milega.</li>
+                <li><b>Progress Ring</b> visual mein countdown progress dekhein.</li>
+                <li><b>Quick Presets</b> se common countdowns ek click mein set karein.</li>
+                <li><b>Save Timer</b> — history mein save karein (browser localStorage).</li>
+                <li>Sab kuch <b>client-side</b> hai — koi data server par nahi jata.</li>
+            </ul>
+        </div>
+
+    </main>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="footer">
+        <p>© 2025 Tool Hub — All Your Online Tools in One Place</p>
+    </footer>
+
+    <!-- ============ TOAST ============ -->
+    <div id="toast" class="toast">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toast-message">Message</span>
+    </div>
+
+    <!-- Countdown Timer JS -->
+    <script src="countdown-script.js"></script>
+</body>
+</html>

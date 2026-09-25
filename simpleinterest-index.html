@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Interest Calculator - Tool Hub</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Simple Interest Calculator CSS -->
+    <link rel="stylesheet" href="simpleinterest-style.css">
+</head>
+<body>
+
+    <!-- ============ TOP NAVBAR ============ -->
+    <header class="top-navbar">
+        <div class="navbar-left">
+            <a href="index.html" class="back-btn" title="Back to Home">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <a href="index.html" class="navbar-logo">
+                <i class="fa-solid fa-wrench"></i>
+                <span>Tool Hub</span>
+            </a>
+        </div>
+        <div class="navbar-right">
+            <button id="theme-toggle" title="Toggle Theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+            <button class="share-btn" onclick="shareTool()" title="Share this tool">
+                <i class="fa-solid fa-share-nodes"></i> <span>Share</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ============ BREADCRUMB ============ -->
+    <div class="breadcrumb-bar">
+        <div class="breadcrumb">
+            <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+            <i class="fa-solid fa-chevron-right"></i>
+            <a href="alltools-index.html?cat=finance">Finance</a>
+            <i class="fa-solid fa-chevron-right"></i>
+            <span>Simple Interest Calculator</span>
+        </div>
+    </div>
+
+    <!-- ============ MAIN CONTENT ============ -->
+    <main class="container">
+
+        <!-- Tool Header -->
+        <div class="tool-header">
+            <div class="tool-icon">
+                <i class="fa-solid fa-percent"></i>
+            </div>
+            <div>
+                <h1>Simple Interest Calculator</h1>
+                <p>Calculate simple interest, maturity amount &amp; time breakdown with formula explained. Free, fast &amp; mobile-friendly.</p>
+            </div>
+        </div>
+
+        <!-- ============ FORMULA BANNER ============ -->
+        <div class="formula-banner">
+            <div class="formula-label">
+                <i class="fa-solid fa-square-root-variable"></i> Formula
+            </div>
+            <div class="formula-content">
+                <code>SI = (P × R × T) ÷ 100</code>
+                <span class="formula-legend">
+                    <b>P</b> = Principal, <b>R</b> = Rate, <b>T</b> = Time
+                </span>
+            </div>
+        </div>
+
+        <!-- ============ MODE TABS ============ -->
+        <div class="mode-panel">
+            <div class="mode-tabs">
+                <button class="mode-tab active" data-mode="calculate-si" onclick="setMode('calculate-si')">
+                    <i class="fa-solid fa-calculator"></i>
+                    <span>Calculate SI</span>
+                    <small>P, R, T → SI</small>
+                </button>
+                <button class="mode-tab" data-mode="find-principal" onclick="setMode('find-principal')">
+                    <i class="fa-solid fa-money-bill-wave"></i>
+                    <span>Find Principal</span>
+                    <small>SI, R, T → P</small>
+                </button>
+                <button class="mode-tab" data-mode="find-rate" onclick="setMode('find-rate')">
+                    <i class="fa-solid fa-percent"></i>
+                    <span>Find Rate</span>
+                    <small>SI, P, T → R</small>
+                </button>
+                <button class="mode-tab" data-mode="find-time" onclick="setMode('find-time')">
+                    <i class="fa-solid fa-clock"></i>
+                    <span>Find Time</span>
+                    <small>SI, P, R → T</small>
+                </button>
+            </div>
+        </div>
+
+        <!-- ============ MAIN LAYOUT ============ -->
+        <div class="si-layout">
+
+            <!-- ============ INPUT PANEL ============ -->
+            <div class="input-panel">
+                <div class="input-header">
+                    <h3><i class="fa-solid fa-keyboard"></i> <span id="input-title">Enter Values</span></h3>
+                </div>
+
+                <div class="input-grid" id="input-grid">
+                    <!-- Populated by JS based on mode -->
+                </div>
+
+                <!-- Time Unit Toggle (Only shown when T is input) -->
+                <div class="time-unit-section" id="time-unit-section" style="display: none;">
+                    <label>
+                        <i class="fa-solid fa-clock"></i> Time Unit
+                    </label>
+                    <div class="time-unit-toggle">
+                        <button class="unit-btn active" data-unit="years" onclick="setTimeUnit('years')">
+                            <i class="fa-solid fa-calendar"></i> Years
+                        </button>
+                        <button class="unit-btn" data-unit="months" onclick="setTimeUnit('months')">
+                            <i class="fa-solid fa-calendar-days"></i> Months
+                        </button>
+                        <button class="unit-btn" data-unit="days" onclick="setTimeUnit('days')">
+                            <i class="fa-solid fa-calendar-day"></i> Days
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="input-actions">
+                    <button class="btn btn-primary btn-large" onclick="calculate()">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Calculate
+                    </button>
+                    <button class="btn btn-secondary" onclick="loadSample()">
+                        <i class="fa-solid fa-flask"></i> Sample
+                    </button>
+                    <button class="btn btn-warning" onclick="resetAll()">
+                        <i class="fa-solid fa-eraser"></i> Reset
+                    </button>
+                </div>
+            </div>
+
+            <!-- ============ RESULT PANEL ============ -->
+            <div class="result-panel">
+
+                <!-- Main Result -->
+                <div class="main-result" id="main-result">
+                    <div class="main-result-label" id="main-result-label">Simple Interest</div>
+                    <div class="main-result-value" id="main-result-value">$0.00</div>
+                    <div class="main-result-sub" id="main-result-sub">—</div>
+                </div>
+
+                <!-- Donut Chart -->
+                <div class="donut-section" id="donut-section">
+                    <div class="donut-wrapper">
+                        <svg class="donut-chart" viewBox="0 0 200 200">
+                            <circle class="donut-bg" cx="100" cy="100" r="80"></circle>
+                            <circle class="donut-principal" id="donut-principal" cx="100" cy="100" r="80"></circle>
+                            <circle class="donut-interest" id="donut-interest" cx="100" cy="100" r="80"></circle>
+                        </svg>
+                        <div class="donut-center">
+                            <div class="donut-center-label">Maturity</div>
+                            <div class="donut-center-value" id="donut-total">$0</div>
+                        </div>
+                    </div>
+
+                    <div class="donut-legend">
+                        <div class="legend-row">
+                            <div class="legend-item">
+                                <span class="legend-dot principal"></span>
+                                <span class="legend-text">Principal</span>
+                            </div>
+                            <span class="legend-value" id="legend-principal">$0</span>
+                        </div>
+                        <div class="legend-row">
+                            <div class="legend-item">
+                                <span class="legend-dot interest"></span>
+                                <span class="legend-text">Interest</span>
+                            </div>
+                            <span class="legend-value" id="legend-interest">$0</span>
+                        </div>
+                        <div class="legend-row total">
+                            <div class="legend-item">
+                                <span class="legend-dot total"></span>
+                                <span class="legend-text">Maturity Amount</span>
+                            </div>
+                            <span class="legend-value" id="legend-total">$0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-money-bill-wave"></i></div>
+                        <div class="stat-label">Principal</div>
+                        <div class="stat-value" id="stat-principal">$0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon highlight"><i class="fa-solid fa-percent"></i></div>
+                        <div class="stat-label">Interest Rate</div>
+                        <div class="stat-value highlight" id="stat-rate">0%</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-clock"></i></div>
+                        <div class="stat-label">Time Period</div>
+                        <div class="stat-value" id="stat-time">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon highlight"><i class="fa-solid fa-sack-dollar"></i></div>
+                        <div class="stat-label">Maturity</div>
+                        <div class="stat-value highlight" id="stat-maturity">$0</div>
+                    </div>
+                </div>
+
+                <!-- Action Row -->
+                <div class="result-actions">
+                    <button class="btn btn-success" onclick="copyResult()">
+                        <i class="fa-solid fa-copy"></i> Copy
+                    </button>
+                    <button class="btn btn-info" onclick="saveToHistory()">
+                        <i class="fa-solid fa-bookmark"></i> Save
+                    </button>
+                    <button class="btn btn-secondary" onclick="shareResult()">
+                        <i class="fa-solid fa-share-nodes"></i> Share
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ============ YEARLY BREAKDOWN ============ -->
+        <div class="breakdown-panel" id="breakdown-panel" style="display: none;">
+            <div class="breakdown-header">
+                <h3><i class="fa-solid fa-table-list"></i> Yearly Breakdown</h3>
+                <div class="breakdown-actions">
+                    <span class="breakdown-info" id="breakdown-info">—</span>
+                    <button class="mini-btn" onclick="downloadBreakdownCSV()" title="Download CSV">
+                        <i class="fa-solid fa-download"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="breakdown-table-wrap">
+                <table class="breakdown-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Year</th>
+                            <th>Opening Balance</th>
+                            <th>Interest Earned</th>
+                            <th>Cumulative Interest</th>
+                            <th>Closing Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody id="breakdown-body">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ============ COMPARISON PANEL ============ -->
+        <div class="comparison-panel" id="comparison-panel" style="display: none;">
+            <div class="comparison-header">
+                <h3><i class="fa-solid fa-code-compare"></i> Compare Scenarios</h3>
+                <span class="hint">Different rates or time periods</span>
+            </div>
+            <div class="comparison-grid" id="comparison-grid">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+
+        <!-- ============ QUICK PRESETS ============ -->
+        <div class="presets-panel">
+            <div class="presets-header">
+                <h3><i class="fa-solid fa-bolt"></i> Quick Presets</h3>
+                <span class="hint">Common simple interest scenarios</span>
+            </div>
+            <div class="presets-grid">
+                <button class="preset-btn" onclick="applyPreset('fd')">
+                    <i class="fa-solid fa-vault"></i>
+                    <div>
+                        <span class="preset-title">Fixed Deposit</span>
+                        <small>$10K • 7% • 5Y</small>
+                    </div>
+                </button>
+                <button class="preset-btn" onclick="applyPreset('savings')">
+                    <i class="fa-solid fa-piggy-bank"></i>
+                    <div>
+                        <span class="preset-title">Savings Account</span>
+                        <small>$5K • 4% • 3Y</small>
+                    </div>
+                </button>
+                <button class="preset-btn" onclick="applyPreset('bond')">
+                    <i class="fa-solid fa-file-contract"></i>
+                    <div>
+                        <span class="preset-title">Government Bond</span>
+                        <small>$50K • 8% • 10Y</small>
+                    </div>
+                </button>
+                <button class="preset-btn" onclick="applyPreset('shortloan')">
+                    <i class="fa-solid fa-hand-holding-dollar"></i>
+                    <div>
+                        <span class="preset-title">Short-term Loan</span>
+                        <small>$20K • 12% • 2Y</small>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <!-- ============ HISTORY ============ -->
+        <div class="history-panel" id="history-panel" style="display: none;">
+            <div class="history-header">
+                <h3><i class="fa-solid fa-clock-rotate-left"></i> Saved Calculations</h3>
+                <button class="clear-history-btn" onclick="clearHistory()">
+                    <i class="fa-solid fa-trash"></i> Clear
+                </button>
+            </div>
+            <div class="history-list" id="history-list"></div>
+        </div>
+
+        <!-- Help Section -->
+        <div class="help-box">
+            <h4><i class="fa-solid fa-circle-question"></i> How to Use Simple Interest Calculator</h4>
+            <ul>
+                <li><b>4 Modes</b>: Calculate SI, Find Principal, Find Rate, Find Time.</li>
+                <li><b>Calculate SI Mode</b> — Principal, Rate, Time enter karein → SI + Maturity milega.</li>
+                <li><b>Find Principal Mode</b> — SI, Rate, Time enter karein → Principal milega.</li>
+                <li><b>Find Rate Mode</b> — SI, Principal, Time enter karein → Rate milega.</li>
+                <li><b>Find Time Mode</b> — SI, Principal, Rate enter karein → Time milega.</li>
+                <li><b>Time Unit Toggle</b> — Years, Months, Days mein switch karein.</li>
+                <li><b>Live Calculation</b> — koi bhi value change karte hi result update.</li>
+                <li><b>Donut Chart</b> — Principal vs Interest ka visual breakdown.</li>
+                <li><b>Yearly Breakdown</b> — Har saal ka interest aur cumulative total.</li>
+                <li><b>Compare Scenarios</b> — Different rates/time ke saath comparison.</li>
+                <li><b>CSV Download</b> — Breakdown export karein.</li>
+                <li><b>Copy/Save/Share</b> — Result ko reuse karein.</li>
+                <li>Sab kuch <b>client-side</b> hai — koi data server par nahi jata.</li>
+            </ul>
+        </div>
+
+    </main>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="footer">
+        <p>© 2025 Tool Hub — All Your Online Tools in One Place</p>
+    </footer>
+
+    <!-- ============ TOAST ============ -->
+    <div id="toast" class="toast">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toast-message">Message</span>
+    </div>
+
+    <!-- Simple Interest Calculator JS -->
+    <script src="simpleinterest-script.js"></script>
+</body>
+</html>

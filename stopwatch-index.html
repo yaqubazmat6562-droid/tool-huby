@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Stopwatch - Tool Hub</title>
+    <meta name="theme-color" content="#0f172a">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="stopwatch-style.css">
+</head>
+<body>
+
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">
+            <i class="fa-solid fa-wrench"></i>
+            <h2>Tool Hub</h2>
+        </div>
+        <nav>
+            <ul>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-house"></i> Home</li>
+                <li onclick="window.location.href='alltools-index.html'"><i class="fa-solid fa-toolbox"></i> All Tools</li>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-heart"></i> Favorites</li>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-clock-rotate-left"></i> History</li>
+            </ul>
+        </nav>
+        <div class="categories">
+            <h3>Categories</h3>
+            <ul>
+                <li onclick="window.location.href='alltools-index.html?cat=text'"><i class="fa-solid fa-font"></i> Text Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=calc'"><i class="fa-solid fa-calculator"></i> Calculator Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=dev'"><i class="fa-solid fa-code"></i> Developer Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=image'"><i class="fa-solid fa-image"></i> Image Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=gen'"><i class="fa-solid fa-wand-magic-sparkles"></i> Generator Tools</li>
+                <li class="active" onclick="window.location.href='alltools-index.html?cat=date'"><i class="fa-solid fa-calendar-day"></i> Date & Time</li>
+                <li onclick="window.location.href='alltools-index.html?cat=finance'"><i class="fa-solid fa-coins"></i> Finance</li>
+            </ul>
+        </div>
+        <div class="login-box">
+            <i class="fa-solid fa-crown"></i>
+            <p>Save Your Favorite Tools</p>
+            <button>Login / Sign Up</button>
+        </div>
+    </aside>
+
+    <!-- ================= MAIN ================= -->
+    <main class="main-content">
+
+        <!-- Header -->
+        <header>
+            <div class="search-bar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search tools..." id="header-search">
+            </div>
+            <div class="nav-actions">
+                <button id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+                <button class="contact-btn"><i class="fa-solid fa-envelope"></i> Contact</button>
+            </div>
+        </header>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> /
+            <a href="alltools-index.html">All Tools</a> /
+            <span>Stopwatch</span>
+        </div>
+
+        <!-- Tool Title -->
+        <div class="tool-title-bar">
+            <div class="tool-title-left">
+                <div class="tool-title-icon date">
+                    <i class="fa-solid fa-stopwatch"></i>
+                </div>
+                <div>
+                    <h1>Stopwatch</h1>
+                    <p>Precise stopwatch with lap tracking & best/worst highlight</p>
+                </div>
+            </div>
+            <button class="share-btn" onclick="shareStopwatch()">
+                <i class="fa-solid fa-share-nodes"></i> Share
+            </button>
+        </div>
+
+        <!-- ================= STOPWATCH CARD ================= -->
+        <div class="stopwatch-card" id="stopwatchCard">
+
+            <!-- Progress Ring + Time -->
+            <div class="ring-wrap">
+                <svg class="progress-ring" viewBox="0 0 260 260">
+                    <circle class="ring-bg" cx="130" cy="130" r="118"></circle>
+                    <circle class="ring-fg" cx="130" cy="130" r="118" id="ringProgress"></circle>
+                </svg>
+
+                <div class="display">
+                    <div class="label" id="statusLabel">READY</div>
+                    <div class="time" id="displayTime">
+                        00:00<span class="milli">.00</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="controls">
+                <button class="btn primary" id="startPauseBtn">Start</button>
+                <button class="btn secondary" id="lapBtn" disabled>Lap</button>
+                <button class="btn accent" id="resetBtn" disabled>Reset</button>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats">
+                <div class="stat-box">
+                    <span class="stat-label">Laps</span>
+                    <span class="stat-value" id="lapCount">0</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-label">Best Lap</span>
+                    <span class="stat-value" id="bestLap">--:--.--</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-label">Worst Lap</span>
+                    <span class="stat-value" id="worstLap">--:--.--</span>
+                </div>
+            </div>
+
+            <!-- Laps Panel -->
+            <div class="laps-panel">
+                <div class="laps-header">
+                    <span>Lap</span>
+                    <span>Split</span>
+                    <span>Total</span>
+                </div>
+                <div class="laps-list" id="lapsList">
+                    <div class="empty-lap">No laps recorded yet</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Keyboard Hint -->
+        <div class="kbd-hint">
+            <span><kbd>Space</kbd> Start/Pause</span>
+            <span><kbd>L</kbd> Lap</span>
+            <span><kbd>R</kbd> Reset</span>
+        </div>
+
+    </main>
+
+    <!-- Toast -->
+    <div id="toast" class="toast">Message here</div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script src="stopwatch-script.js"></script>
+</body>
+</html>
