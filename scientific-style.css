@@ -1,0 +1,572 @@
+/* ============================================================
+   SCIENTIFIC CALCULATOR - Additional Styles
+   Works with existing style.css
+   ============================================================ */
+
+/* ---------- Tool Title Bar ---------- */
+.tool-title-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 18px 22px;
+    margin-bottom: 22px;
+    flex-wrap: wrap;
+}
+
+.tool-title-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+}
+
+.tool-title-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.tool-title-icon.sci {
+    background: linear-gradient(135deg, #0ea5e9, #0284c7);
+    box-shadow: 0 6px 16px rgba(14, 165, 233, 0.35);
+}
+
+.tool-title-left h1 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 2px;
+}
+
+.tool-title-left p {
+    font-size: 0.85rem;
+    color: #888;
+}
+
+.share-btn {
+    padding: 10px 18px;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.2s;
+}
+
+.share-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(37, 99, 235, 0.35);
+}
+
+/* ---------- Sci Card ---------- */
+.sci-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 28px;
+    padding: 18px 16px 16px;
+    max-width: 620px;
+    margin: 0 auto;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+    transition: 0.3s;
+}
+
+body.dark-mode .sci-card {
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+/* ---------- Top Bar ---------- */
+.sci-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    gap: 10px;
+}
+
+.angle-toggle {
+    display: flex;
+    background: var(--bg-color);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 3px;
+    gap: 2px;
+}
+
+.angle-btn {
+    padding: 7px 14px;
+    background: transparent;
+    border: none;
+    border-radius: 9px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #94a3b8;
+    cursor: pointer;
+    transition: 0.2s;
+    font-family: inherit;
+    -webkit-appearance: none;
+    appearance: none;
+    letter-spacing: 0.5px;
+}
+
+.angle-btn.active {
+    background: var(--primary);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+}
+
+.history-toggle {
+    width: 40px;
+    height: 40px;
+    background: var(--bg-color);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: var(--text-color);
+    cursor: pointer;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+    flex-shrink: 0;
+}
+
+.history-toggle:hover,
+.history-toggle.active {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+}
+
+/* ---------- Display ---------- */
+.sci-display {
+    background: var(--bg-color);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 18px 20px;
+    margin-bottom: 10px;
+    min-height: 110px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    overflow: hidden;
+}
+
+.sci-memory {
+    position: absolute;
+    top: 10px;
+    left: 14px;
+    font-size: 0.72rem;
+    color: #f59e0b;
+    font-weight: 700;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.sci-memory i { font-size: 0.7rem; }
+
+.sci-expression {
+    font-size: clamp(1.1rem, 4.5vw, 1.5rem);
+    font-weight: 500;
+    color: var(--text-color);
+    text-align: right;
+    word-break: break-all;
+    line-height: 1.3;
+    min-height: 1.6em;
+    font-variant-numeric: tabular-nums;
+    font-family: 'Segoe UI', 'Inter', sans-serif;
+    opacity: 0.9;
+}
+
+.sci-result {
+    font-size: clamp(1.6rem, 7vw, 2.4rem);
+    font-weight: 800;
+    color: var(--primary);
+    text-align: right;
+    margin-top: 6px;
+    word-break: break-all;
+    line-height: 1.15;
+    font-variant-numeric: tabular-nums;
+    font-family: 'Segoe UI', 'Inter', sans-serif;
+    min-height: 1.2em;
+    transition: 0.2s;
+}
+
+.sci-result.error {
+    color: #ef4444;
+    font-size: clamp(1.1rem, 5vw, 1.4rem);
+}
+
+/* ---------- Memory Row ---------- */
+.memory-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.mem-btn {
+    padding: 9px 4px;
+    background: var(--bg-color);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: #94a3b8;
+    font-size: 0.72rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.15s;
+    font-family: inherit;
+    -webkit-appearance: none;
+    appearance: none;
+    letter-spacing: 0.3px;
+}
+
+.mem-btn:hover {
+    color: var(--primary);
+    border-color: var(--primary);
+}
+
+.mem-btn:active {
+    background: var(--primary);
+    color: #fff;
+    transform: scale(0.96);
+}
+
+/* ---------- History Panel ---------- */
+.history-panel {
+    max-height: 0;
+    overflow: hidden;
+    background: var(--bg-color);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    transition: max-height 0.3s ease, margin 0.3s ease, padding 0.3s ease;
+    margin-bottom: 0;
+    padding: 0 12px;
+}
+
+.history-panel.open {
+    max-height: 220px;
+    padding: 12px;
+    margin-bottom: 12px;
+}
+
+.history-hdr {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #94a3b8;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+
+.history-hdr button {
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    cursor: pointer;
+    padding: 3px 8px;
+    border-radius: 6px;
+    transition: 0.2s;
+}
+
+.history-hdr button:hover {
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.1);
+}
+
+.history-items {
+    max-height: 160px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #64748b transparent;
+}
+
+.history-items::-webkit-scrollbar { width: 4px; }
+.history-items::-webkit-scrollbar-thumb {
+    background: #64748b;
+    border-radius: 10px;
+}
+
+.history-item {
+    padding: 8px 10px;
+    border-radius: 8px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    margin-bottom: 5px;
+    cursor: pointer;
+    transition: 0.15s;
+    animation: histFade 0.25s ease;
+}
+
+.history-item:hover {
+    border-color: var(--primary);
+    transform: translateX(2px);
+}
+
+.history-item .h-expr {
+    font-size: 0.72rem;
+    color: #94a3b8;
+    word-break: break-all;
+    margin-bottom: 2px;
+}
+
+.history-item .h-res {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-color);
+    word-break: break-all;
+    text-align: right;
+}
+
+@keyframes histFade {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.empty-history {
+    text-align: center;
+    color: #94a3b8;
+    padding: 16px 0;
+    font-style: italic;
+    font-size: 0.8rem;
+}
+
+/* ---------- Function Rows ---------- */
+.func-row {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 5px;
+    margin-bottom: 5px;
+}
+
+.fn-btn {
+    padding: 10px 2px;
+    background: var(--bg-color);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text-color);
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.12s;
+    font-family: inherit;
+    -webkit-appearance: none;
+    appearance: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.fn-btn:hover {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+}
+
+.fn-btn:active {
+    transform: scale(0.94);
+}
+
+/* ---------- Keypad ---------- */
+.keypad {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.key {
+    padding: 16px 6px;
+    background: var(--bg-color);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    color: var(--text-color);
+    font-size: 1.15rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.08s ease, background 0.15s;
+    font-family: inherit;
+    -webkit-appearance: none;
+    appearance: none;
+    user-select: none;
+    min-height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.key:hover {
+    background: #eef2ff;
+}
+
+body.dark-mode .key:hover {
+    background: #334155;
+}
+
+.key:active {
+    transform: scale(0.95);
+}
+
+.key.num {
+    background: var(--card-bg);
+    font-size: 1.25rem;
+    font-weight: 800;
+}
+
+.key.fn-action {
+    color: var(--primary);
+    font-size: 1.05rem;
+}
+
+.key.fn-action[data-action="clear"] {
+    color: #ef4444;
+    font-weight: 800;
+}
+
+.key.equals {
+    background: linear-gradient(145deg, #0ea5e9, #0284c7);
+    color: #fff;
+    border-color: #0284c7;
+    box-shadow: 0 4px 0 #075985, 0 6px 14px rgba(14, 165, 233, 0.35);
+    font-size: 1.35rem;
+}
+
+.key.equals:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 #075985, 0 3px 8px rgba(14, 165, 233, 0.4);
+}
+
+/* ---------- Info Bar ---------- */
+.sci-info {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 12px;
+    font-size: 0.72rem;
+    color: #94a3b8;
+    letter-spacing: 0.3px;
+    flex-wrap: wrap;
+}
+
+.sci-info i { color: var(--primary); margin-right: 4px; }
+
+/* ---------- Keyboard Hint ---------- */
+.kbd-hint {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+    font-size: 0.76rem;
+    color: #94a3b8;
+}
+
+.kbd-hint kbd {
+    display: inline-block;
+    padding: 2px 8px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-bottom-width: 2px;
+    border-radius: 6px;
+    font-family: monospace;
+    font-size: 0.72rem;
+    color: var(--text-color);
+    margin-right: 4px;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+    .tool-title-bar {
+        padding: 14px 16px;
+        border-radius: 14px;
+    }
+
+    .tool-title-icon {
+        width: 44px;
+        height: 44px;
+        font-size: 1.15rem;
+        border-radius: 12px;
+    }
+
+    .tool-title-left h1 { font-size: 1.1rem; }
+    .tool-title-left p  { font-size: 0.78rem; }
+
+    .share-btn {
+        padding: 8px 14px;
+        font-size: 0.82rem;
+    }
+
+    .sci-card {
+        padding: 14px 12px 12px;
+        border-radius: 22px;
+    }
+
+    .angle-btn {
+        padding: 6px 10px;
+        font-size: 0.68rem;
+    }
+
+    .fn-btn {
+        padding: 9px 1px;
+        font-size: 0.7rem;
+    }
+
+    .key {
+        padding: 14px 4px;
+        min-height: 50px;
+        font-size: 1.05rem;
+    }
+
+    .key.num { font-size: 1.15rem; }
+    .key.equals { font-size: 1.2rem; }
+
+    .mem-btn {
+        font-size: 0.68rem;
+        padding: 8px 3px;
+    }
+}
+
+@media (max-width: 400px) {
+    .sci-card { padding: 12px 8px 10px; }
+    .func-row { gap: 4px; }
+    .keypad { gap: 6px; }
+    .fn-btn { font-size: 0.65rem; padding: 8px 1px; }
+    .key {
+        min-height: 46px;
+        padding: 12px 3px;
+        font-size: 0.95rem;
+        border-radius: 12px;
+    }
+    .key.num { font-size: 1.05rem; }
+    .key.equals { font-size: 1.1rem; }
+    .sci-expression { font-size: 1rem; }
+    .sci-result { font-size: 1.6rem; }
+    .kbd-hint { display: none; }
+}
+
+/* Smooth scrollbar in dark mode */
+body.dark-mode .history-items::-webkit-scrollbar-thumb {
+    background: #475569;
+}

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>URL Encoder/Decoder - Tool Hub</title>
+    <meta name="theme-color" content="#0f172a">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="urlencoder-style.css">
+</head>
+<body>
+
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">
+            <i class="fa-solid fa-wrench"></i>
+            <h2>Tool Hub</h2>
+        </div>
+        <nav>
+            <ul>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-house"></i> Home</li>
+                <li onclick="window.location.href='alltools-index.html'"><i class="fa-solid fa-toolbox"></i> All Tools</li>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-heart"></i> Favorites</li>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-clock-rotate-left"></i> History</li>
+            </ul>
+        </nav>
+        <div class="categories">
+            <h3>Categories</h3>
+            <ul>
+                <li onclick="window.location.href='alltools-index.html?cat=text'"><i class="fa-solid fa-font"></i> Text Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=calc'"><i class="fa-solid fa-calculator"></i> Calculator Tools</li>
+                <li class="active" onclick="window.location.href='alltools-index.html?cat=dev'"><i class="fa-solid fa-code"></i> Developer Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=image'"><i class="fa-solid fa-image"></i> Image Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=gen'"><i class="fa-solid fa-wand-magic-sparkles"></i> Generator Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=date'"><i class="fa-solid fa-calendar-day"></i> Date & Time</li>
+                <li onclick="window.location.href='alltools-index.html?cat=finance'"><i class="fa-solid fa-coins"></i> Finance</li>
+            </ul>
+        </div>
+        <div class="login-box">
+            <i class="fa-solid fa-crown"></i>
+            <p>Save Your Favorite Tools</p>
+            <button>Login / Sign Up</button>
+        </div>
+    </aside>
+
+    <!-- ================= MAIN ================= -->
+    <main class="main-content">
+
+        <!-- Header -->
+        <header>
+            <div class="search-bar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search tools..." id="header-search">
+            </div>
+            <div class="nav-actions">
+                <button id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+                <button class="contact-btn"><i class="fa-solid fa-envelope"></i> Contact</button>
+            </div>
+        </header>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> /
+            <a href="alltools-index.html">All Tools</a> /
+            <span>URL Encoder/Decoder</span>
+        </div>
+
+        <!-- Tool Title Bar -->
+        <div class="tool-title-bar">
+            <div class="tool-title-left">
+                <div class="tool-title-icon url">
+                    <i class="fa-solid fa-link"></i>
+                </div>
+                <div>
+                    <h1>URL Encoder / Decoder</h1>
+                    <p>Encode & decode URLs safely with query params, component-wise & analyzer</p>
+                </div>
+            </div>
+            <button class="share-btn" onclick="shareUrlEncoder()">
+                <i class="fa-solid fa-share-nodes"></i> Share
+            </button>
+        </div>
+
+        <!-- ================= URL CARD ================= -->
+        <div class="url-card" id="urlCard">
+
+            <!-- Mode Tabs -->
+            <div class="mode-tabs" id="modeTabs">
+                <button class="mode-tab active" data-mode="encode">
+                    <i class="fa-solid fa-lock"></i> <span>Encode</span>
+                </button>
+                <button class="mode-tab" data-mode="decode">
+                    <i class="fa-solid fa-lock-open"></i> <span>Decode</span>
+                </button>
+                <button class="mode-tab" data-mode="query">
+                    <i class="fa-solid fa-list"></i> <span>Query Params</span>
+                </button>
+                <button class="mode-tab" data-mode="analyze">
+                    <i class="fa-solid fa-chart-simple"></i> <span>Analyze URL</span>
+                </button>
+            </div>
+
+            <!-- Input Area -->
+            <div class="input-area">
+
+                <!-- ========== MODE: ENCODE ========== -->
+                <div class="mode-content active" data-content="encode">
+                    <div class="mode-header-row">
+                        <span class="mh-label"><i class="fa-solid fa-keyboard"></i> Input Text / URL</span>
+                        <div class="mh-actions">
+                            <button class="mini-btn" id="enc-paste" title="Paste">
+                                <i class="fa-solid fa-paste"></i>
+                            </button>
+                            <button class="mini-btn" id="enc-clear" title="Clear">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                            <button class="mini-btn" id="enc-sample" title="Sample">
+                                <i class="fa-solid fa-flask"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <textarea id="encodeInput" class="big-textarea" placeholder="Type or paste text / URL here...&#10;&#10;Example:&#10;https://example.com/search?q=hello world&lang=en"></textarea>
+                    <div class="char-counter" id="encCounter">0 characters</div>
+
+                    <!-- Encode Type -->
+                    <div class="encode-type-row">
+                        <span class="et-label"><i class="fa-solid fa-sliders"></i> Encode Type:</span>
+                        <div class="et-pills" id="encTypePills">
+                            <button class="et-pill active" data-etype="component">
+                                <i class="fa-solid fa-puzzle-piece"></i> Component
+                            </button>
+                            <button class="et-pill" data-etype="full">
+                                <i class="fa-solid fa-link"></i> Full URL
+                            </button>
+                            <button class="et-pill" data-etype="query">
+                                <i class="fa-solid fa-list"></i> Query Value
+                            </button>
+                            <button class="et-pill" data-etype="path">
+                                <i class="fa-solid fa-route"></i> Path Segment
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="opt-row">
+                        <label class="opt-chip">
+                            <input type="checkbox" id="encAuto" checked>
+                            <span><i class="fa-solid fa-bolt"></i> Live Encode</span>
+                        </label>
+                        <label class="opt-chip">
+                            <input type="checkbox" id="encUpper">
+                            <span><i class="fa-solid fa-arrow-up"></i> Uppercase Hex</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- ========== MODE: DECODE ========== -->
+                <div class="mode-content" data-content="decode">
+                    <div class="mode-header-row">
+                        <span class="mh-label"><i class="fa-solid fa-keyboard"></i> Encoded URL / Text</span>
+                        <div class="mh-actions">
+                            <button class="mini-btn" id="dec-paste" title="Paste">
+                                <i class="fa-solid fa-paste"></i>
+                            </button>
+                            <button class="mini-btn" id="dec-clear" title="Clear">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                            <button class="mini-btn" id="dec-sample" title="Sample">
+                                <i class="fa-solid fa-flask"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <textarea id="decodeInput" class="big-textarea mono" placeholder="Paste encoded URL here...&#10;&#10;Example:&#10;https%3A%2F%2Fexample.com%2Fsearch%3Fq%3Dhello%20world"></textarea>
+                    <div class="char-counter" id="decCounter">0 characters</div>
+
+                    <div class="opt-row">
+                        <label class="opt-chip">
+                            <input type="checkbox" id="decAuto" checked>
+                            <span><i class="fa-solid fa-bolt"></i> Live Decode</span>
+                        </label>
+                        <label class="opt-chip">
+                            <input type="checkbox" id="decReplacePlus" checked>
+                            <span><i class="fa-solid fa-plus"></i> Treat + as Space</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- ========== MODE: QUERY PARAMS ========== -->
+                <div class="mode-content" data-content="query">
+                    <div class="mode-header-row">
+                        <span class="mh-label"><i class="fa-solid fa-list"></i> URL with Query String</span>
+                        <div class="mh-actions">
+                            <button class="mini-btn" id="qry-paste" title="Paste">
+                                <i class="fa-solid fa-paste"></i>
+                            </button>
+                            <button class="mini-btn" id="qry-sample" title="Sample">
+                                <i class="fa-solid fa-flask"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <textarea id="queryInput" class="big-textarea mono" placeholder="Paste URL with query string...&#10;&#10;Example:&#10;https://example.com/search?q=hello+world&lang=en&page=2"></textarea>
+
+                    <div class="qry-actions">
+                        <label class="opt-chip">
+                            <input type="checkbox" id="qryDecodeValues" checked>
+                            <span><i class="fa-solid fa-unlock"></i> Decode values</span>
+                        </label>
+                        <button class="mini-btn-wide" id="parseQueryBtn">
+                            <i class="fa-solid fa-play"></i> Parse Params
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ========== MODE: ANALYZE ========== -->
+                <div class="mode-content" data-content="analyze">
+                    <div class="mode-header-row">
+                        <span class="mh-label"><i class="fa-solid fa-chart-simple"></i> URL to Analyze</span>
+                        <div class="mh-actions">
+                            <button class="mini-btn" id="ana-paste" title="Paste">
+                                <i class="fa-solid fa-paste"></i>
+                            </button>
+                            <button class="mini-btn" id="ana-sample" title="Sample">
+                                <i class="fa-solid fa-flask"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <textarea id="analyzeInput" class="big-textarea mono" placeholder="Paste any URL to analyze...&#10;&#10;Example:&#10;https://user:pass@example.com:8080/path/to/page?q=test&utm_source=newsletter#section-1"></textarea>
+
+                    <button class="mini-btn-wide" id="analyzeBtn" style="margin-top:12px;">
+                        <i class="fa-solid fa-magnifying-glass-chart"></i> Analyze URL
+                    </button>
+                </div>
+
+                <div class="error-msg" id="urlError"></div>
+
+                <!-- Actions -->
+                <div class="action-row">
+                    <button class="btn primary" id="processBtn">
+                        <i class="fa-solid fa-bolt"></i> <span id="processBtnLabel">Encode</span>
+                    </button>
+                    <button class="btn secondary" id="swapBtn" title="Swap direction (Ctrl+Shift+X)">
+                        <i class="fa-solid fa-right-left"></i>
+                    </button>
+                    <button class="btn secondary" id="clearAllBtn" title="Clear all">
+                        <i class="fa-solid fa-eraser"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Output Area -->
+            <div class="output-area" id="outputArea" style="display:none;">
+                <div class="output-header">
+                    <span class="oh-label" id="outputLabel">
+                        <i class="fa-solid fa-arrow-right"></i> Output
+                    </span>
+                    <div class="oh-actions">
+                        <span class="oh-stats" id="outputStats"></span>
+                        <button class="mini-btn" id="copyOutputBtn" title="Copy">
+                            <i class="fa-solid fa-copy"></i>
+                        </button>
+                        <button class="mini-btn" id="downloadOutputBtn" title="Download">
+                            <i class="fa-solid fa-download"></i>
+                        </button>
+                        <button class="mini-btn" id="sendToInputBtn" title="Send to other input">
+                            <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                        </button>
+                    </div>
+                </div>
+                <pre class="output-content mono" id="outputContent"></pre>
+            </div>
+
+            <!-- Query Params Table -->
+            <div class="params-area" id="paramsArea" style="display:none;">
+                <div class="params-header">
+                    <span><i class="fa-solid fa-list"></i> Parsed Query Parameters</span>
+                    <span class="params-count" id="paramsCount">0</span>
+                </div>
+                <div class="params-table" id="paramsTable"></div>
+                <div class="params-actions">
+                    <button class="mini-btn-wide" id="copyParamsJson">
+                        <i class="fa-solid fa-copy"></i> Copy as JSON
+                    </button>
+                    <button class="mini-btn-wide" id="copyParamsQuery">
+                        <i class="fa-solid fa-copy"></i> Copy as Query
+                    </button>
+                </div>
+            </div>
+
+            <!-- URL Analysis -->
+            <div class="analysis-area" id="analysisArea" style="display:none;">
+                <div class="analysis-header">
+                    <i class="fa-solid fa-chart-simple"></i> URL Breakdown
+                </div>
+                <div class="analysis-grid" id="analysisGrid"></div>
+
+                <div class="analysis-section">
+                    <div class="as-header">
+                        <i class="fa-solid fa-list"></i> Query Parameters
+                    </div>
+                    <div class="as-body" id="analysisParams"></div>
+                </div>
+
+                <div class="analysis-section" id="analysisSecurityWrap" style="display:none;">
+                    <div class="as-header">
+                        <i class="fa-solid fa-shield-halved"></i> Security Checks
+                    </div>
+                    <div class="as-body" id="analysisSecurity"></div>
+                </div>
+            </div>
+
+            <!-- History -->
+            <div class="url-history">
+                <div class="history-hdr">
+                    <span><i class="fa-solid fa-clock-rotate-left"></i> Recent</span>
+                    <button id="clearUrlHistory" title="Clear">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+                <div class="history-list" id="urlHistoryList">
+                    <div class="empty-history">No operations yet</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Keyboard Hint -->
+        <div class="kbd-hint">
+            <span><kbd>Ctrl</kbd>+<kbd>Enter</kbd> Process</span>
+            <span><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>X</kbd> Swap</span>
+            <span><kbd>Esc</kbd> Clear</span>
+        </div>
+
+    </main>
+
+    <!-- Toast -->
+    <div id="toast" class="toast">Message here</div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script src="urlencoder-script.js"></script>
+</body>
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Date Difference Calculator - Tool Hub</title>
+    <meta name="theme-color" content="#0f172a">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="datediff-style.css">
+</head>
+<body>
+
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">
+            <i class="fa-solid fa-wrench"></i>
+            <h2>Tool Hub</h2>
+        </div>
+        <nav>
+            <ul>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-house"></i> Home</li>
+                <li onclick="window.location.href='alltools-index.html'"><i class="fa-solid fa-toolbox"></i> All Tools</li>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-heart"></i> Favorites</li>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-clock-rotate-left"></i> History</li>
+            </ul>
+        </nav>
+        <div class="categories">
+            <h3>Categories</h3>
+            <ul>
+                <li onclick="window.location.href='alltools-index.html?cat=text'"><i class="fa-solid fa-font"></i> Text Tools</li>
+                <li class="active" onclick="window.location.href='alltools-index.html?cat=calc'"><i class="fa-solid fa-calculator"></i> Calculator Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=dev'"><i class="fa-solid fa-code"></i> Developer Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=image'"><i class="fa-solid fa-image"></i> Image Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=gen'"><i class="fa-solid fa-wand-magic-sparkles"></i> Generator Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=date'"><i class="fa-solid fa-calendar-day"></i> Date & Time</li>
+                <li onclick="window.location.href='alltools-index.html?cat=finance'"><i class="fa-solid fa-coins"></i> Finance</li>
+            </ul>
+        </div>
+        <div class="login-box">
+            <i class="fa-solid fa-crown"></i>
+            <p>Save Your Favorite Tools</p>
+            <button>Login / Sign Up</button>
+        </div>
+    </aside>
+
+    <!-- ================= MAIN ================= -->
+    <main class="main-content">
+
+        <!-- Header -->
+        <header>
+            <div class="search-bar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search tools..." id="header-search">
+            </div>
+            <div class="nav-actions">
+                <button id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+                <button class="contact-btn"><i class="fa-solid fa-envelope"></i> Contact</button>
+            </div>
+        </header>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> /
+            <a href="alltools-index.html">All Tools</a> /
+            <span>Date Difference Calculator</span>
+        </div>
+
+        <!-- Tool Title Bar -->
+        <div class="tool-title-bar">
+            <div class="tool-title-left">
+                <div class="tool-title-icon dt">
+                    <i class="fa-solid fa-calendar-week"></i>
+                </div>
+                <div>
+                    <h1>Date Difference Calculator</h1>
+                    <p>Find exact days, weeks, months, business days & time between two dates</p>
+                </div>
+            </div>
+            <button class="share-btn" onclick="shareDateDiff()">
+                <i class="fa-solid fa-share-nodes"></i> Share
+            </button>
+        </div>
+
+        <!-- ================= DATE DIFF CARD ================= -->
+        <div class="dt-card" id="dtCard">
+
+            <!-- Quick Presets -->
+            <div class="preset-row">
+                <button class="preset" data-preset="today-tomorrow">
+                    <i class="fa-solid fa-sun"></i> Today → Tomorrow
+                </button>
+                <button class="preset" data-preset="this-week">
+                    <i class="fa-solid fa-calendar-week"></i> This Week
+                </button>
+                <button class="preset" data-preset="this-month">
+                    <i class="fa-solid fa-calendar"></i> This Month
+                </button>
+                <button class="preset" data-preset="this-year">
+                    <i class="fa-solid fa-calendar-days"></i> This Year
+                </button>
+                <button class="preset" data-preset="next-birthday">
+                    <i class="fa-solid fa-cake-candles"></i> Next Birthday
+                </button>
+            </div>
+
+            <!-- Date Inputs -->
+            <div class="date-inputs">
+                <div class="input-block">
+                    <label><i class="fa-solid fa-play"></i> Start Date</label>
+                    <input type="date" id="startDate">
+                </div>
+
+                <div class="swap-divider">
+                    <button class="swap-dates-btn" id="swapDatesBtn" title="Swap dates">
+                        <i class="fa-solid fa-right-left"></i>
+                    </button>
+                </div>
+
+                <div class="input-block">
+                    <label><i class="fa-solid fa-flag-checkered"></i> End Date</label>
+                    <input type="date" id="endDate">
+                </div>
+            </div>
+
+            <!-- Include End Date Toggle -->
+            <div class="options-row">
+                <label class="check-chip">
+                    <input type="checkbox" id="includeEndDate">
+                    <span><i class="fa-solid fa-calendar-plus"></i> Include end date</span>
+                </label>
+                <label class="check-chip">
+                    <input type="checkbox" id="businessDaysOnly">
+                    <span><i class="fa-solid fa-briefcase"></i> Business days only</span>
+                </label>
+            </div>
+
+            <div class="error-msg" id="dtError"></div>
+
+            <!-- Actions -->
+            <div class="action-row">
+                <button class="btn primary" id="calcDtBtn">
+                    <i class="fa-solid fa-calculator"></i> Calculate Difference
+                </button>
+                <button class="btn secondary" id="resetDtBtn" title="Reset">
+                    <i class="fa-solid fa-rotate-left"></i>
+                </button>
+            </div>
+
+            <!-- Result Area -->
+            <div class="dt-result-area" id="dtResult" style="display:none;">
+
+                <!-- Hero -->
+                <div class="dt-hero">
+                    <div class="hero-label">TOTAL DIFFERENCE</div>
+                    <div class="hero-value" id="heroDays">0</div>
+                    <div class="hero-unit" id="heroUnit">Days</div>
+                    <div class="hero-sub" id="heroSub">Between two dates</div>
+                </div>
+
+                <!-- Y/M/D Breakdown -->
+                <div class="breakdown-title">
+                    <i class="fa-solid fa-list-check"></i> Exact Breakdown
+                </div>
+                <div class="breakdown-grid">
+                    <div class="bd-box">
+                        <div class="bd-icon years"><i class="fa-solid fa-calendar"></i></div>
+                        <div class="bd-value" id="bdYears">0</div>
+                        <div class="bd-label">Years</div>
+                    </div>
+                    <div class="bd-box">
+                        <div class="bd-icon months"><i class="fa-solid fa-calendar-days"></i></div>
+                        <div class="bd-value" id="bdMonths">0</div>
+                        <div class="bd-label">Months</div>
+                    </div>
+                    <div class="bd-box">
+                        <div class="bd-icon weeks"><i class="fa-solid fa-calendar-week"></i></div>
+                        <div class="bd-value" id="bdWeeks">0</div>
+                        <div class="bd-label">Weeks</div>
+                    </div>
+                    <div class="bd-box">
+                        <div class="bd-icon days"><i class="fa-solid fa-sun"></i></div>
+                        <div class="bd-value" id="bdDays">0</div>
+                        <div class="bd-label">Days</div>
+                    </div>
+                    <div class="bd-box">
+                        <div class="bd-icon hours"><i class="fa-solid fa-clock"></i></div>
+                        <div class="bd-value" id="bdHours">0</div>
+                        <div class="bd-label">Hours</div>
+                    </div>
+                    <div class="bd-box">
+                        <div class="bd-icon minutes"><i class="fa-solid fa-stopwatch"></i></div>
+                        <div class="bd-value" id="bdMinutes">0</div>
+                        <div class="bd-label">Minutes</div>
+                    </div>
+                    <div class="bd-box">
+                        <div class="bd-icon seconds"><i class="fa-solid fa-bolt"></i></div>
+                        <div class="bd-value" id="bdSeconds">0</div>
+                        <div class="bd-label">Seconds</div>
+                    </div>
+                    <div class="bd-box">
+                        <div class="bd-icon business"><i class="fa-solid fa-briefcase"></i></div>
+                        <div class="bd-value" id="bdBusiness">0</div>
+                        <div class="bd-label">Business Days</div>
+                    </div>
+                </div>
+
+                <!-- Calendar View -->
+                <div class="calendar-info">
+                    <div class="ci-item">
+                        <div class="ci-label">Start Date</div>
+                        <div class="ci-value" id="ciStart">—</div>
+                        <div class="ci-extra" id="ciStartExtra">—</div>
+                    </div>
+                    <div class="ci-divider"></div>
+                    <div class="ci-item">
+                        <div class="ci-label">End Date</div>
+                        <div class="ci-value" id="ciEnd">—</div>
+                        <div class="ci-extra" id="ciEndExtra">—</div>
+                    </div>
+                </div>
+
+                <!-- Fun Equivalents -->
+                <div class="fun-equiv">
+                    <div class="fe-header">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Fun Equivalents
+                    </div>
+                    <div class="fe-list" id="feList"></div>
+                </div>
+
+                <!-- Actions -->
+                <div class="result-actions">
+                    <button class="action-btn" id="copyDtBtn">
+                        <i class="fa-solid fa-copy"></i> Copy
+                    </button>
+                    <button class="action-btn" id="shareDtResultBtn">
+                        <i class="fa-solid fa-share-nodes"></i> Share
+                    </button>
+                    <button class="action-btn" id="clearDtBtn">
+                        <i class="fa-solid fa-xmark"></i> Clear
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- History -->
+            <div class="dt-history">
+                <div class="history-hdr">
+                    <span><i class="fa-solid fa-clock-rotate-left"></i> Recent</span>
+                    <button id="clearDtHistory" title="Clear">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+                <div class="history-list" id="dtHistoryList">
+                    <div class="empty-history">No calculations yet</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Keyboard Hint -->
+        <div class="kbd-hint">
+            <span><kbd>Enter</kbd> Calculate</span>
+            <span><kbd>Esc</kbd> Reset</span>
+            <span><kbd>Tab</kbd> Next field</span>
+        </div>
+
+    </main>
+
+    <!-- Toast -->
+    <div id="toast" class="toast">Message here</div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script src="datediff-script.js"></script>
+</body>
+</html>

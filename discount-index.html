@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Discount Calculator - Tool Hub</title>
+    <meta name="theme-color" content="#0f172a">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="discount-style.css">
+</head>
+<body>
+
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">
+            <i class="fa-solid fa-wrench"></i>
+            <h2>Tool Hub</h2>
+        </div>
+        <nav>
+            <ul>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-house"></i> Home</li>
+                <li onclick="window.location.href='alltools-index.html'"><i class="fa-solid fa-toolbox"></i> All Tools</li>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-heart"></i> Favorites</li>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-clock-rotate-left"></i> History</li>
+            </ul>
+        </nav>
+        <div class="categories">
+            <h3>Categories</h3>
+            <ul>
+                <li onclick="window.location.href='alltools-index.html?cat=text'"><i class="fa-solid fa-font"></i> Text Tools</li>
+                <li class="active" onclick="window.location.href='alltools-index.html?cat=calc'"><i class="fa-solid fa-calculator"></i> Calculator Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=dev'"><i class="fa-solid fa-code"></i> Developer Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=image'"><i class="fa-solid fa-image"></i> Image Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=gen'"><i class="fa-solid fa-wand-magic-sparkles"></i> Generator Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=date'"><i class="fa-solid fa-calendar-day"></i> Date & Time</li>
+                <li onclick="window.location.href='alltools-index.html?cat=finance'"><i class="fa-solid fa-coins"></i> Finance</li>
+            </ul>
+        </div>
+        <div class="login-box">
+            <i class="fa-solid fa-crown"></i>
+            <p>Save Your Favorite Tools</p>
+            <button>Login / Sign Up</button>
+        </div>
+    </aside>
+
+    <!-- ================= MAIN ================= -->
+    <main class="main-content">
+
+        <!-- Header -->
+        <header>
+            <div class="search-bar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search tools..." id="header-search">
+            </div>
+            <div class="nav-actions">
+                <button id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+                <button class="contact-btn"><i class="fa-solid fa-envelope"></i> Contact</button>
+            </div>
+        </header>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> /
+            <a href="alltools-index.html">All Tools</a> /
+            <span>Discount Calculator</span>
+        </div>
+
+        <!-- Tool Title Bar -->
+        <div class="tool-title-bar">
+            <div class="tool-title-left">
+                <div class="tool-title-icon disc">
+                    <i class="fa-solid fa-tags"></i>
+                </div>
+                <div>
+                    <h1>Discount Calculator</h1>
+                    <p>Calculate final price, savings, stacked discounts, tax & split bills</p>
+                </div>
+            </div>
+            <button class="share-btn" onclick="shareDiscount()">
+                <i class="fa-solid fa-share-nodes"></i> Share
+            </button>
+        </div>
+
+        <!-- ================= DISCOUNT CARD ================= -->
+        <div class="disc-card" id="discCard">
+
+            <!-- Currency Selector -->
+            <div class="currency-row">
+                <label><i class="fa-solid fa-coins"></i> Currency</label>
+                <select id="currencySelect">
+                    <option value="$">$ USD</option>
+                    <option value="₹">₹ INR</option>
+                    <option value="€">€ EUR</option>
+                    <option value="£">£ GBP</option>
+                    <option value="¥">¥ JPY</option>
+                    <option value="₨">₨ PKR</option>
+                    <option value="﷼">﷼ SAR</option>
+                    <option value="د.إ">د.إ AED</option>
+                    <option value="৳">৳ BDT</option>
+                    <option value="₦">₦ NGN</option>
+                    <option value="R">R ZAR</option>
+                </select>
+            </div>
+
+            <!-- Mode Tabs -->
+            <div class="mode-tabs" id="modeTabs">
+                <button class="mode-tab active" data-mode="single">
+                    <i class="fa-solid fa-tag"></i> <span>Single Discount</span>
+                </button>
+                <button class="mode-tab" data-mode="stacked">
+                    <i class="fa-solid fa-layer-group"></i> <span>Stacked Discounts</span>
+                </button>
+                <button class="mode-tab" data-mode="final-price">
+                    <i class="fa-solid fa-arrow-trend-down"></i> <span>Find % Off</span>
+                </button>
+                <button class="mode-tab" data-mode="split">
+                    <i class="fa-solid fa-users"></i> <span>Split Bill</span>
+                </button>
+            </div>
+
+            <!-- Input Area -->
+            <div class="input-area">
+
+                <!-- Mode 1: Single Discount -->
+                <div class="mode-content active" data-content="single">
+                    <div class="field-row">
+                        <div class="field">
+                            <label>Original Price</label>
+                            <input type="number" class="disc-input" id="sd-price" placeholder="e.g. 1000" inputmode="decimal" min="0">
+                        </div>
+                        <div class="field">
+                            <label>Discount (%)</label>
+                            <input type="number" class="disc-input" id="sd-percent" placeholder="e.g. 25" inputmode="decimal" min="0" max="100">
+                        </div>
+                    </div>
+                    <div class="field-row">
+                        <div class="field">
+                            <label>Tax / VAT (%) <span class="opt">optional</span></label>
+                            <input type="number" class="disc-input" id="sd-tax" placeholder="e.g. 5" inputmode="decimal" min="0" max="100">
+                        </div>
+                        <div class="field">
+                            <label>Extra Flat Off <span class="opt">optional</span></label>
+                            <input type="number" class="disc-input" id="sd-flat" placeholder="e.g. 50" inputmode="decimal" min="0">
+                        </div>
+                    </div>
+                    <div class="quick-chips">
+                        <button class="chip" data-target="sd-percent" data-value="5">5%</button>
+                        <button class="chip" data-target="sd-percent" data-value="10">10%</button>
+                        <button class="chip" data-target="sd-percent" data-value="15">15%</button>
+                        <button class="chip" data-target="sd-percent" data-value="20">20%</button>
+                        <button class="chip" data-target="sd-percent" data-value="25">25%</button>
+                        <button class="chip" data-target="sd-percent" data-value="30">30%</button>
+                        <button class="chip" data-target="sd-percent" data-value="40">40%</button>
+                        <button class="chip" data-target="sd-percent" data-value="50">50%</button>
+                        <button class="chip" data-target="sd-percent" data-value="70">70%</button>
+                        <button class="chip" data-target="sd-percent" data-value="90">90%</button>
+                    </div>
+                </div>
+
+                <!-- Mode 2: Stacked Discounts -->
+                <div class="mode-content" data-content="stacked">
+                    <div class="field-row">
+                        <div class="field">
+                            <label>Original Price</label>
+                            <input type="number" class="disc-input" id="st-price" placeholder="e.g. 2000" inputmode="decimal" min="0">
+                        </div>
+                    </div>
+                    <div class="stacked-list" id="stackedList">
+                        <!-- Discount items injected here -->
+                    </div>
+                    <button class="add-stack-btn" id="addStackBtn">
+                        <i class="fa-solid fa-plus"></i> Add Another Discount
+                    </button>
+                </div>
+
+                <!-- Mode 3: Find % Off -->
+                <div class="mode-content" data-content="final-price">
+                    <div class="field-row">
+                        <div class="field">
+                            <label>Original Price</label>
+                            <input type="number" class="disc-input" id="fp-original" placeholder="e.g. 500" inputmode="decimal" min="0">
+                        </div>
+                        <div class="field">
+                            <label>Final (Sale) Price</label>
+                            <input type="number" class="disc-input" id="fp-final" placeholder="e.g. 350" inputmode="decimal" min="0">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mode 4: Split Bill -->
+                <div class="mode-content" data-content="split">
+                    <div class="field-row">
+                        <div class="field">
+                            <label>Total Bill</label>
+                            <input type="number" class="disc-input" id="sp-bill" placeholder="e.g. 3000" inputmode="decimal" min="0">
+                        </div>
+                        <div class="field">
+                            <label>Discount (%)</label>
+                            <input type="number" class="disc-input" id="sp-discount" placeholder="e.g. 20" inputmode="decimal" min="0" max="100">
+                        </div>
+                    </div>
+                    <div class="field-row">
+                        <div class="field">
+                            <label>Tax (%) <span class="opt">optional</span></label>
+                            <input type="number" class="disc-input" id="sp-tax" placeholder="e.g. 5" inputmode="decimal" min="0" max="100">
+                        </div>
+                        <div class="field">
+                            <label>Split Between</label>
+                            <input type="number" class="disc-input" id="sp-people" placeholder="e.g. 4" inputmode="numeric" min="1">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="error-msg" id="discError"></div>
+
+                <!-- Actions -->
+                <div class="action-row">
+                    <button class="btn primary" id="calcDiscBtn">
+                        <i class="fa-solid fa-calculator"></i> Calculate
+                    </button>
+                    <button class="btn secondary" id="resetDiscBtn" title="Reset">
+                        <i class="fa-solid fa-rotate-left"></i>
+                    </button>
+                    <button class="btn secondary" id="clearDiscBtn" title="Clear inputs">
+                        <i class="fa-solid fa-eraser"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Result Area -->
+            <div class="result-area" id="resultArea" style="display:none;">
+
+                <!-- Hero -->
+                <div class="result-hero">
+                    <div class="hero-row">
+                        <div class="hero-cell">
+                            <div class="hero-label">FINAL PRICE</div>
+                            <div class="hero-value" id="heroFinal">$0.00</div>
+                        </div>
+                        <div class="hero-divider"></div>
+                        <div class="hero-cell">
+                            <div class="hero-label">YOU SAVE</div>
+                            <div class="hero-value savings" id="heroSavings">$0.00</div>
+                            <div class="hero-badge" id="heroBadge">0% OFF</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Details -->
+                <div class="result-details" id="resultDetails">
+                    <!-- Injected dynamically -->
+                </div>
+
+                <!-- Actions -->
+                <div class="result-actions">
+                    <button class="action-btn" id="copyResultBtn">
+                        <i class="fa-solid fa-copy"></i> Copy
+                    </button>
+                    <button class="action-btn" id="shareResultBtn">
+                        <i class="fa-solid fa-share-nodes"></i> Share
+                    </button>
+                    <button class="action-btn" id="clearResultBtn">
+                        <i class="fa-solid fa-xmark"></i> Clear
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- History -->
+            <div class="disc-history">
+                <div class="history-hdr">
+                    <span><i class="fa-solid fa-clock-rotate-left"></i> Recent</span>
+                    <button id="clearDiscHistory" title="Clear">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+                <div class="history-list" id="discHistoryList">
+                    <div class="empty-history">No calculations yet</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Keyboard Hint -->
+        <div class="kbd-hint">
+            <span><kbd>Enter</kbd> Calculate</span>
+            <span><kbd>Esc</kbd> Reset</span>
+            <span><kbd>Tab</kbd> Next field</span>
+        </div>
+
+    </main>
+
+    <!-- Toast -->
+    <div id="toast" class="toast">Message here</div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script src="discount-script.js"></script>
+</body>
+</html>

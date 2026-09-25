@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Base64 Encoder/Decoder - Tool Hub</title>
+    <meta name="theme-color" content="#0f172a">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="base64-style.css">
+</head>
+<body>
+
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">
+            <i class="fa-solid fa-wrench"></i>
+            <h2>Tool Hub</h2>
+        </div>
+        <nav>
+            <ul>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-house"></i> Home</li>
+                <li onclick="window.location.href='alltools-index.html'"><i class="fa-solid fa-toolbox"></i> All Tools</li>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-heart"></i> Favorites</li>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-clock-rotate-left"></i> History</li>
+            </ul>
+        </nav>
+        <div class="categories">
+            <h3>Categories</h3>
+            <ul>
+                <li onclick="window.location.href='alltools-index.html?cat=text'"><i class="fa-solid fa-font"></i> Text Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=calc'"><i class="fa-solid fa-calculator"></i> Calculator Tools</li>
+                <li class="active" onclick="window.location.href='alltools-index.html?cat=dev'"><i class="fa-solid fa-code"></i> Developer Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=image'"><i class="fa-solid fa-image"></i> Image Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=gen'"><i class="fa-solid fa-wand-magic-sparkles"></i> Generator Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=date'"><i class="fa-solid fa-calendar-day"></i> Date & Time</li>
+                <li onclick="window.location.href='alltools-index.html?cat=finance'"><i class="fa-solid fa-coins"></i> Finance</li>
+            </ul>
+        </div>
+        <div class="login-box">
+            <i class="fa-solid fa-crown"></i>
+            <p>Save Your Favorite Tools</p>
+            <button>Login / Sign Up</button>
+        </div>
+    </aside>
+
+    <!-- ================= MAIN ================= -->
+    <main class="main-content">
+
+        <!-- Header -->
+        <header>
+            <div class="search-bar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search tools..." id="header-search">
+            </div>
+            <div class="nav-actions">
+                <button id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+                <button class="contact-btn"><i class="fa-solid fa-envelope"></i> Contact</button>
+            </div>
+        </header>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> /
+            <a href="alltools-index.html">All Tools</a> /
+            <span>Base64 Encoder/Decoder</span>
+        </div>
+
+        <!-- Tool Title Bar -->
+        <div class="tool-title-bar">
+            <div class="tool-title-left">
+                <div class="tool-title-icon b64">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <div>
+                    <h1>Base64 Encoder / Decoder</h1>
+                    <p>Encode & decode text, files, and images to/from Base64 in real-time</p>
+                </div>
+            </div>
+            <button class="share-btn" onclick="shareBase64()">
+                <i class="fa-solid fa-share-nodes"></i> Share
+            </button>
+        </div>
+
+        <!-- ================= BASE64 CARD ================= -->
+        <div class="b64-card" id="b64Card">
+
+            <!-- Mode Tabs -->
+            <div class="mode-tabs" id="modeTabs">
+                <button class="mode-tab active" data-mode="encode">
+                    <i class="fa-solid fa-arrow-right"></i> <span>Encode</span>
+                </button>
+                <button class="mode-tab" data-mode="decode">
+                    <i class="fa-solid fa-arrow-left"></i> <span>Decode</span>
+                </button>
+                <button class="mode-tab" data-mode="file">
+                    <i class="fa-solid fa-file-arrow-up"></i> <span>File → Base64</span>
+                </button>
+                <button class="mode-tab" data-mode="image">
+                    <i class="fa-solid fa-image"></i> <span>Image → Base64</span>
+                </button>
+            </div>
+
+            <!-- Input Area -->
+            <div class="input-area">
+
+                <!-- ========== MODE: ENCODE ========== -->
+                <div class="mode-content active" data-content="encode">
+                    <div class="mode-header-row">
+                        <span class="mh-label"><i class="fa-solid fa-keyboard"></i> Plain Text Input</span>
+                        <div class="mh-actions">
+                            <button class="mini-btn" id="enc-paste" title="Paste">
+                                <i class="fa-solid fa-paste"></i>
+                            </button>
+                            <button class="mini-btn" id="enc-clear" title="Clear">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                            <button class="mini-btn" id="enc-sample" title="Sample">
+                                <i class="fa-solid fa-flask"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <textarea id="encodeInput" class="big-textarea" placeholder="Type or paste plain text here...&#10;&#10;Example:&#10;Hello, Tool Hub!"></textarea>
+                    <div class="char-counter" id="encCounter">0 characters · 0 bytes</div>
+
+                    <!-- Options -->
+                    <div class="opt-row">
+                        <label class="opt-chip">
+                            <input type="checkbox" id="encUrlSafe">
+                            <span><i class="fa-solid fa-link"></i> URL-Safe</span>
+                        </label>
+                        <label class="opt-chip">
+                            <input type="checkbox" id="encNoPadding">
+                            <span><i class="fa-solid fa-eraser"></i> No Padding</span>
+                        </label>
+                        <label class="opt-chip">
+                            <input type="checkbox" id="encAutoEncode" checked>
+                            <span><i class="fa-solid fa-bolt"></i> Live</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- ========== MODE: DECODE ========== -->
+                <div class="mode-content" data-content="decode">
+                    <div class="mode-header-row">
+                        <span class="mh-label"><i class="fa-solid fa-code"></i> Base64 Input</span>
+                        <div class="mh-actions">
+                            <button class="mini-btn" id="dec-paste" title="Paste">
+                                <i class="fa-solid fa-paste"></i>
+                            </button>
+                            <button class="mini-btn" id="dec-clear" title="Clear">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                            <button class="mini-btn" id="dec-sample" title="Sample">
+                                <i class="fa-solid fa-flask"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <textarea id="decodeInput" class="big-textarea mono" placeholder="Paste Base64 string here...&#10;&#10;Example:&#10;SGVsbG8sIFRvb2wgSHViIQ=="></textarea>
+                    <div class="char-counter" id="decCounter">0 characters</div>
+
+                    <!-- Options -->
+                    <div class="opt-row">
+                        <label class="opt-chip">
+                            <input type="checkbox" id="decUrlSafe">
+                            <span><i class="fa-solid fa-link"></i> URL-Safe</span>
+                        </label>
+                        <label class="opt-chip">
+                            <input type="checkbox" id="decAutoDecode" checked>
+                            <span><i class="fa-solid fa-bolt"></i> Live</span>
+                        </label>
+                        <label class="opt-chip">
+                            <input type="checkbox" id="decAsHex">
+                            <span><i class="fa-solid fa-hashtag"></i> Show as Hex</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- ========== MODE: FILE ========== -->
+                <div class="mode-content" data-content="file">
+                    <div class="upload-zone" id="fileDropZone">
+                        <input type="file" id="fileInputReal" style="display:none">
+                        <div class="uz-icon">
+                            <i class="fa-solid fa-file-arrow-up"></i>
+                        </div>
+                        <div class="uz-title">Drop a file here or click to browse</div>
+                        <div class="uz-sub">Any file type · max ~5 MB recommended</div>
+                        <button class="uz-btn" id="fileBrowseBtn">
+                            <i class="fa-solid fa-folder-open"></i> Choose File
+                        </button>
+                        <div class="uz-file-info" id="fileInfo" style="display:none;"></div>
+                    </div>
+                </div>
+
+                <!-- ========== MODE: IMAGE ========== -->
+                <div class="mode-content" data-content="image">
+                    <div class="upload-zone" id="imageDropZone">
+                        <input type="file" id="imageInputReal" accept="image/*" style="display:none">
+                        <div class="uz-icon">
+                            <i class="fa-solid fa-image"></i>
+                        </div>
+                        <div class="uz-title">Drop an image here or click to browse</div>
+                        <div class="uz-sub">PNG · JPG · GIF · WebP · SVG</div>
+                        <button class="uz-btn" id="imageBrowseBtn">
+                            <i class="fa-solid fa-folder-open"></i> Choose Image
+                        </button>
+                    </div>
+
+                    <div class="img-preview-wrap" id="imgPreviewWrap" style="display:none;">
+                        <div class="img-preview-header">
+                            <span class="ip-label"><i class="fa-solid fa-image"></i> Preview</span>
+                            <button class="mini-btn" id="clearImageBtn" title="Remove image">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                        <div class="img-preview-body">
+                            <img id="imgPreview" alt="preview">
+                            <div class="img-meta" id="imgMeta"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="error-msg" id="b64Error"></div>
+
+                <!-- Actions -->
+                <div class="action-row">
+                    <button class="btn primary" id="processBtn">
+                        <i class="fa-solid fa-bolt"></i> <span id="processBtnLabel">Encode</span>
+                    </button>
+                    <button class="btn secondary" id="swapBtn" title="Swap direction">
+                        <i class="fa-solid fa-right-left"></i>
+                    </button>
+                    <button class="btn secondary" id="clearAllBtn" title="Clear all">
+                        <i class="fa-solid fa-eraser"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Output Area -->
+            <div class="output-area" id="outputArea" style="display:none;">
+                <div class="output-header">
+                    <span class="oh-label" id="outputLabel">
+                        <i class="fa-solid fa-arrow-right"></i> Output
+                    </span>
+                    <div class="oh-actions">
+                        <span class="oh-stats" id="outputStats"></span>
+                        <button class="mini-btn" id="copyOutputBtn" title="Copy">
+                            <i class="fa-solid fa-copy"></i>
+                        </button>
+                        <button class="mini-btn" id="downloadOutputBtn" title="Download">
+                            <i class="fa-solid fa-download"></i>
+                        </button>
+                        <button class="mini-btn" id="sendToInputBtn" title="Send to other input">
+                            <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                        </button>
+                    </div>
+                </div>
+                <pre class="output-content mono" id="outputContent"></pre>
+
+                <div class="output-preview" id="outputPreview" style="display:none;">
+                    <div class="op-header">
+                        <i class="fa-solid fa-eye"></i> Decoded Preview
+                    </div>
+                    <pre class="op-body" id="outputPreviewContent"></pre>
+                </div>
+
+                <div class="img-output-wrap" id="imgOutputWrap" style="display:none;">
+                    <div class="io-header">
+                        <i class="fa-solid fa-image"></i> Image from Base64
+                    </div>
+                    <div class="io-body">
+                        <img id="imgOutput" alt="decoded">
+                    </div>
+                </div>
+            </div>
+
+            <!-- History -->
+            <div class="b64-history">
+                <div class="history-hdr">
+                    <span><i class="fa-solid fa-clock-rotate-left"></i> Recent</span>
+                    <button id="clearB64History" title="Clear">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+                <div class="history-list" id="b64HistoryList">
+                    <div class="empty-history">No conversions yet</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Keyboard Hint -->
+        <div class="kbd-hint">
+            <span><kbd>Ctrl</kbd>+<kbd>Enter</kbd> Process</span>
+            <span><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>X</kbd> Swap</span>
+            <span><kbd>Esc</kbd> Clear</span>
+        </div>
+
+    </main>
+
+    <!-- Toast -->
+    <div id="toast" class="toast">Message here</div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script src="base64-script.js"></script>
+</body>
+</html>

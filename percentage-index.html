@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Percentage Calculator - Tool Hub</title>
+    <meta name="theme-color" content="#0f172a">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="percentage-style.css">
+</head>
+<body>
+
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">
+            <i class="fa-solid fa-wrench"></i>
+            <h2>Tool Hub</h2>
+        </div>
+        <nav>
+            <ul>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-house"></i> Home</li>
+                <li onclick="window.location.href='alltools-index.html'"><i class="fa-solid fa-toolbox"></i> All Tools</li>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-heart"></i> Favorites</li>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-clock-rotate-left"></i> History</li>
+            </ul>
+        </nav>
+        <div class="categories">
+            <h3>Categories</h3>
+            <ul>
+                <li onclick="window.location.href='alltools-index.html?cat=text'"><i class="fa-solid fa-font"></i> Text Tools</li>
+                <li class="active" onclick="window.location.href='alltools-index.html?cat=calc'"><i class="fa-solid fa-calculator"></i> Calculator Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=dev'"><i class="fa-solid fa-code"></i> Developer Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=image'"><i class="fa-solid fa-image"></i> Image Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=gen'"><i class="fa-solid fa-wand-magic-sparkles"></i> Generator Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=date'"><i class="fa-solid fa-calendar-day"></i> Date & Time</li>
+                <li onclick="window.location.href='alltools-index.html?cat=finance'"><i class="fa-solid fa-coins"></i> Finance</li>
+            </ul>
+        </div>
+        <div class="login-box">
+            <i class="fa-solid fa-crown"></i>
+            <p>Save Your Favorite Tools</p>
+            <button>Login / Sign Up</button>
+        </div>
+    </aside>
+
+    <!-- ================= MAIN ================= -->
+    <main class="main-content">
+
+        <!-- Header -->
+        <header>
+            <div class="search-bar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search tools..." id="header-search">
+            </div>
+            <div class="nav-actions">
+                <button id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+                <button class="contact-btn"><i class="fa-solid fa-envelope"></i> Contact</button>
+            </div>
+        </header>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> /
+            <a href="alltools-index.html">All Tools</a> /
+            <span>Percentage Calculator</span>
+        </div>
+
+        <!-- Tool Title Bar -->
+        <div class="tool-title-bar">
+            <div class="tool-title-left">
+                <div class="tool-title-icon pct">
+                    <i class="fa-solid fa-percent"></i>
+                </div>
+                <div>
+                    <h1>Percentage Calculator</h1>
+                    <p>All-in-one tool: percentages, increase/decrease, difference & more</p>
+                </div>
+            </div>
+            <button class="share-btn" onclick="sharePct()">
+                <i class="fa-solid fa-share-nodes"></i> Share
+            </button>
+        </div>
+
+        <!-- ================= MAIN CARD ================= -->
+        <div class="pct-card" id="pctCard">
+
+            <!-- Mode Tabs (scrollable on mobile) -->
+            <div class="mode-tabs" id="modeTabs">
+                <button class="mode-tab active" data-mode="what-is">
+                    <i class="fa-solid fa-question"></i>
+                    <span>What is X% of Y?</span>
+                </button>
+                <button class="mode-tab" data-mode="is-what">
+                    <i class="fa-solid fa-divide"></i>
+                    <span>X is what % of Y?</span>
+                </button>
+                <button class="mode-tab" data-mode="change">
+                    <i class="fa-solid fa-arrow-trend-up"></i>
+                    <span>% Increase/Decrease</span>
+                </button>
+                <button class="mode-tab" data-mode="difference">
+                    <i class="fa-solid fa-arrows-left-right"></i>
+                    <span>% Difference</span>
+                </button>
+                <button class="mode-tab" data-mode="reverse">
+                    <i class="fa-solid fa-rotate-left"></i>
+                    <span>Reverse %</span>
+                </button>
+                <button class="mode-tab" data-mode="add-sub">
+                    <i class="fa-solid fa-plus-minus"></i>
+                    <span>Add / Subtract %</span>
+                </button>
+                <button class="mode-tab" data-mode="discount">
+                    <i class="fa-solid fa-tags"></i>
+                    <span>Discount</span>
+                </button>
+                <button class="mode-tab" data-mode="tip">
+                    <i class="fa-solid fa-receipt"></i>
+                    <span>Tip Split</span>
+                </button>
+            </div>
+
+            <!-- Input Area -->
+            <div class="input-area">
+
+                <!-- Mode 1: What is X% of Y -->
+                <div class="mode-content active" data-content="what-is">
+                    <div class="field-row">
+                        <div class="field">
+                            <label>Percentage (%)</label>
+                            <input type="number" class="pct-input" id="wi-x" placeholder="e.g. 15" inputmode="decimal">
+                        </div>
+                        <div class="field-op">of</div>
+                        <div class="field">
+                            <label>Number</label>
+                            <input type="number" class="pct-input" id="wi-y" placeholder="e.g. 200" inputmode="decimal">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mode 2: X is what % of Y -->
+                <div class="mode-content" data-content="is-what">
+                    <div class="field-row">
+                        <div class="field">
+                            <label>Value (X)</label>
+                            <input type="number" class="pct-input" id="iw-x" placeholder="e.g. 25" inputmode="decimal">
+                        </div>
+                        <div class="field-op">of</div>
+                        <div class="field">
+                            <label>Total (Y)</label>
+                            <input type="number" class="pct-input" id="iw-y" placeholder="e.g. 200" inputmode="decimal">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mode 3: % Increase/Decrease -->
+                <div class="mode-content" data-content="change">
+                    <div class="field-row">
+                        <div class="field">
+                            <label>Original Value</label>
+                            <input type="number" class="pct-input" id="ch-from" placeholder="e.g. 100" inputmode="decimal">
+                        </div>
+                        <div class="field">
+                            <label>New Value</label>
+                            <input type="number" class="pct-input" id="ch-to" placeholder="e.g. 120" inputmode="decimal">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mode 4: % Difference -->
+                <div class="mode-content" data-content="difference">
+                    <div class="field-row">
+                        <div class="field">
+                            <label>Value A</label>
+                            <input type="number" class="pct-input" id="df-a" placeholder="e.g. 100" inputmode="decimal">
+                        </div>
+                        <div class="field">
+                            <label>Value B</label>
+                            <input type="number" class="pct-input" id="df-b" placeholder="e.g. 150" inputmode="decimal">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mode 5: Reverse % -->
+                <div class="mode-content" data-content="reverse">
+                    <div class="field-row">
+                        <div class="field">
+                            <label>Final Number</label>
+                            <input type="number" class="pct-input" id="rv-result" placeholder="e.g. 120" inputmode="decimal">
+                        </div>
+                        <div class="field-op">=</div>
+                        <div class="field">
+                            <label>X% of Original</label>
+                            <input type="number" class="pct-input" id="rv-pct" placeholder="e.g. 120" inputmode="decimal">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mode 6: Add/Subtract % -->
+                <div class="mode-content" data-content="add-sub">
+                    <div class="field-row">
+                        <div class="field">
+                            <label>Base Number</label>
+                            <input type="number" class="pct-input" id="as-base" placeholder="e.g. 200" inputmode="decimal">
+                        </div>
+                        <div class="field">
+                            <label>Percentage (%)</label>
+                            <input type="number" class="pct-input" id="as-pct" placeholder="e.g. 10" inputmode="decimal">
+                        </div>
+                    </div>
+                    <div class="choice-row">
+                        <label class="radio-chip">
+                            <input type="radio" name="as-choice" value="add" checked>
+                            <span><i class="fa-solid fa-plus"></i> Add</span>
+                        </label>
+                        <label class="radio-chip">
+                            <input type="radio" name="as-choice" value="sub">
+                            <span><i class="fa-solid fa-minus"></i> Subtract</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Mode 7: Discount -->
+                <div class="mode-content" data-content="discount">
+                    <div class="field-row">
+                        <div class="field">
+                            <label>Original Price</label>
+                            <input type="number" class="pct-input" id="dc-price" placeholder="e.g. 500" inputmode="decimal">
+                        </div>
+                        <div class="field">
+                            <label>Discount (%)</label>
+                            <input type="number" class="pct-input" id="dc-pct" placeholder="e.g. 20" inputmode="decimal">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mode 8: Tip Split -->
+                <div class="mode-content" data-content="tip">
+                    <div class="field-row">
+                        <div class="field">
+                            <label>Bill Amount</label>
+                            <input type="number" class="pct-input" id="tp-bill" placeholder="e.g. 1000" inputmode="decimal">
+                        </div>
+                        <div class="field">
+                            <label>Tip (%)</label>
+                            <input type="number" class="pct-input" id="tp-pct" placeholder="e.g. 10" inputmode="decimal">
+                        </div>
+                        <div class="field">
+                            <label>Split By</label>
+                            <input type="number" class="pct-input" id="tp-people" placeholder="e.g. 4" inputmode="decimal" min="1">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="error-msg" id="pctError"></div>
+
+                <!-- Actions -->
+                <div class="action-row">
+                    <button class="btn primary" id="calcBtn">
+                        <i class="fa-solid fa-calculator"></i> Calculate
+                    </button>
+                    <button class="btn secondary" id="resetPctBtn" title="Reset">
+                        <i class="fa-solid fa-rotate-left"></i>
+                    </button>
+                    <button class="btn secondary" id="swapBtn" title="Clear inputs">
+                        <i class="fa-solid fa-eraser"></i>
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- Result Area -->
+            <div class="result-area" id="resultArea" style="display:none;">
+
+                <div class="result-hero" id="resultHero">
+                    <div class="result-label" id="resultLabel">RESULT</div>
+                    <div class="result-value" id="resultValue">0</div>
+                    <div class="result-sub" id="resultSub"></div>
+                </div>
+
+                <!-- Detail breakdown -->
+                <div class="result-details" id="resultDetails"></div>
+
+                <!-- Actions on result -->
+                <div class="result-actions">
+                    <button class="action-btn" id="copyResultBtn">
+                        <i class="fa-solid fa-copy"></i> Copy
+                    </button>
+                    <button class="action-btn" id="shareResultBtn">
+                        <i class="fa-solid fa-share-nodes"></i> Share
+                    </button>
+                    <button class="action-btn" id="clearResultBtn">
+                        <i class="fa-solid fa-xmark"></i> Clear
+                    </button>
+                </div>
+            </div>
+
+            <!-- History -->
+            <div class="pct-history">
+                <div class="history-hdr">
+                    <span><i class="fa-solid fa-clock-rotate-left"></i> Recent</span>
+                    <button id="clearPctHistory" title="Clear">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+                <div class="history-list" id="pctHistoryList">
+                    <div class="empty-history">No calculations yet</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Keyboard Hint -->
+        <div class="kbd-hint">
+            <span><kbd>Enter</kbd> Calculate</span>
+            <span><kbd>Esc</kbd> Reset</span>
+            <span><kbd>Tab</kbd> Next field</span>
+        </div>
+
+    </main>
+
+    <!-- Toast -->
+    <div id="toast" class="toast">Message here</div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script src="percentage-script.js"></script>
+</body>
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>JSON Validator - Tool Hub</title>
+    <meta name="theme-color" content="#0f172a">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="jsonvalidator-style.css">
+</head>
+<body>
+
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">
+            <i class="fa-solid fa-wrench"></i>
+            <h2>Tool Hub</h2>
+        </div>
+        <nav>
+            <ul>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-house"></i> Home</li>
+                <li onclick="window.location.href='alltools-index.html'"><i class="fa-solid fa-toolbox"></i> All Tools</li>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-heart"></i> Favorites</li>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-clock-rotate-left"></i> History</li>
+            </ul>
+        </nav>
+        <div class="categories">
+            <h3>Categories</h3>
+            <ul>
+                <li onclick="window.location.href='alltools-index.html?cat=text'"><i class="fa-solid fa-font"></i> Text Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=calc'"><i class="fa-solid fa-calculator"></i> Calculator Tools</li>
+                <li class="active" onclick="window.location.href='alltools-index.html?cat=dev'"><i class="fa-solid fa-code"></i> Developer Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=image'"><i class="fa-solid fa-image"></i> Image Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=gen'"><i class="fa-solid fa-wand-magic-sparkles"></i> Generator Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=date'"><i class="fa-solid fa-calendar-day"></i> Date & Time</li>
+                <li onclick="window.location.href='alltools-index.html?cat=finance'"><i class="fa-solid fa-coins"></i> Finance</li>
+            </ul>
+        </div>
+        <div class="login-box">
+            <i class="fa-solid fa-crown"></i>
+            <p>Save Your Favorite Tools</p>
+            <button>Login / Sign Up</button>
+        </div>
+    </aside>
+
+    <!-- ================= MAIN ================= -->
+    <main class="main-content">
+
+        <!-- Header -->
+        <header>
+            <div class="search-bar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search tools..." id="header-search">
+            </div>
+            <div class="nav-actions">
+                <button id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+                <button class="contact-btn"><i class="fa-solid fa-envelope"></i> Contact</button>
+            </div>
+        </header>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> /
+            <a href="alltools-index.html">All Tools</a> /
+            <span>JSON Validator</span>
+        </div>
+
+        <!-- Tool Title Bar -->
+        <div class="tool-title-bar">
+            <div class="tool-title-left">
+                <div class="tool-title-icon jv">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <div>
+                    <h1>JSON Validator</h1>
+                    <p>Validate, format, beautify & inspect JSON with detailed error info</p>
+                </div>
+            </div>
+            <button class="share-btn" onclick="shareJsonValidator()">
+                <i class="fa-solid fa-share-nodes"></i> Share
+            </button>
+        </div>
+
+        <!-- ================= JSON VALIDATOR CARD ================= -->
+        <div class="jv-card" id="jvCard">
+
+            <!-- Toolbar -->
+            <div class="jv-toolbar">
+                <button class="tb-btn primary" id="validateBtn">
+                    <i class="fa-solid fa-circle-check"></i> Validate
+                </button>
+                <button class="tb-btn" id="beautifyBtn">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Beautify
+                </button>
+                <button class="tb-btn" id="minifyBtn">
+                    <i class="fa-solid fa-compress"></i> Minify
+                </button>
+                <button class="tb-btn" id="fixBtn">
+                    <i class="fa-solid fa-screwdriver-wrench"></i> Auto-Fix
+                </button>
+                <button class="tb-btn" id="sampleBtn">
+                    <i class="fa-solid fa-flask"></i> Sample
+                </button>
+                <button class="tb-btn danger" id="clearBtn">
+                    <i class="fa-solid fa-trash-can"></i> Clear
+                </button>
+            </div>
+
+            <!-- Options Row -->
+            <div class="jv-options">
+                <label class="opt-chip">
+                    <input type="checkbox" id="sortKeys">
+                    <span><i class="fa-solid fa-sort"></i> Sort Keys</span>
+                </label>
+                <label class="opt-chip">
+                    <input type="checkbox" id="autoValidate" checked>
+                    <span><i class="fa-solid fa-bolt"></i> Auto Validate</span>
+                </label>
+                <div class="indent-picker">
+                    <span><i class="fa-solid fa-indent"></i> Indent</span>
+                    <button class="indent-btn active" data-indent="2">2</button>
+                    <button class="indent-btn" data-indent="4">4</button>
+                    <button class="indent-btn" data-indent="tab">Tab</button>
+                </div>
+            </div>
+
+            <!-- Editor + Status -->
+            <div class="editor-wrap">
+                <div class="editor-header">
+                    <span class="eh-label">
+                        <i class="fa-solid fa-code"></i> JSON Input
+                    </span>
+                    <div class="eh-actions">
+                        <button class="eh-btn" id="pasteBtn" title="Paste from clipboard">
+                            <i class="fa-solid fa-paste"></i>
+                        </button>
+                        <button class="eh-btn" id="copyInputBtn" title="Copy input">
+                            <i class="fa-solid fa-copy"></i>
+                        </button>
+                        <button class="eh-btn" id="uploadBtn" title="Upload file">
+                            <i class="fa-solid fa-upload"></i>
+                        </button>
+                        <button class="eh-btn" id="downloadBtn" title="Download JSON">
+                            <i class="fa-solid fa-download"></i>
+                        </button>
+                        <button class="eh-btn" id="fullscreenBtn" title="Fullscreen">
+                            <i class="fa-solid fa-expand"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="editor-body">
+                    <div class="line-numbers" id="lineNumbers">1</div>
+                    <textarea id="jsonInput" spellcheck="false" placeholder='Paste your JSON here...&#10;&#10;Example:&#10;{&#10;  "name": "John",&#10;  "age": 30&#10;}'></textarea>
+                    <input type="file" id="fileInput" accept=".json,.txt" style="display:none">
+                </div>
+            </div>
+
+            <!-- Status Bar -->
+            <div class="status-bar" id="statusBar">
+                <div class="status-badge" id="statusBadge">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <span>Ready — paste JSON and click Validate</span>
+                </div>
+                <div class="status-stats">
+                    <span id="statChars"><i class="fa-solid fa-font"></i> 0 chars</span>
+                    <span id="statLines"><i class="fa-solid fa-list-ol"></i> 0 lines</span>
+                    <span id="statSize"><i class="fa-solid fa-database"></i> 0 B</span>
+                </div>
+            </div>
+
+            <!-- Error/Result Section -->
+            <div class="jv-result" id="jvResult" style="display:none;">
+
+                <!-- Result Banner -->
+                <div class="result-banner" id="resultBanner">
+                    <div class="rb-icon" id="rbIcon">
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                    <div class="rb-content">
+                        <div class="rb-title" id="rbTitle">Valid JSON</div>
+                        <div class="rb-desc" id="rbDesc">Your JSON is well-formed and valid.</div>
+                    </div>
+                </div>
+
+                <!-- Error Details (only shows when invalid) -->
+                <div class="error-panel" id="errorPanel" style="display:none;">
+                    <div class="ep-header">
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                        <span>Error Details</span>
+                    </div>
+                    <div class="ep-body">
+                        <div class="ep-row">
+                            <span class="ep-label">Message</span>
+                            <span class="ep-value" id="errMsg">—</span>
+                        </div>
+                        <div class="ep-row">
+                            <span class="ep-label">Line</span>
+                            <span class="ep-value" id="errLine">—</span>
+                        </div>
+                        <div class="ep-row">
+                            <span class="ep-label">Column</span>
+                            <span class="ep-value" id="errCol">—</span>
+                        </div>
+                        <div class="ep-row">
+                            <span class="ep-label">Position</span>
+                            <span class="ep-value" id="errPos">—</span>
+                        </div>
+                    </div>
+                    <div class="ep-snippet" id="errSnippet"></div>
+                </div>
+
+                <!-- Stats Grid (only when valid) -->
+                <div class="stats-grid" id="statsGrid">
+                    <div class="sg-card">
+                        <div class="sg-icon depth"><i class="fa-solid fa-layer-group"></i></div>
+                        <div class="sg-value" id="statDepth">0</div>
+                        <div class="sg-label">Max Depth</div>
+                    </div>
+                    <div class="sg-card">
+                        <div class="sg-icon keys"><i class="fa-solid fa-key"></i></div>
+                        <div class="sg-value" id="statKeys">0</div>
+                        <div class="sg-label">Total Keys</div>
+                    </div>
+                    <div class="sg-card">
+                        <div class="sg-icon arrays"><i class="fa-solid fa-list"></i></div>
+                        <div class="sg-value" id="statArrays">0</div>
+                        <div class="sg-label">Arrays</div>
+                    </div>
+                    <div class="sg-card">
+                        <div class="sg-icon objects"><i class="fa-solid fa-cube"></i></div>
+                        <div class="sg-value" id="statObjects">0</div>
+                        <div class="sg-label">Objects</div>
+                    </div>
+                    <div class="sg-card">
+                        <div class="sg-icon strings"><i class="fa-solid fa-quote-right"></i></div>
+                        <div class="sg-value" id="statStrings">0</div>
+                        <div class="sg-label">Strings</div>
+                    </div>
+                    <div class="sg-card">
+                        <div class="sg-icon numbers"><i class="fa-solid fa-hashtag"></i></div>
+                        <div class="sg-value" id="statNumbers">0</div>
+                        <div class="sg-label">Numbers</div>
+                    </div>
+                    <div class="sg-card">
+                        <div class="sg-icon bools"><i class="fa-solid fa-toggle-on"></i></div>
+                        <div class="sg-value" id="statBools">0</div>
+                        <div class="sg-label">Booleans</div>
+                    </div>
+                    <div class="sg-card">
+                        <div class="sg-icon nulls"><i class="fa-solid fa-ban"></i></div>
+                        <div class="sg-value" id="statNulls">0</div>
+                        <div class="sg-label">Nulls</div>
+                    </div>
+                </div>
+
+                <!-- Tabs: Tree / Formatted -->
+                <div class="result-tabs" id="resultTabs">
+                    <button class="rt-tab active" data-view="tree">
+                        <i class="fa-solid fa-sitemap"></i> Tree View
+                    </button>
+                    <button class="rt-tab" data-view="formatted">
+                        <i class="fa-solid fa-align-left"></i> Formatted
+                    </button>
+                    <button class="rt-tab" data-view="paths">
+                        <i class="fa-solid fa-route"></i> Paths
+                    </button>
+                </div>
+
+                <!-- Tree View -->
+                <div class="tree-view" id="treeView">
+                    <div class="tree-container" id="treeContainer"></div>
+                </div>
+
+                <!-- Formatted View -->
+                <div class="formatted-view" id="formattedView" style="display:none;">
+                    <pre id="formattedOutput"></pre>
+                </div>
+
+                <!-- Paths View -->
+                <div class="paths-view" id="pathsView" style="display:none;">
+                    <div class="paths-header">
+                        <span><i class="fa-solid fa-route"></i> All JSON Paths</span>
+                        <button class="mini-btn" id="copyPathsBtn">
+                            <i class="fa-solid fa-copy"></i> Copy All
+                        </button>
+                    </div>
+                    <div class="paths-list" id="pathsList"></div>
+                </div>
+
+                <!-- Actions -->
+                <div class="result-actions">
+                    <button class="action-btn" id="copyFormattedBtn">
+                        <i class="fa-solid fa-copy"></i> Copy Formatted
+                    </button>
+                    <button class="action-btn" id="shareResultBtn">
+                        <i class="fa-solid fa-share-nodes"></i> Share
+                    </button>
+                    <button class="action-btn" id="downloadFormattedBtn">
+                        <i class="fa-solid fa-download"></i> Download
+                    </button>
+                </div>
+            </div>
+
+            <!-- History -->
+            <div class="jv-history">
+                <div class="history-hdr">
+                    <span><i class="fa-solid fa-clock-rotate-left"></i> Recent Validations</span>
+                    <button id="clearJvHistory" title="Clear">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+                <div class="history-list" id="jvHistoryList">
+                    <div class="empty-history">No validations yet</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Keyboard Hint -->
+        <div class="kbd-hint">
+            <span><kbd>Ctrl</kbd>+<kbd>Enter</kbd> Validate</span>
+            <span><kbd>Ctrl</kbd>+<kbd>B</kbd> Beautify</span>
+            <span><kbd>Ctrl</kbd>+<kbd>M</kbd> Minify</span>
+            <span><kbd>Esc</kbd> Clear</span>
+        </div>
+
+    </main>
+
+    <!-- Toast -->
+    <div id="toast" class="toast">Message here</div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script src="jsonvalidator-script.js"></script>
+</body>
+</html>

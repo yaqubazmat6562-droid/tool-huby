@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Time Calculator - Tool Hub</title>
+    <meta name="theme-color" content="#0f172a">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="time-style.css">
+</head>
+<body>
+
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">
+            <i class="fa-solid fa-wrench"></i>
+            <h2>Tool Hub</h2>
+        </div>
+        <nav>
+            <ul>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-house"></i> Home</li>
+                <li onclick="window.location.href='alltools-index.html'"><i class="fa-solid fa-toolbox"></i> All Tools</li>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-heart"></i> Favorites</li>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-clock-rotate-left"></i> History</li>
+            </ul>
+        </nav>
+        <div class="categories">
+            <h3>Categories</h3>
+            <ul>
+                <li onclick="window.location.href='alltools-index.html?cat=text'"><i class="fa-solid fa-font"></i> Text Tools</li>
+                <li class="active" onclick="window.location.href='alltools-index.html?cat=calc'"><i class="fa-solid fa-calculator"></i> Calculator Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=dev'"><i class="fa-solid fa-code"></i> Developer Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=image'"><i class="fa-solid fa-image"></i> Image Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=gen'"><i class="fa-solid fa-wand-magic-sparkles"></i> Generator Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=date'"><i class="fa-solid fa-calendar-day"></i> Date & Time</li>
+                <li onclick="window.location.href='alltools-index.html?cat=finance'"><i class="fa-solid fa-coins"></i> Finance</li>
+            </ul>
+        </div>
+        <div class="login-box">
+            <i class="fa-solid fa-crown"></i>
+            <p>Save Your Favorite Tools</p>
+            <button>Login / Sign Up</button>
+        </div>
+    </aside>
+
+    <!-- ================= MAIN ================= -->
+    <main class="main-content">
+
+        <!-- Header -->
+        <header>
+            <div class="search-bar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search tools..." id="header-search">
+            </div>
+            <div class="nav-actions">
+                <button id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+                <button class="contact-btn"><i class="fa-solid fa-envelope"></i> Contact</button>
+            </div>
+        </header>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> /
+            <a href="alltools-index.html">All Tools</a> /
+            <span>Time Calculator</span>
+        </div>
+
+        <!-- Tool Title Bar -->
+        <div class="tool-title-bar">
+            <div class="tool-title-left">
+                <div class="tool-title-icon tm">
+                    <i class="fa-solid fa-clock"></i>
+                </div>
+                <div>
+                    <h1>Time Calculator</h1>
+                    <p>Add, subtract, convert & calculate time between hours, days, weeks and more</p>
+                </div>
+            </div>
+            <button class="share-btn" onclick="shareTime()">
+                <i class="fa-solid fa-share-nodes"></i> Share
+            </button>
+        </div>
+
+        <!-- ================= TIME CALCULATOR CARD ================= -->
+        <div class="tm-card" id="tmCard">
+
+            <!-- Mode Tabs -->
+            <div class="mode-tabs" id="modeTabs">
+                <button class="mode-tab active" data-mode="add">
+                    <i class="fa-solid fa-plus"></i> <span>Add Time</span>
+                </button>
+                <button class="mode-tab" data-mode="subtract">
+                    <i class="fa-solid fa-minus"></i> <span>Subtract Time</span>
+                </button>
+                <button class="mode-tab" data-mode="between">
+                    <i class="fa-solid fa-arrows-left-right"></i> <span>Time Between</span>
+                </button>
+                <button class="mode-tab" data-mode="convert">
+                    <i class="fa-solid fa-right-left"></i> <span>Convert Units</span>
+                </button>
+                <button class="mode-tab" data-mode="workhours">
+                    <i class="fa-solid fa-briefcase"></i> <span>Work Hours</span>
+                </button>
+            </div>
+
+            <!-- Input Area -->
+            <div class="input-area">
+
+                <!-- ========== MODE 1 & 2: ADD / SUBTRACT ========== -->
+                <div class="mode-content active" data-content="add" id="content-add">
+                    <div class="time-inputs">
+                        <div class="time-block">
+                            <div class="tb-label"><i class="fa-solid fa-clock"></i> Time 1</div>
+                            <div class="time-grid">
+                                <div class="tf">
+                                    <input type="number" class="ti" data-t="d1" placeholder="0" min="0" inputmode="numeric">
+                                    <label>Days</label>
+                                </div>
+                                <div class="tf">
+                                    <input type="number" class="ti" data-t="h1" placeholder="0" min="0" max="23" inputmode="numeric">
+                                    <label>Hours</label>
+                                </div>
+                                <div class="tf">
+                                    <input type="number" class="ti" data-t="m1" placeholder="0" min="0" max="59" inputmode="numeric">
+                                    <label>Minutes</label>
+                                </div>
+                                <div class="tf">
+                                    <input type="number" class="ti" data-t="s1" placeholder="0" min="0" max="59" inputmode="numeric">
+                                    <label>Seconds</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="op-badge">
+                            <i class="fa-solid fa-plus" id="opIconAdd"></i>
+                        </div>
+
+                        <div class="time-block">
+                            <div class="tb-label"><i class="fa-solid fa-clock"></i> Time 2</div>
+                            <div class="time-grid">
+                                <div class="tf">
+                                    <input type="number" class="ti" data-t="d2" placeholder="0" min="0" inputmode="numeric">
+                                    <label>Days</label>
+                                </div>
+                                <div class="tf">
+                                    <input type="number" class="ti" data-t="h2" placeholder="0" min="0" max="23" inputmode="numeric">
+                                    <label>Hours</label>
+                                </div>
+                                <div class="tf">
+                                    <input type="number" class="ti" data-t="m2" placeholder="0" min="0" max="59" inputmode="numeric">
+                                    <label>Minutes</label>
+                                </div>
+                                <div class="tf">
+                                    <input type="number" class="ti" data-t="s2" placeholder="0" min="0" max="59" inputmode="numeric">
+                                    <label>Seconds</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mode-content" data-content="subtract" id="content-subtract">
+                    <div class="time-inputs">
+                        <div class="time-block">
+                            <div class="tb-label"><i class="fa-solid fa-clock"></i> Time 1</div>
+                            <div class="time-grid">
+                                <div class="tf">
+                                    <input type="number" class="ti" data-t="sd1" placeholder="0" min="0" inputmode="numeric">
+                                    <label>Days</label>
+                                </div>
+                                <div class="tf">
+                                    <input type="number" class="ti" data-t="sh1" placeholder="0" min="0" max="23" inputmode="numeric">
+                                    <label>Hours</label>
+                                </div>
+                                <div class="tf">
+                                    <input type="number" class="ti" data-t="sm1" placeholder="0" min="0" max="59" inputmode="numeric">
+                                    <label>Minutes</label>
+                                </div>
+                                <div class="tf">
+                                    <input type="number" class="ti" data-t="ss1" placeholder="0" min="0" max="59" inputmode="numeric">
+                                    <label>Seconds</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="op-badge minus">
+                            <i class="fa-solid fa-minus"></i>
+                        </div>
+
+                        <div class="time-block">
+                            <div class="tb-label"><i class="fa-solid fa-clock"></i> Time 2</div>
+                            <div class="time-grid">
+                                <div class="tf">
+                                    <input type="number" class="ti" data-t="sd2" placeholder="0" min="0" inputmode="numeric">
+                                    <label>Days</label>
+                                </div>
+                                <div class="tf">
+                                    <input type="number" class="ti" data-t="sh2" placeholder="0" min="0" max="23" inputmode="numeric">
+                                    <label>Hours</label>
+                                </div>
+                                <div class="tf">
+                                    <input type="number" class="ti" data-t="sm2" placeholder="0" min="0" max="59" inputmode="numeric">
+                                    <label>Minutes</label>
+                                </div>
+                                <div class="tf">
+                                    <input type="number" class="ti" data-t="ss2" placeholder="0" min="0" max="59" inputmode="numeric">
+                                    <label>Seconds</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========== MODE 3: TIME BETWEEN ========== -->
+                <div class="mode-content" data-content="between">
+                    <div class="between-row">
+                        <div class="input-block">
+                            <label><i class="fa-solid fa-play"></i> Start Time</label>
+                            <input type="time" id="bt-start" step="1">
+                        </div>
+                        <div class="between-arrow">
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </div>
+                        <div class="input-block">
+                            <label><i class="fa-solid fa-flag-checkered"></i> End Time</label>
+                            <input type="time" id="bt-end" step="1">
+                        </div>
+                    </div>
+                    <div class="quick-picks">
+                        <button class="qp" data-bt="09:00|18:00">9 AM → 6 PM</button>
+                        <button class="qp" data-bt="00:00|12:00">Midnight → Noon</button>
+                        <button class="qp" data-bt="12:00|23:59">Noon → Midnight</button>
+                        <button class="qp" data-bt="09:30|17:30">9:30 → 5:30</button>
+                    </div>
+                </div>
+
+                <!-- ========== MODE 4: CONVERT UNITS ========== -->
+                <div class="mode-content" data-content="convert">
+                    <div class="convert-row">
+                        <div class="input-block">
+                            <label><i class="fa-solid fa-hashtag"></i> Value</label>
+                            <input type="number" id="cv-value" placeholder="e.g. 100" inputmode="decimal" min="0">
+                        </div>
+                        <div class="input-block">
+                            <label><i class="fa-solid fa-ruler"></i> From Unit</label>
+                            <select id="cv-from">
+                                <option value="ms">Milliseconds</option>
+                                <option value="s">Seconds</option>
+                                <option value="min" selected>Minutes</option>
+                                <option value="h">Hours</option>
+                                <option value="d">Days</option>
+                                <option value="w">Weeks</option>
+                                <option value="mo">Months (30d)</option>
+                                <option value="y">Years (365d)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="convert-results" id="cvResults">
+                        <!-- Injected -->
+                    </div>
+                </div>
+
+                <!-- ========== MODE 5: WORK HOURS ========== -->
+                <div class="mode-content" data-content="workhours">
+                    <div class="wh-row">
+                        <div class="input-block">
+                            <label><i class="fa-solid fa-right-to-bracket"></i> Clock In</label>
+                            <input type="time" id="wh-in">
+                        </div>
+                        <div class="input-block">
+                            <label><i class="fa-solid fa-right-from-bracket"></i> Clock Out</label>
+                            <input type="time" id="wh-out">
+                        </div>
+                    </div>
+                    <div class="wh-row">
+                        <div class="input-block">
+                            <label><i class="fa-solid fa-utensils"></i> Break (min)</label>
+                            <input type="number" id="wh-break" placeholder="e.g. 30" inputmode="numeric" min="0" value="0">
+                        </div>
+                        <div class="input-block">
+                            <label><i class="fa-solid fa-money-bill-wave"></i> Hourly Rate <span class="opt">optional</span></label>
+                            <input type="number" id="wh-rate" placeholder="e.g. 500" inputmode="decimal" min="0">
+                        </div>
+                    </div>
+                    <div class="wh-row">
+                        <div class="input-block">
+                            <label><i class="fa-solid fa-clock"></i> Overtime After (hrs)</label>
+                            <input type="number" id="wh-ot" placeholder="e.g. 8" inputmode="decimal" min="0" value="8">
+                        </div>
+                        <div class="input-block">
+                            <label><i class="fa-solid fa-percent"></i> OT Rate Multiplier</label>
+                            <input type="number" id="wh-otm" placeholder="e.g. 1.5" inputmode="decimal" min="1" step="0.1" value="1.5">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="error-msg" id="tmError"></div>
+
+                <!-- Actions -->
+                <div class="action-row">
+                    <button class="btn primary" id="calcTmBtn">
+                        <i class="fa-solid fa-calculator"></i> Calculate
+                    </button>
+                    <button class="btn secondary" id="resetTmBtn" title="Reset">
+                        <i class="fa-solid fa-rotate-left"></i>
+                    </button>
+                    <button class="btn secondary" id="clearTmBtn" title="Clear inputs">
+                        <i class="fa-solid fa-eraser"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Result Area -->
+            <div class="result-area" id="resultArea" style="display:none;">
+
+                <!-- Hero -->
+                <div class="tm-hero" id="tmHero">
+                    <div class="hero-label" id="heroLabel">RESULT</div>
+                    <div class="hero-value" id="heroValue">0h 0m 0s</div>
+                    <div class="hero-sub" id="heroSub"></div>
+                </div>
+
+                <!-- Details -->
+                <div class="result-details" id="resultDetails"></div>
+
+                <!-- Actions -->
+                <div class="result-actions">
+                    <button class="action-btn" id="copyResultBtn">
+                        <i class="fa-solid fa-copy"></i> Copy
+                    </button>
+                    <button class="action-btn" id="shareResultBtn">
+                        <i class="fa-solid fa-share-nodes"></i> Share
+                    </button>
+                    <button class="action-btn" id="clearResultBtn">
+                        <i class="fa-solid fa-xmark"></i> Clear
+                    </button>
+                </div>
+            </div>
+
+            <!-- History -->
+            <div class="tm-history">
+                <div class="history-hdr">
+                    <span><i class="fa-solid fa-clock-rotate-left"></i> Recent</span>
+                    <button id="clearTmHistory" title="Clear">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+                <div class="history-list" id="tmHistoryList">
+                    <div class="empty-history">No calculations yet</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Keyboard Hint -->
+        <div class="kbd-hint">
+            <span><kbd>Enter</kbd> Calculate</span>
+            <span><kbd>Esc</kbd> Reset</span>
+            <span><kbd>Tab</kbd> Next field</span>
+        </div>
+
+    </main>
+
+    <!-- Toast -->
+    <div id="toast" class="toast">Message here</div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script src="time-script.js"></script>
+</body>
+</html>

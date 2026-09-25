@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Scientific Calculator - Tool Hub</title>
+    <meta name="theme-color" content="#0f172a">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="scientific-style.css">
+</head>
+<body>
+
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">
+            <i class="fa-solid fa-wrench"></i>
+            <h2>Tool Hub</h2>
+        </div>
+        <nav>
+            <ul>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-house"></i> Home</li>
+                <li onclick="window.location.href='alltools-index.html'"><i class="fa-solid fa-toolbox"></i> All Tools</li>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-heart"></i> Favorites</li>
+                <li onclick="window.location.href='index.html'"><i class="fa-solid fa-clock-rotate-left"></i> History</li>
+            </ul>
+        </nav>
+        <div class="categories">
+            <h3>Categories</h3>
+            <ul>
+                <li onclick="window.location.href='alltools-index.html?cat=text'"><i class="fa-solid fa-font"></i> Text Tools</li>
+                <li class="active" onclick="window.location.href='alltools-index.html?cat=calc'"><i class="fa-solid fa-calculator"></i> Calculator Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=dev'"><i class="fa-solid fa-code"></i> Developer Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=image'"><i class="fa-solid fa-image"></i> Image Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=gen'"><i class="fa-solid fa-wand-magic-sparkles"></i> Generator Tools</li>
+                <li onclick="window.location.href='alltools-index.html?cat=date'"><i class="fa-solid fa-calendar-day"></i> Date & Time</li>
+                <li onclick="window.location.href='alltools-index.html?cat=finance'"><i class="fa-solid fa-coins"></i> Finance</li>
+            </ul>
+        </div>
+        <div class="login-box">
+            <i class="fa-solid fa-crown"></i>
+            <p>Save Your Favorite Tools</p>
+            <button>Login / Sign Up</button>
+        </div>
+    </aside>
+
+    <!-- ================= MAIN ================= -->
+    <main class="main-content">
+
+        <!-- Header -->
+        <header>
+            <div class="search-bar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search tools..." id="header-search">
+            </div>
+            <div class="nav-actions">
+                <button id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+                <button class="contact-btn"><i class="fa-solid fa-envelope"></i> Contact</button>
+            </div>
+        </header>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> /
+            <a href="alltools-index.html">All Tools</a> /
+            <span>Scientific Calculator</span>
+        </div>
+
+        <!-- Tool Title Bar -->
+        <div class="tool-title-bar">
+            <div class="tool-title-left">
+                <div class="tool-title-icon sci">
+                    <i class="fa-solid fa-square-root-variable"></i>
+                </div>
+                <div>
+                    <h1>Scientific Calculator</h1>
+                    <p>Advanced calculator with trig, log, power & memory functions</p>
+                </div>
+            </div>
+            <button class="share-btn" onclick="shareSciCalc()">
+                <i class="fa-solid fa-share-nodes"></i> Share
+            </button>
+        </div>
+
+        <!-- ================= CALCULATOR CARD ================= -->
+        <div class="sci-card" id="sciCard">
+
+            <!-- Top Bar: Angle Mode + History Toggle -->
+            <div class="sci-topbar">
+                <div class="angle-toggle">
+                    <button class="angle-btn active" data-angle="deg">DEG</button>
+                    <button class="angle-btn" data-angle="rad">RAD</button>
+                    <button class="angle-btn" data-angle="grad">GRAD</button>
+                </div>
+                <button class="history-toggle" id="historyToggle" title="History">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                </button>
+            </div>
+
+            <!-- Display -->
+            <div class="sci-display">
+                <div class="sci-memory" id="memoryIndicator" style="display:none;">
+                    <i class="fa-solid fa-microchip"></i> M
+                </div>
+                <div class="sci-expression" id="expression">0</div>
+                <div class="sci-result" id="previewResult"></div>
+            </div>
+
+            <!-- Memory Row -->
+            <div class="memory-row">
+                <button class="mem-btn" data-mem="mc" title="Memory Clear">MC</button>
+                <button class="mem-btn" data-mem="mr" title="Memory Recall">MR</button>
+                <button class="mem-btn" data-mem="m-plus" title="Memory Add">M+</button>
+                <button class="mem-btn" data-mem="m-minus" title="Memory Subtract">M−</button>
+                <button class="mem-btn" data-mem="ms" title="Memory Store">MS</button>
+            </div>
+
+            <!-- History Panel -->
+            <div class="history-panel" id="historyPanel">
+                <div class="history-hdr">
+                    <span><i class="fa-solid fa-clock-rotate-left"></i> History</span>
+                    <button id="clearHistoryBtn" title="Clear">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+                <div class="history-items" id="historyItems">
+                    <div class="empty-history">No calculations yet</div>
+                </div>
+            </div>
+
+            <!-- Scientific Function Rows -->
+            <div class="func-row">
+                <button class="fn-btn" data-fn="sin">sin</button>
+                <button class="fn-btn" data-fn="cos">cos</button>
+                <button class="fn-btn" data-fn="tan">tan</button>
+                <button class="fn-btn" data-fn="asin">sin⁻¹</button>
+                <button class="fn-btn" data-fn="acos">cos⁻¹</button>
+                <button class="fn-btn" data-fn="atan">tan⁻¹</button>
+            </div>
+
+            <div class="func-row">
+                <button class="fn-btn" data-fn="ln">ln</button>
+                <button class="fn-btn" data-fn="log">log</button>
+                <button class="fn-btn" data-fn="log2">log₂</button>
+                <button class="fn-btn" data-fn="exp">eˣ</button>
+                <button class="fn-btn" data-fn="tenPow">10ˣ</button>
+                <button class="fn-btn" data-fn="pow">xʸ</button>
+            </div>
+
+            <div class="func-row">
+                <button class="fn-btn" data-fn="sqrt">√</button>
+                <button class="fn-btn" data-fn="cbrt">∛</button>
+                <button class="fn-btn" data-fn="sq">x²</button>
+                <button class="fn-btn" data-fn="cube">x³</button>
+                <button class="fn-btn" data-fn="fact">n!</button>
+                <button class="fn-btn" data-fn="inv">1/x</button>
+            </div>
+
+            <div class="func-row">
+                <button class="fn-btn" data-fn="pi">π</button>
+                <button class="fn-btn" data-fn="e">e</button>
+                <button class="fn-btn" data-fn="abs">|x|</button>
+                <button class="fn-btn" data-fn="mod">mod</button>
+                <button class="fn-btn" data-fn="rand">Ran#</button>
+                <button class="fn-btn" data-fn="ans">Ans</button>
+            </div>
+
+            <!-- Main Keypad -->
+            <div class="keypad">
+                <!-- Row 1 -->
+                <button class="key fn-action" data-action="clear">AC</button>
+                <button class="key fn-action" data-action="backspace"><i class="fa-solid fa-delete-left"></i></button>
+                <button class="key fn-action" data-action="percent">%</button>
+                <button class="key fn-action" data-action="divide">÷</button>
+
+                <!-- Row 2 -->
+                <button class="key num" data-num="7">7</button>
+                <button class="key num" data-num="8">8</button>
+                <button class="key num" data-num="9">9</button>
+                <button class="key fn-action" data-action="multiply">×</button>
+
+                <!-- Row 3 -->
+                <button class="key num" data-num="4">4</button>
+                <button class="key num" data-num="5">5</button>
+                <button class="key num" data-num="6">6</button>
+                <button class="key fn-action" data-action="subtract">−</button>
+
+                <!-- Row 4 -->
+                <button class="key num" data-num="1">1</button>
+                <button class="key num" data-num="2">2</button>
+                <button class="key num" data-num="3">3</button>
+                <button class="key fn-action" data-action="add">+</button>
+
+                <!-- Row 5 -->
+                <button class="key fn-action" data-action="negate">±</button>
+                <button class="key num" data-num="0">0</button>
+                <button class="key num" data-num=".">.</button>
+                <button class="key equals" data-action="equals">=</button>
+            </div>
+
+            <!-- Bottom Info -->
+            <div class="sci-info" id="sciInfo">
+                <span><i class="fa-solid fa-keyboard"></i> Keyboard supported</span>
+            </div>
+        </div>
+
+        <!-- Keyboard Hint -->
+        <div class="kbd-hint">
+            <span><kbd>0-9</kbd> Numbers</span>
+            <span><kbd>+ - * /</kbd> Operators</span>
+            <span><kbd>Enter</kbd> Equals</span>
+            <span><kbd>Esc</kbd> Clear</span>
+            <span><kbd>Backspace</kbd> Delete</span>
+        </div>
+
+    </main>
+
+    <!-- Toast -->
+    <div id="toast" class="toast">Message here</div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script src="scientific-script.js"></script>
+</body>
+</html>
