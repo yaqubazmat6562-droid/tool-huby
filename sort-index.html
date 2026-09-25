@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Sorter - Tool Hub</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Text Sorter CSS -->
+    <link rel="stylesheet" href="sort-style.css">
+</head>
+<body>
+
+    <!-- ============ TOP NAVBAR ============ -->
+    <header class="top-navbar">
+        <div class="navbar-left">
+            <a href="index.html" class="back-btn" title="Back to Home">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <a href="index.html" class="navbar-logo">
+                <i class="fa-solid fa-wrench"></i>
+                <span>Tool Hub</span>
+            </a>
+        </div>
+        <div class="navbar-right">
+            <button id="theme-toggle" title="Toggle Theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+            <button class="share-btn" onclick="shareTool()" title="Share this tool">
+                <i class="fa-solid fa-share-nodes"></i> <span>Share</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ============ BREADCRUMB ============ -->
+    <div class="breadcrumb-bar">
+        <div class="breadcrumb">
+            <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+            <i class="fa-solid fa-chevron-right"></i>
+            <a href="alltools-index.html?cat=text">Text Tools</a>
+            <i class="fa-solid fa-chevron-right"></i>
+            <span>Text Sorter</span>
+        </div>
+    </div>
+
+    <!-- ============ MAIN CONTENT ============ -->
+    <main class="container">
+
+        <!-- Tool Header -->
+        <div class="tool-header">
+            <div class="tool-icon">
+                <i class="fa-solid fa-arrow-down-a-z"></i>
+            </div>
+            <div>
+                <h1>Text Sorter</h1>
+                <p>Sort lines alphabetically, numerically, by length, reverse or random. With case-insensitive, natural sort &amp; dedupe options.</p>
+            </div>
+        </div>
+
+        <!-- ============ SORT MODES ============ -->
+        <div class="modes-panel">
+            <div class="modes-header">
+                <h3><i class="fa-solid fa-wand-magic-sparkles"></i> Choose Sort Mode</h3>
+                <span class="hint">Click any mode to instantly sort lines</span>
+            </div>
+
+            <div class="modes-grid">
+                <button class="mode-btn active" data-mode="az" onclick="setMode('az')">
+                    <div class="mode-icon"><i class="fa-solid fa-arrow-down-a-z"></i></div>
+                    <div class="mode-content">
+                        <span class="mode-label">A → Z</span>
+                        <small>Ascending alphabetical</small>
+                    </div>
+                </button>
+
+                <button class="mode-btn" data-mode="za" onclick="setMode('za')">
+                    <div class="mode-icon"><i class="fa-solid fa-arrow-down-z-a"></i></div>
+                    <div class="mode-content">
+                        <span class="mode-label">Z → A</span>
+                        <small>Descending alphabetical</small>
+                    </div>
+                </button>
+
+                <button class="mode-btn" data-mode="lengthAsc" onclick="setMode('lengthAsc')">
+                    <div class="mode-icon"><i class="fa-solid fa-arrow-up-short-wide"></i></div>
+                    <div class="mode-content">
+                        <span class="mode-label">Length ↑</span>
+                        <small>Short → Long</small>
+                    </div>
+                </button>
+
+                <button class="mode-btn" data-mode="lengthDesc" onclick="setMode('lengthDesc')">
+                    <div class="mode-icon"><i class="fa-solid fa-arrow-down-wide-short"></i></div>
+                    <div class="mode-content">
+                        <span class="mode-label">Length ↓</span>
+                        <small>Long → Short</small>
+                    </div>
+                </button>
+
+                <button class="mode-btn" data-mode="numeric" onclick="setMode('numeric')">
+                    <div class="mode-icon"><i class="fa-solid fa-arrow-down-1-9"></i></div>
+                    <div class="mode-content">
+                        <span class="mode-label">Numeric</span>
+                        <small>1 → 9 → 100</small>
+                    </div>
+                </button>
+
+                <button class="mode-btn" data-mode="reverse" onclick="setMode('reverse')">
+                    <div class="mode-icon"><i class="fa-solid fa-rotate-left"></i></div>
+                    <div class="mode-content">
+                        <span class="mode-label">Reverse</span>
+                        <small>Flip line order</small>
+                    </div>
+                </button>
+
+                <button class="mode-btn" data-mode="random" onclick="setMode('random')">
+                    <div class="mode-icon"><i class="fa-solid fa-shuffle"></i></div>
+                    <div class="mode-content">
+                        <span class="mode-label">Random Shuffle</span>
+                        <small>Randomize line order</small>
+                    </div>
+                </button>
+
+                <button class="mode-btn" data-mode="none" onclick="setMode('none')">
+                    <div class="mode-icon"><i class="fa-solid fa-ban"></i></div>
+                    <div class="mode-content">
+                        <span class="mode-label">No Sort</span>
+                        <small>Original order</small>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <!-- ============ ADVANCED OPTIONS ============ -->
+        <div class="options-panel">
+            <div class="options-header" onclick="toggleOptions()">
+                <h3><i class="fa-solid fa-sliders"></i> Advanced Options</h3>
+                <button class="toggle-btn" id="options-toggle">
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+            </div>
+
+            <div class="options-body" id="options-body">
+                <div class="options-grid">
+                    <label class="option-card">
+                        <input type="checkbox" id="opt-case-insensitive" checked onchange="processText()">
+                        <span class="option-check"></span>
+                        <div class="option-content">
+                            <div class="option-title">
+                                <i class="fa-solid fa-a"></i> Case-Insensitive
+                            </div>
+                            <div class="option-desc">A aur a ko same treat karein</div>
+                        </div>
+                    </label>
+
+                    <label class="option-card">
+                        <input type="checkbox" id="opt-natural" checked onchange="processText()">
+                        <span class="option-check"></span>
+                        <div class="option-content">
+                            <div class="option-title">
+                                <i class="fa-solid fa-sort-numeric-up"></i> Natural Sort
+                            </div>
+                            <div class="option-desc">"item2" before "item10" (smart numbers)</div>
+                        </div>
+                    </label>
+
+                    <label class="option-card">
+                        <input type="checkbox" id="opt-trim" checked onchange="processText()">
+                        <span class="option-check"></span>
+                        <div class="option-content">
+                            <div class="option-title">
+                                <i class="fa-solid fa-crop-simple"></i> Trim Lines
+                            </div>
+                            <div class="option-desc">Har line ke start/end spaces hatayein</div>
+                        </div>
+                    </label>
+
+                    <label class="option-card">
+                        <input type="checkbox" id="opt-remove-empty" checked onchange="processText()">
+                        <span class="option-check"></span>
+                        <div class="option-content">
+                            <div class="option-title">
+                                <i class="fa-solid fa-align-justify"></i> Remove Empty Lines
+                            </div>
+                            <div class="option-desc">Khali lines sort se pehle hatayein</div>
+                        </div>
+                    </label>
+
+                    <label class="option-card">
+                        <input type="checkbox" id="opt-remove-dupes" onchange="processText()">
+                        <span class="option-check"></span>
+                        <div class="option-content">
+                            <div class="option-title">
+                                <i class="fa-solid fa-clone"></i> Remove Duplicates
+                            </div>
+                            <div class="option-desc">Duplicate lines hata dein</div>
+                        </div>
+                    </label>
+
+                    <label class="option-card">
+                        <input type="checkbox" id="opt-auto-process" checked onchange="processText()">
+                        <span class="option-check"></span>
+                        <div class="option-content">
+                            <div class="option-title">
+                                <i class="fa-solid fa-bolt"></i> Auto-Process
+                            </div>
+                            <div class="option-desc">Text badalte hi automatically sort ho</div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ STATS BAR ============ -->
+        <div class="stats-bar">
+            <div class="stat-item">
+                <i class="fa-solid fa-list"></i>
+                <div>
+                    <div class="stat-label">Total Lines</div>
+                    <div class="stat-value" id="stat-lines">0</div>
+                </div>
+            </div>
+            <div class="stat-item">
+                <i class="fa-solid fa-text-width"></i>
+                <div>
+                    <div class="stat-label">Characters</div>
+                    <div class="stat-value" id="stat-chars">0</div>
+                </div>
+            </div>
+            <div class="stat-item">
+                <i class="fa-solid fa-file-word"></i>
+                <div>
+                    <div class="stat-label">Words</div>
+                    <div class="stat-value" id="stat-words">0</div>
+                </div>
+            </div>
+            <div class="stat-item highlight">
+                <i class="fa-solid fa-arrow-down-a-z"></i>
+                <div>
+                    <div class="stat-label">Mode</div>
+                    <div class="stat-value" id="stat-mode">A → Z</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ EDITOR LAYOUT ============ -->
+        <div class="editor-layout">
+
+            <!-- Input Panel -->
+            <div class="editor-panel">
+                <div class="panel-header">
+                    <div class="panel-title">
+                        <i class="fa-solid fa-keyboard"></i> Input Lines
+                    </div>
+                    <div class="panel-actions">
+                        <button class="mini-btn" onclick="pasteText()" title="Paste">
+                            <i class="fa-solid fa-paste"></i>
+                        </button>
+                        <button class="mini-btn" onclick="loadSample()" title="Sample">
+                            <i class="fa-solid fa-flask"></i>
+                        </button>
+                        <button class="mini-btn" onclick="clearInput()" title="Clear">
+                            <i class="fa-solid fa-eraser"></i>
+                        </button>
+                    </div>
+                </div>
+                <textarea 
+                    id="sort-input" 
+                    class="sort-textarea" 
+                    placeholder="Paste lines here...&#10;&#10;Example:&#10;banana&#10;apple&#10;cherry&#10;date"
+                    spellcheck="false"
+                ></textarea>
+                <div class="panel-footer">
+                    <span><i class="fa-solid fa-list"></i> <b id="input-lines">0</b></span>
+                    <span><i class="fa-solid fa-text-width"></i> <b id="input-chars">0</b></span>
+                </div>
+            </div>
+
+            <!-- Arrow (Desktop) -->
+            <div class="arrow-divider">
+                <i class="fa-solid fa-arrow-right"></i>
+            </div>
+
+            <!-- Output Panel -->
+            <div class="editor-panel output-panel">
+                <div class="panel-header">
+                    <div class="panel-title">
+                        <i class="fa-solid fa-file-code"></i> Sorted Output
+                        <span class="mode-badge" id="mode-badge">A → Z</span>
+                    </div>
+                    <div class="panel-actions">
+                        <button class="mini-btn" onclick="copyOutput()" title="Copy">
+                            <i class="fa-solid fa-copy"></i>
+                        </button>
+                        <button class="mini-btn" onclick="downloadOutput()" title="Download">
+                            <i class="fa-solid fa-download"></i>
+                        </button>
+                        <button class="mini-btn" onclick="useAsInput()" title="Use as input">
+                            <i class="fa-solid fa-arrow-up"></i>
+                        </button>
+                    </div>
+                </div>
+                <textarea 
+                    id="sort-output" 
+                    class="sort-textarea" 
+                    placeholder="Sorted lines will appear here..."
+                    spellcheck="false"
+                    readonly
+                ></textarea>
+                <div class="panel-footer">
+                    <span><i class="fa-solid fa-list"></i> <b id="output-lines">0</b></span>
+                    <span><i class="fa-solid fa-text-width"></i> <b id="output-chars">0</b></span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ============ ACTION ROW ============ -->
+        <div class="action-row">
+            <button class="btn btn-primary btn-large" onclick="processText()">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Sort Now
+            </button>
+            <button class="btn btn-success" onclick="copyOutput()">
+                <i class="fa-solid fa-copy"></i> Copy Result
+            </button>
+            <button class="btn btn-info" onclick="downloadOutput()">
+                <i class="fa-solid fa-download"></i> Download
+            </button>
+            <button class="btn btn-secondary" onclick="useAsInput()">
+                <i class="fa-solid fa-arrow-up"></i> Reuse
+            </button>
+            <button class="btn btn-warning" onclick="clearAll()">
+                <i class="fa-solid fa-eraser"></i> Clear All
+            </button>
+        </div>
+
+        <!-- ============ SORT STATS PANEL ============ -->
+        <div class="sort-stats-panel" id="sort-stats-panel" style="display: none;">
+            <div class="sort-stats-header">
+                <h3><i class="fa-solid fa-chart-simple"></i> Sort Summary</h3>
+                <span class="hint">What happened during sort</span>
+            </div>
+            <div class="sort-stats-grid" id="sort-stats-grid"></div>
+        </div>
+
+        <!-- ============ QUICK EXAMPLES ============ -->
+        <div class="examples-panel">
+            <div class="examples-header">
+                <h3><i class="fa-solid fa-flask"></i> Quick Examples</h3>
+                <span class="hint">Click to try with sample data</span>
+            </div>
+            <div class="examples-grid">
+                <button class="example-btn" onclick="tryExample('names')">
+                    <i class="fa-solid fa-users"></i>
+                    <span>Names</span>
+                </button>
+                <button class="example-btn" onclick="tryExample('numbers')">
+                    <i class="fa-solid fa-hashtag"></i>
+                    <span>Numbers</span>
+                </button>
+                <button class="example-btn" onclick="tryExample('mixed')">
+                    <i class="fa-solid fa-shuffle"></i>
+                    <span>Mixed Case</span>
+                </button>
+                <button class="example-btn" onclick="tryExample('withDupes')">
+                    <i class="fa-solid fa-clone"></i>
+                    <span>Duplicates</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Help Section -->
+        <div class="help-box">
+            <h4><i class="fa-solid fa-circle-question"></i> How to Use Text Sorter</h4>
+            <ul>
+                <li>Apni lines <b>Input</b> box mein paste karein (ek line ek row).</li>
+                <li><b>8 Modes</b> mein se koi bhi click karein — instantly sort hoga.</li>
+                <li><b>A → Z</b>: alphabetical ascending (apple, banana, cherry).</li>
+                <li><b>Z → A</b>: alphabetical descending (cherry, banana, apple).</li>
+                <li><b>Length ↑</b>: chhoti lines pehle (short → long).</li>
+                <li><b>Length ↓</b>: lambi lines pehle (long → short).</li>
+                <li><b>Numeric</b>: numbers ko sahi order mein (1, 2, 10, 100 — not 1, 10, 100, 2).</li>
+                <li><b>Reverse</b>: lines ki tarteeb ulti.</li>
+                <li><b>Random</b>: lines ko shuffle karein.</li>
+                <li><b>Advanced Options</b>:
+                    <br>• <b>Case-Insensitive</b> — A aur a same treat
+                    <br>• <b>Natural Sort</b> — item2 before item10
+                    <br>• <b>Trim Lines</b> — extra spaces hatayein
+                    <br>• <b>Remove Empty</b> — khali lines skip
+                    <br>• <b>Remove Duplicates</b> — repeated lines hatao
+                </li>
+                <li><b>Auto-Process</b> on hone par typing ke saath hi sort hoga.</li>
+                <li><b>Sort Summary</b> mein dekhein kitni lines remove/skip hui.</li>
+                <li>Sab kuch <b>client-side</b> hai — aapka data kabhi server par nahi jata.</li>
+            </ul>
+        </div>
+
+    </main>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="footer">
+        <p>© 2025 Tool Hub — All Your Online Tools in One Place</p>
+    </footer>
+
+    <!-- ============ TOAST ============ -->
+    <div id="toast" class="toast">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toast-message">Message</span>
+    </div>
+
+    <!-- Text Sorter JS -->
+    <script src="sort-script.js"></script>
+</body>
+</html>

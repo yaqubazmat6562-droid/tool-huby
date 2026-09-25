@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Character Counter - Tool Hub</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Character Counter CSS -->
+    <link rel="stylesheet" href="charcount-style.css">
+</head>
+<body>
+
+    <!-- ============ TOP NAVBAR ============ -->
+    <header class="top-navbar">
+        <div class="navbar-left">
+            <a href="index.html" class="back-btn" title="Back to Home">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <a href="index.html" class="navbar-logo">
+                <i class="fa-solid fa-wrench"></i>
+                <span>Tool Hub</span>
+            </a>
+        </div>
+        <div class="navbar-right">
+            <button id="theme-toggle" title="Toggle Theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+            <button class="share-btn" onclick="shareTool()" title="Share this tool">
+                <i class="fa-solid fa-share-nodes"></i> Share
+            </button>
+        </div>
+    </header>
+
+    <!-- ============ BREADCRUMB ============ -->
+    <div class="breadcrumb-bar">
+        <div class="breadcrumb">
+            <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+            <i class="fa-solid fa-chevron-right"></i>
+            <a href="alltools-index.html?cat=text">Text Tools</a>
+            <i class="fa-solid fa-chevron-right"></i>
+            <span>Character Counter</span>
+        </div>
+    </div>
+
+    <!-- ============ MAIN CONTENT ============ -->
+    <main class="container">
+
+        <!-- Tool Header -->
+        <div class="tool-header">
+            <div class="tool-icon">
+                <i class="fa-solid fa-text-width"></i>
+            </div>
+            <div>
+                <h1>Character Counter</h1>
+                <p>Count characters, words, sentences, paragraphs, digits, letters & special characters — all in real-time.</p>
+            </div>
+        </div>
+
+        <!-- ============ MAIN STATS GRID ============ -->
+        <div class="main-stats">
+            <div class="stat-main">
+                <div class="stat-icon"><i class="fa-solid fa-text-width"></i></div>
+                <div class="stat-value" id="stat-chars">0</div>
+                <div class="stat-label">Characters</div>
+            </div>
+            <div class="stat-main">
+                <div class="stat-icon"><i class="fa-solid fa-font"></i></div>
+                <div class="stat-value" id="stat-chars-nospace">0</div>
+                <div class="stat-label">No Spaces</div>
+            </div>
+            <div class="stat-main">
+                <div class="stat-icon"><i class="fa-solid fa-file-word"></i></div>
+                <div class="stat-value" id="stat-words">0</div>
+                <div class="stat-label">Words</div>
+            </div>
+            <div class="stat-main">
+                <div class="stat-icon"><i class="fa-solid fa-paragraph"></i></div>
+                <div class="stat-value" id="stat-sentences">0</div>
+                <div class="stat-label">Sentences</div>
+            </div>
+            <div class="stat-main">
+                <div class="stat-icon"><i class="fa-solid fa-align-left"></i></div>
+                <div class="stat-value" id="stat-paragraphs">0</div>
+                <div class="stat-label">Paragraphs</div>
+            </div>
+            <div class="stat-main">
+                <div class="stat-icon"><i class="fa-solid fa-list"></i></div>
+                <div class="stat-value" id="stat-lines">0</div>
+                <div class="stat-label">Lines</div>
+            </div>
+        </div>
+
+        <!-- ============ DETAILED BREAKDOWN ============ -->
+        <div class="breakdown-panel">
+            <div class="breakdown-header">
+                <h3><i class="fa-solid fa-chart-pie"></i> Detailed Breakdown</h3>
+                <span class="hint">Real-time character composition analysis</span>
+            </div>
+
+            <div class="breakdown-grid">
+                <!-- Letters -->
+                <div class="breakdown-card letters">
+                    <div class="breakdown-icon"><i class="fa-solid fa-font"></i></div>
+                    <div class="breakdown-info">
+                        <span class="breakdown-label">Letters</span>
+                        <span class="breakdown-value" id="stat-letters">0</span>
+                    </div>
+                    <div class="breakdown-bar">
+                        <div class="bar-fill" id="bar-letters" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- Digits -->
+                <div class="breakdown-card digits">
+                    <div class="breakdown-icon"><i class="fa-solid fa-hashtag"></i></div>
+                    <div class="breakdown-info">
+                        <span class="breakdown-label">Digits</span>
+                        <span class="breakdown-value" id="stat-digits">0</span>
+                    </div>
+                    <div class="breakdown-bar">
+                        <div class="bar-fill" id="bar-digits" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- Spaces -->
+                <div class="breakdown-card spaces">
+                    <div class="breakdown-icon"><i class="fa-solid fa-minus"></i></div>
+                    <div class="breakdown-info">
+                        <span class="breakdown-label">Spaces</span>
+                        <span class="breakdown-value" id="stat-spaces">0</span>
+                    </div>
+                    <div class="breakdown-bar">
+                        <div class="bar-fill" id="bar-spaces" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- Punctuation -->
+                <div class="breakdown-card punct">
+                    <div class="breakdown-icon"><i class="fa-solid fa-asterisk"></i></div>
+                    <div class="breakdown-info">
+                        <span class="breakdown-label">Punctuation</span>
+                        <span class="breakdown-value" id="stat-punct">0</span>
+                    </div>
+                    <div class="breakdown-bar">
+                        <div class="bar-fill" id="bar-punct" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- Special -->
+                <div class="breakdown-card special">
+                    <div class="breakdown-icon"><i class="fa-solid fa-star"></i></div>
+                    <div class="breakdown-info">
+                        <span class="breakdown-label">Special Chars</span>
+                        <span class="breakdown-value" id="stat-special">0</span>
+                    </div>
+                    <div class="breakdown-bar">
+                        <div class="bar-fill" id="bar-special" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- Vowels -->
+                <div class="breakdown-card vowels">
+                    <div class="breakdown-icon"><i class="fa-solid fa-a"></i></div>
+                    <div class="breakdown-info">
+                        <span class="breakdown-label">Vowels</span>
+                        <span class="breakdown-value" id="stat-vowels">0</span>
+                    </div>
+                    <div class="breakdown-bar">
+                        <div class="bar-fill" id="bar-vowels" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- Consonants -->
+                <div class="breakdown-card cons">
+                    <div class="breakdown-icon"><i class="fa-solid fa-b"></i></div>
+                    <div class="breakdown-info">
+                        <span class="breakdown-label">Consonants</span>
+                        <span class="breakdown-value" id="stat-consonants">0</span>
+                    </div>
+                    <div class="breakdown-bar">
+                        <div class="bar-fill" id="bar-consonants" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- Uppercase -->
+                <div class="breakdown-card upper">
+                    <div class="breakdown-icon"><i class="fa-solid fa-arrow-up"></i></div>
+                    <div class="breakdown-info">
+                        <span class="breakdown-label">Uppercase</span>
+                        <span class="breakdown-value" id="stat-upper">0</span>
+                    </div>
+                    <div class="breakdown-bar">
+                        <div class="bar-fill" id="bar-upper" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- Lowercase -->
+                <div class="breakdown-card lower">
+                    <div class="breakdown-icon"><i class="fa-solid fa-arrow-down"></i></div>
+                    <div class="breakdown-info">
+                        <span class="breakdown-label">Lowercase</span>
+                        <span class="breakdown-value" id="stat-lower">0</span>
+                    </div>
+                    <div class="breakdown-bar">
+                        <div class="bar-fill" id="bar-lower" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ TEXTAREA ============ -->
+        <div class="textarea-panel">
+            <div class="textarea-header">
+                <label for="char-input">
+                    <i class="fa-solid fa-pen"></i> Enter Your Text
+                </label>
+                <div class="textarea-actions">
+                    <button class="mini-btn" onclick="pasteText()" title="Paste from clipboard">
+                        <i class="fa-solid fa-paste"></i>
+                    </button>
+                    <button class="mini-btn" onclick="loadSample()" title="Load sample">
+                        <i class="fa-solid fa-flask"></i>
+                    </button>
+                    <button class="mini-btn" onclick="copyText()" title="Copy text">
+                        <i class="fa-solid fa-copy"></i>
+                    </button>
+                    <button class="mini-btn" onclick="clearText()" title="Clear text">
+                        <i class="fa-solid fa-eraser"></i>
+                    </button>
+                </div>
+            </div>
+            <textarea 
+                id="char-input" 
+                class="char-textarea" 
+                placeholder="Type or paste your text here...&#10;&#10;Character counts will update in real-time as you type."
+                spellcheck="false"
+            ></textarea>
+            <div class="textarea-footer">
+                <span><i class="fa-solid fa-lightbulb"></i> Tip: Press <kbd>Tab</kbd> to insert 2 spaces</span>
+                <span id="live-indicator"><span class="live-dot"></span> Live</span>
+            </div>
+        </div>
+
+        <!-- ============ EXTRA STATS ============ -->
+        <div class="extra-stats-panel">
+            <div class="extra-stats-header">
+                <h3><i class="fa-solid fa-chart-line"></i> Additional Statistics</h3>
+            </div>
+            <div class="extra-grid">
+                <div class="extra-item">
+                    <i class="fa-solid fa-clock"></i>
+                    <div>
+                        <div class="extra-label">Reading Time</div>
+                        <div class="extra-value" id="stat-reading">0s</div>
+                    </div>
+                </div>
+                <div class="extra-item">
+                    <i class="fa-solid fa-microphone"></i>
+                    <div>
+                        <div class="extra-label">Speaking Time</div>
+                        <div class="extra-value" id="stat-speaking">0s</div>
+                    </div>
+                </div>
+                <div class="extra-item">
+                    <i class="fa-solid fa-font"></i>
+                    <div>
+                        <div class="extra-label">Avg Word Length</div>
+                        <div class="extra-value" id="stat-avg-word">0</div>
+                    </div>
+                </div>
+                <div class="extra-item">
+                    <i class="fa-solid fa-ruler"></i>
+                    <div>
+                        <div class="extra-label">Longest Word</div>
+                        <div class="extra-value" id="stat-longest">—</div>
+                    </div>
+                </div>
+                <div class="extra-item">
+                    <i class="fa-solid fa-fingerprint"></i>
+                    <div>
+                        <div class="extra-label">Unique Words</div>
+                        <div class="extra-value" id="stat-unique">0</div>
+                    </div>
+                </div>
+                <div class="extra-item">
+                    <i class="fa-solid fa-cube"></i>
+                    <div>
+                        <div class="extra-label">Byte Size</div>
+                        <div class="extra-value" id="stat-bytes">0 B</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ PLATFORM LIMITS ============ -->
+        <div class="limits-panel">
+            <div class="limits-header">
+                <h3><i class="fa-solid fa-mobile-screen-button"></i> Platform Character Limits</h3>
+                <span class="hint">See how your text fits on popular platforms</span>
+            </div>
+            <div class="limits-grid">
+                <div class="limit-item" id="limit-twitter">
+                    <div class="limit-header">
+                        <i class="fa-brands fa-twitter"></i>
+                        <span>Twitter / X</span>
+                    </div>
+                    <div class="limit-progress">
+                        <div class="limit-bar"><div class="limit-fill" id="bar-twitter"></div></div>
+                        <span class="limit-count"><span id="count-twitter">0</span>/280</span>
+                    </div>
+                </div>
+
+                <div class="limit-item" id="limit-sms">
+                    <div class="limit-header">
+                        <i class="fa-solid fa-comment-sms"></i>
+                        <span>SMS</span>
+                    </div>
+                    <div class="limit-progress">
+                        <div class="limit-bar"><div class="limit-fill" id="bar-sms"></div></div>
+                        <span class="limit-count"><span id="count-sms">0</span>/160</span>
+                    </div>
+                </div>
+
+                <div class="limit-item" id="limit-meta">
+                    <div class="limit-header">
+                        <i class="fa-brands fa-facebook"></i>
+                        <span>Meta Title</span>
+                    </div>
+                    <div class="limit-progress">
+                        <div class="limit-bar"><div class="limit-fill" id="bar-meta"></div></div>
+                        <span class="limit-count"><span id="count-meta">0</span>/60</span>
+                    </div>
+                </div>
+
+                <div class="limit-item" id="limit-description">
+                    <div class="limit-header">
+                        <i class="fa-solid fa-search"></i>
+                        <span>Meta Description</span>
+                    </div>
+                    <div class="limit-progress">
+                        <div class="limit-bar"><div class="limit-fill" id="bar-description"></div></div>
+                        <span class="limit-count"><span id="count-description">0</span>/160</span>
+                    </div>
+                </div>
+
+                <div class="limit-item" id="limit-instagram">
+                    <div class="limit-header">
+                        <i class="fa-brands fa-instagram"></i>
+                        <span>Instagram</span>
+                    </div>
+                    <div class="limit-progress">
+                        <div class="limit-bar"><div class="limit-fill" id="bar-instagram"></div></div>
+                        <span class="limit-count"><span id="count-instagram">0</span>/2200</span>
+                    </div>
+                </div>
+
+                <div class="limit-item" id="limit-linkedin">
+                    <div class="limit-header">
+                        <i class="fa-brands fa-linkedin"></i>
+                        <span>LinkedIn</span>
+                    </div>
+                    <div class="limit-progress">
+                        <div class="limit-bar"><div class="limit-fill" id="bar-linkedin"></div></div>
+                        <span class="limit-count"><span id="count-linkedin">0</span>/3000</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ ACTION ROW ============ -->
+        <div class="action-row">
+            <button class="btn btn-primary" onclick="copyText()">
+                <i class="fa-solid fa-copy"></i> Copy Text
+            </button>
+            <button class="btn btn-success" onclick="downloadText()">
+                <i class="fa-solid fa-download"></i> Download .txt
+            </button>
+            <button class="btn btn-info" onclick="copyStats()">
+                <i class="fa-solid fa-chart-simple"></i> Copy Stats
+            </button>
+            <button class="btn btn-warning" onclick="clearText()">
+                <i class="fa-solid fa-eraser"></i> Clear
+            </button>
+            <button class="btn btn-secondary" onclick="shareTool()">
+                <i class="fa-solid fa-share-nodes"></i> Share
+            </button>
+        </div>
+
+        <!-- Help Section -->
+        <div class="help-box">
+            <h4><i class="fa-solid fa-circle-question"></i> How to Use Character Counter</h4>
+            <ul>
+                <li>Apna text <b>textarea</b> mein type ya paste karein.</li>
+                <li>Saare counts <b>real-time</b> update hote hain jaise aap type karte hain.</li>
+                <li><b>Main Stats</b>: Characters, No Spaces, Words, Sentences, Paragraphs, Lines.</li>
+                <li><b>Detailed Breakdown</b>: Letters, Digits, Spaces, Punctuation, Special chars, Vowels, Consonants, Uppercase, Lowercase.</li>
+                <li><b>Additional Stats</b>: Reading time, Speaking time, Average word length, Longest word, Unique words, Byte size.</li>
+                <li><b>Platform Limits</b>: Twitter, SMS, Meta Title/Description, Instagram, LinkedIn — sab ke liye character limit check karein.</li>
+                <li>Progress bar <b>green</b> rahega jab tak limit ke andar hain, <b>red</b> ho jayega jab cross ho jayegi.</li>
+                <li><b>Copy</b>, <b>Download</b>, ya <b>Copy Stats</b> buttons se result use karein.</li>
+                <li>Sab kuch <b>client-side</b> hai — aapka text kabhi server par nahi jata.</li>
+            </ul>
+        </div>
+
+    </main>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="footer">
+        <p>© 2025 Tool Hub — All Your Online Tools in One Place</p>
+    </footer>
+
+    <!-- ============ TOAST ============ -->
+    <div id="toast" class="toast">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toast-message">Message</span>
+    </div>
+
+    <!-- Character Counter JS -->
+    <script src="charcount-script.js"></script>
+</body>
+</html>

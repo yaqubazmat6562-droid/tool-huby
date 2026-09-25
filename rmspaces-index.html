@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remove Extra Spaces - Tool Hub</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Remove Extra Spaces CSS -->
+    <link rel="stylesheet" href="rmspaces-style.css">
+</head>
+<body>
+
+    <!-- ============ TOP NAVBAR ============ -->
+    <header class="top-navbar">
+        <div class="navbar-left">
+            <a href="index.html" class="back-btn" title="Back to Home">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <a href="index.html" class="navbar-logo">
+                <i class="fa-solid fa-wrench"></i>
+                <span>Tool Hub</span>
+            </a>
+        </div>
+        <div class="navbar-right">
+            <button id="theme-toggle" title="Toggle Theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+            <button class="share-btn" onclick="shareTool()" title="Share this tool">
+                <i class="fa-solid fa-share-nodes"></i> <span>Share</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ============ BREADCRUMB ============ -->
+    <div class="breadcrumb-bar">
+        <div class="breadcrumb">
+            <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+            <i class="fa-solid fa-chevron-right"></i>
+            <a href="alltools-index.html?cat=text">Text Tools</a>
+            <i class="fa-solid fa-chevron-right"></i>
+            <span>Remove Extra Spaces</span>
+        </div>
+    </div>
+
+    <!-- ============ MAIN CONTENT ============ -->
+    <main class="container">
+
+        <!-- Tool Header -->
+        <div class="tool-header">
+            <div class="tool-icon">
+                <i class="fa-solid fa-eraser"></i>
+            </div>
+            <div>
+                <h1>Remove Extra Spaces</h1>
+                <p>Clean up messy text — remove extra spaces, tabs, blank lines, duplicate lines & more with advanced options.</p>
+            </div>
+        </div>
+
+        <!-- ============ QUICK ACTIONS ============ -->
+        <div class="quick-actions-panel">
+            <div class="quick-header">
+                <h3><i class="fa-solid fa-bolt"></i> Quick One-Click Cleanup</h3>
+                <span class="hint">Instantly apply common cleanups</span>
+            </div>
+            <div class="quick-grid">
+                <button class="quick-btn" onclick="quickAction('all')">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <span>Full Cleanup</span>
+                    <small>All below at once</small>
+                </button>
+                <button class="quick-btn" onclick="quickAction('spaces')">
+                    <i class="fa-solid fa-arrows-left-right"></i>
+                    <span>Extra Spaces</span>
+                    <small>Multiple → Single</small>
+                </button>
+                <button class="quick-btn" onclick="quickAction('trim')">
+                    <i class="fa-solid fa-crop-simple"></i>
+                    <span>Trim Lines</span>
+                    <small>Remove leading/trailing</small>
+                </button>
+                <button class="quick-btn" onclick="quickAction('blank')">
+                    <i class="fa-solid fa-align-justify"></i>
+                    <span>Blank Lines</span>
+                    <small>Remove empty lines</small>
+                </button>
+            </div>
+        </div>
+
+        <!-- ============ ADVANCED OPTIONS ============ -->
+        <div class="options-panel">
+            <div class="options-header" onclick="toggleOptions()">
+                <h3><i class="fa-solid fa-sliders"></i> Advanced Options</h3>
+                <button class="toggle-btn" id="options-toggle">
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+            </div>
+
+            <div class="options-body" id="options-body">
+                <div class="options-grid">
+                    <!-- Multiple Spaces -->
+                    <label class="option-card">
+                        <input type="checkbox" id="opt-multi-spaces" checked onchange="applyOptions()">
+                        <span class="option-check"></span>
+                        <div class="option-content">
+                            <div class="option-title">
+                                <i class="fa-solid fa-arrows-left-right"></i> Multiple Spaces
+                            </div>
+                            <div class="option-desc">Replace 2+ consecutive spaces with single space</div>
+                        </div>
+                    </label>
+
+                    <!-- Trim Lines -->
+                    <label class="option-card">
+                        <input type="checkbox" id="opt-trim-lines" checked onchange="applyOptions()">
+                        <span class="option-check"></span>
+                        <div class="option-content">
+                            <div class="option-title">
+                                <i class="fa-solid fa-crop-simple"></i> Trim Line Edges
+                            </div>
+                            <div class="option-desc">Remove leading & trailing spaces from each line</div>
+                        </div>
+                    </label>
+
+                    <!-- Blank Lines -->
+                    <label class="option-card">
+                        <input type="checkbox" id="opt-blank-lines" checked onchange="applyOptions()">
+                        <span class="option-check"></span>
+                        <div class="option-content">
+                            <div class="option-title">
+                                <i class="fa-solid fa-align-justify"></i> Blank Lines
+                            </div>
+                            <div class="option-desc">Remove empty lines completely</div>
+                        </div>
+                    </label>
+
+                    <!-- Tabs to Spaces -->
+                    <label class="option-card">
+                        <input type="checkbox" id="opt-tabs" onchange="applyOptions()">
+                        <span class="option-check"></span>
+                        <div class="option-content">
+                            <div class="option-title">
+                                <i class="fa-solid fa-arrow-right"></i> Tabs → Spaces
+                            </div>
+                            <div class="option-desc">Convert tab characters to spaces</div>
+                        </div>
+                    </label>
+
+                    <!-- Multiple Line Breaks -->
+                    <label class="option-card">
+                        <input type="checkbox" id="opt-multi-breaks" checked onchange="applyOptions()">
+                        <span class="option-check"></span>
+                        <div class="option-content">
+                            <div class="option-title">
+                                <i class="fa-solid fa-paragraph"></i> Multiple Line Breaks
+                            </div>
+                            <div class="option-desc">Collapse 3+ line breaks to 2 (max 1 blank line)</div>
+                        </div>
+                    </label>
+
+                    <!-- Non-Breaking Spaces -->
+                    <label class="option-card">
+                        <input type="checkbox" id="opt-nbsp" checked onchange="applyOptions()">
+                        <span class="option-check"></span>
+                        <div class="option-content">
+                            <div class="option-title">
+                                <i class="fa-solid fa-ban"></i> Non-Breaking Spaces
+                            </div>
+                            <div class="option-desc">Replace &amp;nbsp; with regular spaces</div>
+                        </div>
+                    </label>
+
+                    <!-- Zero-Width Chars -->
+                    <label class="option-card">
+                        <input type="checkbox" id="opt-zerowidth" onchange="applyOptions()">
+                        <span class="option-check"></span>
+                        <div class="option-content">
+                            <div class="option-title">
+                                <i class="fa-solid fa-eye-slash"></i> Zero-Width Chars
+                            </div>
+                            <div class="option-desc">Remove invisible zero-width characters</div>
+                        </div>
+                    </label>
+
+                    <!-- Duplicate Lines -->
+                    <label class="option-card">
+                        <input type="checkbox" id="opt-duplicates" onchange="applyOptions()">
+                        <span class="option-check"></span>
+                        <div class="option-content">
+                            <div class="option-title">
+                                <i class="fa-solid fa-clone"></i> Duplicate Lines
+                            </div>
+                            <div class="option-desc">Remove duplicate lines (keep first)</div>
+                        </div>
+                    </label>
+
+                    <!-- Line Break to Space -->
+                    <label class="option-card">
+                        <input type="checkbox" id="opt-breaks-to-space" onchange="applyOptions()">
+                        <span class="option-check"></span>
+                        <div class="option-content">
+                            <div class="option-title">
+                                <i class="fa-solid fa-arrow-right-arrow-left"></i> Line Break → Space
+                            </div>
+                            <div class="option-desc">Replace all line breaks with spaces</div>
+                        </div>
+                    </label>
+
+                    <!-- Extra Punctuation Spaces -->
+                    <label class="option-card">
+                        <input type="checkbox" id="opt-punct-spaces" onchange="applyOptions()">
+                        <span class="option-check"></span>
+                        <div class="option-content">
+                            <div class="option-title">
+                                <i class="fa-solid fa-spell-check"></i> Space Before Punctuation
+                            </div>
+                            <div class="option-desc">Remove spaces before . , ! ? ; :</div>
+                        </div>
+                    </label>
+                </div>
+
+                <!-- Tab Size -->
+                <div class="tab-size-row">
+                    <label for="tab-size">
+                        <i class="fa-solid fa-arrow-right"></i> Tab size (spaces)
+                    </label>
+                    <select id="tab-size" class="tab-select" onchange="applyOptions()">
+                        <option value="2">2 spaces</option>
+                        <option value="4" selected>4 spaces</option>
+                        <option value="8">8 spaces</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ STATS BAR ============ -->
+        <div class="stats-bar">
+            <div class="stat-item">
+                <i class="fa-solid fa-text-width"></i>
+                <div>
+                    <div class="stat-label">Characters</div>
+                    <div class="stat-value" id="stat-chars">0</div>
+                </div>
+            </div>
+            <div class="stat-item">
+                <i class="fa-solid fa-file-word"></i>
+                <div>
+                    <div class="stat-label">Words</div>
+                    <div class="stat-value" id="stat-words">0</div>
+                </div>
+            </div>
+            <div class="stat-item">
+                <i class="fa-solid fa-list"></i>
+                <div>
+                    <div class="stat-label">Lines</div>
+                    <div class="stat-value" id="stat-lines">0</div>
+                </div>
+            </div>
+            <div class="stat-item highlight">
+                <i class="fa-solid fa-scissors"></i>
+                <div>
+                    <div class="stat-label">Removed</div>
+                    <div class="stat-value" id="stat-removed">0</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ EDITOR LAYOUT ============ -->
+        <div class="editor-layout">
+
+            <!-- Input Panel -->
+            <div class="editor-panel">
+                <div class="panel-header">
+                    <div class="panel-title">
+                        <i class="fa-solid fa-keyboard"></i> Input
+                    </div>
+                    <div class="panel-actions">
+                        <button class="mini-btn" onclick="pasteText()" title="Paste">
+                            <i class="fa-solid fa-paste"></i>
+                        </button>
+                        <button class="mini-btn" onclick="loadSample()" title="Sample">
+                            <i class="fa-solid fa-flask"></i>
+                        </button>
+                        <button class="mini-btn" onclick="clearInput()" title="Clear">
+                            <i class="fa-solid fa-eraser"></i>
+                        </button>
+                    </div>
+                </div>
+                <textarea 
+                    id="rmspaces-input" 
+                    class="rmspaces-textarea" 
+                    placeholder="Paste your messy text here...&#10;&#10;Extra spaces, tabs, blank lines will be cleaned based on the options selected."
+                    spellcheck="false"
+                ></textarea>
+                <div class="panel-footer">
+                    <span><i class="fa-solid fa-text-width"></i> <b id="input-chars">0</b></span>
+                    <span><i class="fa-solid fa-file-word"></i> <b id="input-words">0</b></span>
+                </div>
+            </div>
+
+            <!-- Arrow (Desktop only) -->
+            <div class="arrow-divider">
+                <i class="fa-solid fa-arrow-right"></i>
+            </div>
+
+            <!-- Output Panel -->
+            <div class="editor-panel output-panel">
+                <div class="panel-header">
+                    <div class="panel-title">
+                        <i class="fa-solid fa-file-code"></i> Cleaned Output
+                        <span class="clean-badge">CLEANED</span>
+                    </div>
+                    <div class="panel-actions">
+                        <button class="mini-btn" onclick="copyOutput()" title="Copy">
+                            <i class="fa-solid fa-copy"></i>
+                        </button>
+                        <button class="mini-btn" onclick="downloadOutput()" title="Download">
+                            <i class="fa-solid fa-download"></i>
+                        </button>
+                        <button class="mini-btn" onclick="useAsInput()" title="Use as input">
+                            <i class="fa-solid fa-arrow-up"></i>
+                        </button>
+                    </div>
+                </div>
+                <textarea 
+                    id="rmspaces-output" 
+                    class="rmspaces-textarea" 
+                    placeholder="Cleaned text will appear here..."
+                    spellcheck="false"
+                    readonly
+                ></textarea>
+                <div class="panel-footer">
+                    <span><i class="fa-solid fa-text-width"></i> <b id="output-chars">0</b></span>
+                    <span><i class="fa-solid fa-file-word"></i> <b id="output-words">0</b></span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ============ ACTION ROW ============ -->
+        <div class="action-row">
+            <button class="btn btn-primary btn-large" onclick="applyOptions()">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Apply Cleanup
+            </button>
+            <button class="btn btn-success" onclick="copyOutput()">
+                <i class="fa-solid fa-copy"></i> Copy Result
+            </button>
+            <button class="btn btn-info" onclick="downloadOutput()">
+                <i class="fa-solid fa-download"></i> Download
+            </button>
+            <button class="btn btn-secondary" onclick="useAsInput()">
+                <i class="fa-solid fa-arrow-up"></i> Reuse
+            </button>
+            <button class="btn btn-warning" onclick="clearAll()">
+                <i class="fa-solid fa-eraser"></i> Clear All
+            </button>
+        </div>
+
+        <!-- ============ DIFF PREVIEW ============ -->
+        <div class="diff-panel" id="diff-panel" style="display: none;">
+            <div class="diff-header">
+                <h3><i class="fa-solid fa-code-compare"></i> Change Summary</h3>
+                <span class="hint">What was cleaned</span>
+            </div>
+            <div class="diff-grid" id="diff-grid"></div>
+        </div>
+
+        <!-- Help Section -->
+        <div class="help-box">
+            <h4><i class="fa-solid fa-circle-question"></i> How to Use Remove Extra Spaces</h4>
+            <ul>
+                <li>Apna messy text <b>Input</b> box mein paste ya type karein.</li>
+                <li><b>Quick Actions</b> se one-click cleanup karein (Full Cleanup best hai).</li>
+                <li>Ya <b>Advanced Options</b> se specific cleanups select karein.</li>
+                <li>Output automatically real-time update hoga — koi button dabanay ki zarurat nahi.</li>
+                <li><b>Full Cleanup</b> saare common problems fix karta hai: extra spaces, tabs, blank lines, etc.</li>
+                <li><b>Duplicate Lines</b> option se repeated lines hata dein.</li>
+                <li><b>Zero-Width Chars</b> option se invisible characters remove karein (copy-paste ke douran aate hain).</li>
+                <li><b>Tab size</b> dropdown se tab ko kitne spaces mein convert karna hai set karein.</li>
+                <li><b>Stats bar</b> mein dekhein kitne characters removed hue.</li>
+                <li><b>Change Summary</b> mein exact breakdown dekhein.</li>
+                <li>Sab kuch <b>client-side</b> hai — aapka text kabhi server par nahi jata.</li>
+            </ul>
+        </div>
+
+    </main>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="footer">
+        <p>© 2025 Tool Hub — All Your Online Tools in One Place</p>
+    </footer>
+
+    <!-- ============ TOAST ============ -->
+    <div id="toast" class="toast">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toast-message">Message</span>
+    </div>
+
+    <!-- Remove Extra Spaces JS -->
+    <script src="rmspaces-script.js"></script>
+</body>
+</html>

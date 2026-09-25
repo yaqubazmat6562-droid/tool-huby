@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Generator - Tool Hub</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Password Generator CSS -->
+    <link rel="stylesheet" href="passgen-style.css">
+</head>
+<body>
+
+    <!-- ============ TOP NAVBAR ============ -->
+    <header class="top-navbar">
+        <div class="navbar-left">
+            <a href="index.html" class="back-btn" title="Back to Home">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <a href="index.html" class="navbar-logo">
+                <i class="fa-solid fa-wrench"></i>
+                <span>Tool Hub</span>
+            </a>
+        </div>
+        <div class="navbar-right">
+            <button id="theme-toggle" title="Toggle Theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+            <button class="share-btn" onclick="shareTool()" title="Share this tool">
+                <i class="fa-solid fa-share-nodes"></i> Share
+            </button>
+        </div>
+    </header>
+
+    <!-- ============ BREADCRUMB ============ -->
+    <div class="breadcrumb-bar">
+        <div class="breadcrumb">
+            <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+            <i class="fa-solid fa-chevron-right"></i>
+            <a href="index.html">Generator Tools</a>
+            <i class="fa-solid fa-chevron-right"></i>
+            <span>Password Generator</span>
+        </div>
+    </div>
+
+    <!-- ============ MAIN CONTENT ============ -->
+    <main class="container">
+
+        <!-- Tool Header -->
+        <div class="tool-header">
+            <div class="tool-icon">
+                <i class="fa-solid fa-key"></i>
+            </div>
+            <div>
+                <h1>Password Generator</h1>
+                <p>Generate strong, secure & random passwords instantly. Customize length, character types & bulk generate. 100% secure — nothing is stored.</p>
+            </div>
+        </div>
+
+        <!-- ============ MAIN PASSWORD DISPLAY ============ -->
+        <div class="password-display">
+            <div class="password-box">
+                <input type="text" id="password-output" readonly value="Click Generate to start">
+                <div class="password-actions">
+                    <button class="icon-btn" onclick="toggleVisibility()" id="visibility-btn" title="Show/Hide">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
+                    <button class="icon-btn" onclick="copyPassword()" title="Copy">
+                        <i class="fa-solid fa-copy"></i>
+                    </button>
+                    <button class="icon-btn" onclick="refreshPassword()" title="Refresh">
+                        <i class="fa-solid fa-rotate"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Strength Meter -->
+            <div class="strength-meter">
+                <div class="strength-bars" id="strength-bars">
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                </div>
+                <div class="strength-info">
+                    <span id="strength-text">Strength: —</span>
+                    <span id="crack-time"><i class="fa-solid fa-clock"></i> —</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ SETTINGS PANEL ============ -->
+        <div class="settings-panel">
+            <div class="settings-header">
+                <h3><i class="fa-solid fa-sliders"></i> Password Settings</h3>
+            </div>
+
+            <div class="settings-grid">
+                <!-- Length Slider -->
+                <div class="setting-item full-width">
+                    <label>
+                        <i class="fa-solid fa-ruler-horizontal"></i> Password Length
+                        <span class="value-badge" id="length-value">16</span>
+                    </label>
+                    <input type="range" id="length-slider" min="4" max="128" value="16" step="1">
+                    <div class="range-labels">
+                        <span>4</span>
+                        <span>32</span>
+                        <span>64</span>
+                        <span>128</span>
+                    </div>
+                </div>
+
+                <!-- Character Types -->
+                <div class="setting-item full-width">
+                    <label>
+                        <i class="fa-solid fa-font"></i> Include Characters
+                    </label>
+                    <div class="checkbox-grid">
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="opt-uppercase" checked>
+                            <span class="checkmark"></span>
+                            <span class="label-text">Uppercase <b>ABC</b></span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="opt-lowercase" checked>
+                            <span class="checkmark"></span>
+                            <span class="label-text">Lowercase <b>abc</b></span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="opt-numbers" checked>
+                            <span class="checkmark"></span>
+                            <span class="label-text">Numbers <b>123</b></span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="opt-symbols" checked>
+                            <span class="checkmark"></span>
+                            <span class="label-text">Symbols <b>!@#</b></span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="opt-exclude-similar">
+                            <span class="checkmark"></span>
+                            <span class="label-text">Exclude Similar <b>il1Lo0O</b></span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="opt-exclude-ambiguous">
+                            <span class="checkmark"></span>
+                            <span class="label-text">Exclude Ambiguous <b>{ } [ ] ( )</b></span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Quick Presets -->
+                <div class="setting-item full-width">
+                    <label>
+                        <i class="fa-solid fa-bolt"></i> Quick Presets
+                    </label>
+                    <div class="presets">
+                        <button class="preset-btn" onclick="applyPreset('pin')" data-preset="pin">
+                            <i class="fa-solid fa-hashtag"></i>
+                            <span>PIN</span>
+                            <small>4 digits</small>
+                        </button>
+                        <button class="preset-btn" onclick="applyPreset('simple')" data-preset="simple">
+                            <i class="fa-solid fa-leaf"></i>
+                            <span>Simple</span>
+                            <small>8 chars</small>
+                        </button>
+                        <button class="preset-btn active" onclick="applyPreset('strong')" data-preset="strong">
+                            <i class="fa-solid fa-shield-halved"></i>
+                            <span>Strong</span>
+                            <small>16 chars</small>
+                        </button>
+                        <button class="preset-btn" onclick="applyPreset('paranoid')" data-preset="paranoid">
+                            <i class="fa-solid fa-user-secret"></i>
+                            <span>Paranoid</span>
+                            <small>32 chars</small>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Generate Button -->
+                <div class="setting-item full-width">
+                    <button class="btn btn-primary btn-large" onclick="generatePassword()">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Generate Password
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ BULK GENERATION ============ -->
+        <div class="bulk-panel">
+            <div class="bulk-header">
+                <h3><i class="fa-solid fa-layer-group"></i> Bulk Password Generator</h3>
+                <p>Multiple passwords ek saath generate karein (CSV download bhi kar sakte hain)</p>
+            </div>
+
+            <div class="bulk-controls">
+                <div class="bulk-input">
+                    <label>How many?</label>
+                    <input type="number" id="bulk-count" min="1" max="100" value="10">
+                </div>
+                <button class="btn btn-success" onclick="generateBulk()">
+                    <i class="fa-solid fa-bolt"></i> Generate Bulk
+                </button>
+                <button class="btn btn-info" onclick="downloadBulkCSV()" id="download-csv-btn" disabled>
+                    <i class="fa-solid fa-file-csv"></i> Download CSV
+                </button>
+                <button class="btn btn-secondary" onclick="clearBulk()" id="clear-bulk-btn" disabled>
+                    <i class="fa-solid fa-eraser"></i> Clear
+                </button>
+            </div>
+
+            <div class="bulk-list" id="bulk-list">
+                <p class="empty-bulk">
+                    <i class="fa-solid fa-inbox"></i>
+                    No passwords generated yet. Click "Generate Bulk" to start.
+                </p>
+            </div>
+        </div>
+
+        <!-- ============ SECURITY TIPS ============ -->
+        <div class="tips-box">
+            <h4><i class="fa-solid fa-lightbulb"></i> Password Security Tips</h4>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <h5>Use Long Passwords</h5>
+                    <p>Kam se kam <b>16 characters</b> use karein — har extra character security exponentially barhati hai.</p>
+                </div>
+                <div class="tip-card">
+                    <i class="fa-solid fa-shuffle"></i>
+                    <h5>Mix Character Types</h5>
+                    <p>Uppercase, lowercase, numbers aur symbols ka <b>mix</b> use karein — guessing harder ho jati hai.</p>
+                </div>
+                <div class="tip-card">
+                    <i class="fa-solid fa-repeat"></i>
+                    <h5>Never Reuse</h5>
+                    <p>Har account ke liye <b>unique password</b> use karein. Ek breach sab accounts expose kar sakta hai.</p>
+                </div>
+                <div class="tip-card">
+                    <i class="fa-solid fa-lock"></i>
+                    <h5>Use Password Manager</h5>
+                    <p>Bitwarden, 1Password, ya KeePass jaise <b>password manager</b> mein passwords store karein.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Help Section -->
+        <div class="help-box">
+            <h4><i class="fa-solid fa-circle-question"></i> How to Use Password Generator</h4>
+            <ul>
+                <li><b>Length slider</b> se password ki length set karein (4 to 128 characters).</li>
+                <li><b>Character types</b> mein se apni pasand ke options select karein.</li>
+                <li><b>Quick Presets</b> se ek click mein settings apply karein.</li>
+                <li><b>Generate Password</b> button dabayein — instantly naya password bane ga.</li>
+                <li><b>Copy</b> button se password clipboard mein copy karein.</li>
+                <li><b>Eye icon</b> se password show/hide karein.</li>
+                <li><b>Refresh</b> button se same settings ke saath naya password banayein.</li>
+                <li><b>Bulk Generator</b> se 1-100 passwords ek saath banayein aur CSV download karein.</li>
+                <li><b>Strength meter</b> aapke password ki security dikhata hai.</li>
+                <li>Passwords <b>cryptographically secure</b> random number generator se bante hain.</li>
+                <li>Aapke passwords <b>kabhi save nahi hote</b> — 100% client-side & secure.</li>
+            </ul>
+        </div>
+
+    </main>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="footer">
+        <p>© 2025 Tool Hub — All Your Online Tools in One Place</p>
+    </footer>
+
+    <!-- ============ TOAST ============ -->
+    <div id="toast" class="toast">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toast-message">Message</span>
+    </div>
+
+    <!-- Password Generator JS -->
+    <script src="passgen-script.js"></script>
+</body>
+</html>

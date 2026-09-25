@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Reverser - Tool Hub</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Text Reverser CSS -->
+    <link rel="stylesheet" href="rev-style.css">
+</head>
+<body>
+
+    <!-- ============ TOP NAVBAR ============ -->
+    <header class="top-navbar">
+        <div class="navbar-left">
+            <a href="index.html" class="back-btn" title="Back to Home">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <a href="index.html" class="navbar-logo">
+                <i class="fa-solid fa-wrench"></i>
+                <span>Tool Hub</span>
+            </a>
+        </div>
+        <div class="navbar-right">
+            <button id="theme-toggle" title="Toggle Theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+            <button class="share-btn" onclick="shareTool()" title="Share this tool">
+                <i class="fa-solid fa-share-nodes"></i> <span>Share</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ============ BREADCRUMB ============ -->
+    <div class="breadcrumb-bar">
+        <div class="breadcrumb">
+            <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+            <i class="fa-solid fa-chevron-right"></i>
+            <a href="alltools-index.html?cat=text">Text Tools</a>
+            <i class="fa-solid fa-chevron-right"></i>
+            <span>Text Reverser</span>
+        </div>
+    </div>
+
+    <!-- ============ MAIN CONTENT ============ -->
+    <main class="container">
+
+        <!-- Tool Header -->
+        <div class="tool-header">
+            <div class="tool-icon">
+                <i class="fa-solid fa-rotate-left"></i>
+            </div>
+            <div>
+                <h1>Text Reverser</h1>
+                <p>Reverse text in 4 different ways — characters, words, lines &amp; word order. With advanced options &amp; mobile-friendly UI.</p>
+            </div>
+        </div>
+
+        <!-- ============ REVERSE MODES ============ -->
+        <div class="modes-panel">
+            <div class="modes-header">
+                <h3><i class="fa-solid fa-wand-magic-sparkles"></i> Choose Reverse Mode</h3>
+                <span class="hint">Click any mode to instantly transform text</span>
+            </div>
+
+            <div class="modes-grid">
+                <button class="mode-btn active" data-mode="chars" onclick="setMode('chars')">
+                    <div class="mode-icon"><i class="fa-solid fa-arrow-right-arrow-left"></i></div>
+                    <div class="mode-content">
+                        <span class="mode-label">Reverse Characters</span>
+                        <small>Hello → olleH</small>
+                    </div>
+                </button>
+
+                <button class="mode-btn" data-mode="words" onclick="setMode('words')">
+                    <div class="mode-icon"><i class="fa-solid fa-arrows-left-right"></i></div>
+                    <div class="mode-content">
+                        <span class="mode-label">Reverse Words Order</span>
+                        <small>Hello World → World Hello</small>
+                    </div>
+                </button>
+
+                <button class="mode-btn" data-mode="lines" onclick="setMode('lines')">
+                    <div class="mode-icon"><i class="fa-solid fa-arrow-up-arrow-down"></i></div>
+                    <div class="mode-content">
+                        <span class="mode-label">Reverse Lines Order</span>
+                        <small>Line 1 / Line 2 → Line 2 / Line 1</small>
+                    </div>
+                </button>
+
+                <button class="mode-btn" data-mode="eachword" onclick="setMode('eachword')">
+                    <div class="mode-icon"><i class="fa-solid fa-rotate"></i></div>
+                    <div class="mode-content">
+                        <span class="mode-label">Reverse Each Word</span>
+                        <small>Hello World → olleH dlroW</small>
+                    </div>
+                </button>
+
+                <button class="mode-btn" data-mode="sentences" onclick="setMode('sentences')">
+                    <div class="mode-icon"><i class="fa-solid fa-paragraph"></i></div>
+                    <div class="mode-content">
+                        <span class="mode-label">Reverse Sentences</span>
+                        <small>Sentence order reversed</small>
+                    </div>
+                </button>
+
+                <button class="mode-btn" data-mode="mirror" onclick="setMode('mirror')">
+                    <div class="mode-icon"><i class="fa-solid fa-clone"></i></div>
+                    <div class="mode-content">
+                        <span class="mode-label">Mirror Text</span>
+                        <small>Hello → Hello + olleH</small>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <!-- ============ ADVANCED OPTIONS ============ -->
+        <div class="options-panel">
+            <div class="options-header" onclick="toggleOptions()">
+                <h3><i class="fa-solid fa-sliders"></i> Advanced Options</h3>
+                <button class="toggle-btn" id="options-toggle">
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+            </div>
+
+            <div class="options-body" id="options-body">
+                <div class="options-grid">
+                    <label class="option-card">
+                        <input type="checkbox" id="opt-preserve-case" onchange="processText()">
+                        <span class="option-check"></span>
+                        <div class="option-content">
+                            <div class="option-title">
+                                <i class="fa-solid fa-shield-halved"></i> Preserve Case Pattern
+                            </div>
+                            <div class="option-desc">Original uppercase/lowercase positions preserve karein</div>
+                        </div>
+                    </label>
+
+                    <label class="option-card">
+                        <input type="checkbox" id="opt-keep-punct" checked onchange="processText()">
+                        <span class="option-check"></span>
+                        <div class="option-content">
+                            <div class="option-title">
+                                <i class="fa-solid fa-spell-check"></i> Keep Punctuation in Place
+                            </div>
+                            <div class="option-desc">Punctuation marks apni jagah rakhein</div>
+                        </div>
+                    </label>
+
+                    <label class="option-card">
+                        <input type="checkbox" id="opt-trim" checked onchange="processText()">
+                        <span class="option-check"></span>
+                        <div class="option-content">
+                            <div class="option-title">
+                                <i class="fa-solid fa-crop-simple"></i> Trim Result
+                            </div>
+                            <div class="option-desc">Output ke start/end se extra spaces hatayein</div>
+                        </div>
+                    </label>
+
+                    <label class="option-card">
+                        <input type="checkbox" id="opt-auto-process" checked onchange="processText()">
+                        <span class="option-check"></span>
+                        <div class="option-content">
+                            <div class="option-title">
+                                <i class="fa-solid fa-bolt"></i> Auto-Process
+                            </div>
+                            <div class="option-desc">Text badalte hi automatically reverse ho</div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ STATS BAR ============ -->
+        <div class="stats-bar">
+            <div class="stat-item">
+                <i class="fa-solid fa-text-width"></i>
+                <div>
+                    <div class="stat-label">Characters</div>
+                    <div class="stat-value" id="stat-chars">0</div>
+                </div>
+            </div>
+            <div class="stat-item">
+                <i class="fa-solid fa-file-word"></i>
+                <div>
+                    <div class="stat-label">Words</div>
+                    <div class="stat-value" id="stat-words">0</div>
+                </div>
+            </div>
+            <div class="stat-item">
+                <i class="fa-solid fa-list"></i>
+                <div>
+                    <div class="stat-label">Lines</div>
+                    <div class="stat-value" id="stat-lines">0</div>
+                </div>
+            </div>
+            <div class="stat-item highlight">
+                <i class="fa-solid fa-arrows-rotate"></i>
+                <div>
+                    <div class="stat-label">Mode</div>
+                    <div class="stat-value" id="stat-mode">Chars</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ EDITOR LAYOUT ============ -->
+        <div class="editor-layout">
+
+            <!-- Input Panel -->
+            <div class="editor-panel">
+                <div class="panel-header">
+                    <div class="panel-title">
+                        <i class="fa-solid fa-keyboard"></i> Input Text
+                    </div>
+                    <div class="panel-actions">
+                        <button class="mini-btn" onclick="pasteText()" title="Paste">
+                            <i class="fa-solid fa-paste"></i>
+                        </button>
+                        <button class="mini-btn" onclick="loadSample()" title="Sample">
+                            <i class="fa-solid fa-flask"></i>
+                        </button>
+                        <button class="mini-btn" onclick="clearInput()" title="Clear">
+                            <i class="fa-solid fa-eraser"></i>
+                        </button>
+                    </div>
+                </div>
+                <textarea 
+                    id="rev-input" 
+                    class="rev-textarea" 
+                    placeholder="Type or paste your text here...&#10;&#10;Then click any mode above to reverse it instantly."
+                    spellcheck="false"
+                ></textarea>
+                <div class="panel-footer">
+                    <span><i class="fa-solid fa-text-width"></i> <b id="input-chars">0</b></span>
+                    <span><i class="fa-solid fa-file-word"></i> <b id="input-words">0</b></span>
+                    <span><i class="fa-solid fa-list"></i> <b id="input-lines">0</b></span>
+                </div>
+            </div>
+
+            <!-- Arrow (Desktop) -->
+            <div class="arrow-divider">
+                <i class="fa-solid fa-arrow-right"></i>
+            </div>
+
+            <!-- Output Panel -->
+            <div class="editor-panel output-panel">
+                <div class="panel-header">
+                    <div class="panel-title">
+                        <i class="fa-solid fa-file-code"></i> Reversed Output
+                        <span class="mode-badge" id="mode-badge">CHARS</span>
+                    </div>
+                    <div class="panel-actions">
+                        <button class="mini-btn" onclick="copyOutput()" title="Copy">
+                            <i class="fa-solid fa-copy"></i>
+                        </button>
+                        <button class="mini-btn" onclick="downloadOutput()" title="Download">
+                            <i class="fa-solid fa-download"></i>
+                        </button>
+                        <button class="mini-btn" onclick="useAsInput()" title="Use as input">
+                            <i class="fa-solid fa-arrow-up"></i>
+                        </button>
+                    </div>
+                </div>
+                <textarea 
+                    id="rev-output" 
+                    class="rev-textarea" 
+                    placeholder="Reversed text will appear here..."
+                    spellcheck="false"
+                    readonly
+                ></textarea>
+                <div class="panel-footer">
+                    <span><i class="fa-solid fa-text-width"></i> <b id="output-chars">0</b></span>
+                    <span><i class="fa-solid fa-file-word"></i> <b id="output-words">0</b></span>
+                    <span><i class="fa-solid fa-list"></i> <b id="output-lines">0</b></span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ============ ACTION ROW ============ -->
+        <div class="action-row">
+            <button class="btn btn-primary btn-large" onclick="processText()">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Reverse Now
+            </button>
+            <button class="btn btn-success" onclick="copyOutput()">
+                <i class="fa-solid fa-copy"></i> Copy Result
+            </button>
+            <button class="btn btn-info" onclick="downloadOutput()">
+                <i class="fa-solid fa-download"></i> Download
+            </button>
+            <button class="btn btn-secondary" onclick="useAsInput()">
+                <i class="fa-solid fa-arrow-up"></i> Reuse
+            </button>
+            <button class="btn btn-warning" onclick="clearAll()">
+                <i class="fa-solid fa-eraser"></i> Clear All
+            </button>
+        </div>
+
+        <!-- ============ QUICK EXAMPLES ============ -->
+        <div class="examples-panel">
+            <div class="examples-header">
+                <h3><i class="fa-solid fa-flask"></i> Quick Examples</h3>
+                <span class="hint">Click to try with sample text</span>
+            </div>
+            <div class="examples-grid">
+                <button class="example-btn" onclick="tryExample('simple')">
+                    <i class="fa-solid fa-font"></i>
+                    <span>Simple</span>
+                </button>
+                <button class="example-btn" onclick="tryExample('sentence')">
+                    <i class="fa-solid fa-paragraph"></i>
+                    <span>Sentence</span>
+                </button>
+                <button class="example-btn" onclick="tryExample('multiline')">
+                    <i class="fa-solid fa-list"></i>
+                    <span>Multiline</span>
+                </button>
+                <button class="example-btn" onclick="tryExample('palindrome')">
+                    <i class="fa-solid fa-arrows-rotate"></i>
+                    <span>Palindrome</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Help Section -->
+        <div class="help-box">
+            <h4><i class="fa-solid fa-circle-question"></i> How to Use Text Reverser</h4>
+            <ul>
+                <li>Apna text <b>Input</b> box mein type ya paste karein.</li>
+                <li><b>6 Modes</b> mein se koi bhi click karein — instantly reverse hoga.</li>
+                <li><b>Reverse Characters</b>: poori string ulti ho jati hai (Hello → olleH).</li>
+                <li><b>Reverse Words Order</b>: words ki tarteeb ulti (Hello World → World Hello).</li>
+                <li><b>Reverse Lines Order</b>: lines ki tarteeb ulti (multi-line text ke liye).</li>
+                <li><b>Reverse Each Word</b>: har word akela ulta (Hello World → olleH dlroW).</li>
+                <li><b>Reverse Sentences</b>: sentences ki tarteeb ulti (period-based).</li>
+                <li><b>Mirror Text</b>: original + reversed dono (Hello → HelloolleH).</li>
+                <li><b>Advanced Options</b> se case pattern preserve karein ya punctuation protect karein.</li>
+                <li><b>Auto-Process</b> on hone par typing ke saath hi reverse hoga.</li>
+                <li><b>Quick Examples</b> se pre-loaded text try karein.</li>
+                <li>Sab kuch <b>client-side</b> hai — aapka text kabhi server par nahi jata.</li>
+            </ul>
+        </div>
+
+    </main>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="footer">
+        <p>© 2025 Tool Hub — All Your Online Tools in One Place</p>
+    </footer>
+
+    <!-- ============ TOAST ============ -->
+    <div id="toast" class="toast">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toast-message">Message</span>
+    </div>
+
+    <!-- Text Reverser JS -->
+    <script src="rev-script.js"></script>
+</body>
+</html>

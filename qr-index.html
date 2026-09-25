@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator - Tool Hub</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- QRCode.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- QR Generator CSS -->
+    <link rel="stylesheet" href="qr-style.css">
+</head>
+<body>
+
+    <!-- ============ TOP NAVBAR ============ -->
+    <header class="top-navbar">
+        <div class="navbar-left">
+            <a href="index.html" class="back-btn" title="Back to Home">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <a href="index.html" class="navbar-logo">
+                <i class="fa-solid fa-wrench"></i>
+                <span>Tool Hub</span>
+            </a>
+        </div>
+        <div class="navbar-right">
+            <button id="theme-toggle" title="Toggle Theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+            <button class="share-btn" onclick="shareTool()" title="Share this tool">
+                <i class="fa-solid fa-share-nodes"></i> Share
+            </button>
+        </div>
+    </header>
+
+    <!-- ============ BREADCRUMB ============ -->
+    <div class="breadcrumb-bar">
+        <div class="breadcrumb">
+            <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+            <i class="fa-solid fa-chevron-right"></i>
+            <a href="index.html">Generator Tools</a>
+            <i class="fa-solid fa-chevron-right"></i>
+            <span>QR Code Generator</span>
+        </div>
+    </div>
+
+    <!-- ============ MAIN CONTENT ============ -->
+    <main class="container">
+
+        <!-- Tool Header -->
+        <div class="tool-header">
+            <div class="tool-icon">
+                <i class="fa-solid fa-qrcode"></i>
+            </div>
+            <div>
+                <h1>QR Code Generator</h1>
+                <p>Generate QR codes for URLs, text, WiFi, Email, Phone & more. Customize colors, size, and download as PNG or SVG — 100% free.</p>
+            </div>
+        </div>
+
+        <!-- ============ MAIN LAYOUT ============ -->
+        <div class="qr-layout">
+
+            <!-- ============ LEFT: CONTROLS ============ -->
+            <div class="controls-panel">
+
+                <!-- Type Selector -->
+                <div class="control-section">
+                    <h3><i class="fa-solid fa-list"></i> QR Code Type</h3>
+                    <div class="type-grid">
+                        <button class="type-btn active" data-type="text" onclick="switchType('text')">
+                            <i class="fa-solid fa-font"></i>
+                            <span>Text / URL</span>
+                        </button>
+                        <button class="type-btn" data-type="wifi" onclick="switchType('wifi')">
+                            <i class="fa-solid fa-wifi"></i>
+                            <span>WiFi</span>
+                        </button>
+                        <button class="type-btn" data-type="email" onclick="switchType('email')">
+                            <i class="fa-solid fa-envelope"></i>
+                            <span>Email</span>
+                        </button>
+                        <button class="type-btn" data-type="phone" onclick="switchType('phone')">
+                            <i class="fa-solid fa-phone"></i>
+                            <span>Phone</span>
+                        </button>
+                        <button class="type-btn" data-type="sms" onclick="switchType('sms')">
+                            <i class="fa-solid fa-comment-sms"></i>
+                            <span>SMS</span>
+                        </button>
+                        <button class="type-btn" data-type="vcard" onclick="switchType('vcard')">
+                            <i class="fa-solid fa-address-card"></i>
+                            <span>vCard</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Input Area (dynamic) -->
+                <div class="control-section" id="input-section">
+                    <!-- Content injected by JS -->
+                </div>
+
+                <!-- Customization -->
+                <div class="control-section">
+                    <h3><i class="fa-solid fa-palette"></i> Customize</h3>
+                    
+                    <div class="custom-grid">
+                        <!-- Size -->
+                        <div class="custom-item">
+                            <label>
+                                <i class="fa-solid fa-expand"></i> Size
+                                <span class="value-badge" id="size-value">300px</span>
+                            </label>
+                            <input type="range" id="size-slider" min="150" max="1000" value="300" step="50">
+                        </div>
+
+                        <!-- Error Correction -->
+                        <div class="custom-item">
+                            <label>
+                                <i class="fa-solid fa-shield-halved"></i> Error Correction
+                            </label>
+                            <select id="error-level" class="select-input">
+                                <option value="L">Low (7%)</option>
+                                <option value="M" selected>Medium (15%)</option>
+                                <option value="Q">Quartile (25%)</option>
+                                <option value="H">High (30%)</option>
+                            </select>
+                        </div>
+
+                        <!-- Colors -->
+                        <div class="custom-item">
+                            <label>
+                                <i class="fa-solid fa-fill-drip"></i> Foreground Color
+                            </label>
+                            <div class="color-input-group">
+                                <input type="color" id="fg-color" value="#000000">
+                                <input type="text" id="fg-color-text" value="#000000" maxlength="7">
+                            </div>
+                        </div>
+
+                        <div class="custom-item">
+                            <label>
+                                <i class="fa-solid fa-fill"></i> Background Color
+                            </label>
+                            <div class="color-input-group">
+                                <input type="color" id="bg-color" value="#ffffff">
+                                <input type="text" id="bg-color-text" value="#ffffff" maxlength="7">
+                            </div>
+                        </div>
+
+                        <!-- Preset Colors -->
+                        <div class="custom-item full-width">
+                            <label>
+                                <i class="fa-solid fa-swatchbook"></i> Quick Color Presets
+                            </label>
+                            <div class="color-presets">
+                                <button class="color-preset" onclick="applyColorPreset('#000000', '#ffffff')" title="Classic">
+                                    <span style="background:linear-gradient(135deg,#000 50%,#fff 50%)"></span>
+                                </button>
+                                <button class="color-preset" onclick="applyColorPreset('#2563eb', '#ffffff')" title="Blue">
+                                    <span style="background:linear-gradient(135deg,#2563eb 50%,#fff 50%)"></span>
+                                </button>
+                                <button class="color-preset" onclick="applyColorPreset('#10b981', '#ffffff')" title="Green">
+                                    <span style="background:linear-gradient(135deg,#10b981 50%,#fff 50%)"></span>
+                                </button>
+                                <button class="color-preset" onclick="applyColorPreset('#ef4444', '#ffffff')" title="Red">
+                                    <span style="background:linear-gradient(135deg,#ef4444 50%,#fff 50%)"></span>
+                                </button>
+                                <button class="color-preset" onclick="applyColorPreset('#8b5cf6', '#ffffff')" title="Purple">
+                                    <span style="background:linear-gradient(135deg,#8b5cf6 50%,#fff 50%)"></span>
+                                </button>
+                                <button class="color-preset" onclick="applyColorPreset('#f59e0b', '#ffffff')" title="Orange">
+                                    <span style="background:linear-gradient(135deg,#f59e0b 50%,#fff 50%)"></span>
+                                </button>
+                                <button class="color-preset" onclick="applyColorPreset('#ffffff', '#000000')" title="Inverted">
+                                    <span style="background:linear-gradient(135deg,#fff 50%,#000 50%)"></span>
+                                </button>
+                                <button class="color-preset" onclick="applyColorPreset('#06b6d4', '#0f172a')" title="Neon">
+                                    <span style="background:linear-gradient(135deg,#06b6d4 50%,#0f172a 50%)"></span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Logo Upload -->
+                        <div class="custom-item full-width">
+                            <label>
+                                <i class="fa-solid fa-image"></i> Center Logo (Optional)
+                            </label>
+                            <div class="logo-upload">
+                                <input type="file" id="logo-input" accept="image/*" hidden>
+                                <button class="btn btn-secondary btn-sm" onclick="document.getElementById('logo-input').click()">
+                                    <i class="fa-solid fa-upload"></i> Upload Logo
+                                </button>
+                                <button class="btn btn-secondary btn-sm" onclick="removeLogo()" id="remove-logo-btn" disabled>
+                                    <i class="fa-solid fa-times"></i> Remove
+                                </button>
+                                <span class="logo-hint">PNG with transparent background works best</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-row">
+                    <button class="btn btn-primary btn-large" onclick="generateQR()">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Generate QR Code
+                    </button>
+                    <button class="btn btn-secondary" onclick="clearAll()">
+                        <i class="fa-solid fa-eraser"></i> Clear
+                    </button>
+                </div>
+            </div>
+
+            <!-- ============ RIGHT: PREVIEW ============ -->
+            <div class="preview-panel">
+                <div class="preview-header">
+                    <h3><i class="fa-solid fa-eye"></i> Live Preview</h3>
+                    <span class="live-badge">LIVE</span>
+                </div>
+
+                <div class="qr-preview" id="qr-preview">
+                    <div id="qrcode-container" class="qrcode-container">
+                        <div class="empty-qr">
+                            <i class="fa-solid fa-qrcode"></i>
+                            <p>Enter content & click<br>Generate QR Code</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="preview-info" id="preview-info" style="display: none;">
+                    <div class="info-item">
+                        <i class="fa-solid fa-cube"></i>
+                        <div>
+                            <span class="label">Size</span>
+                            <span class="value" id="info-size">300 × 300</span>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <div>
+                            <span class="label">Error Correction</span>
+                            <span class="value" id="info-error">Medium</span>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fa-solid fa-database"></i>
+                        <div>
+                            <span class="label">Data Length</span>
+                            <span class="value" id="info-length">0 chars</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="download-actions">
+                    <button class="btn btn-success" onclick="downloadPNG()" id="download-png" disabled>
+                        <i class="fa-solid fa-download"></i> PNG
+                    </button>
+                    <button class="btn btn-info" onclick="downloadSVG()" id="download-svg" disabled>
+                        <i class="fa-solid fa-file-code"></i> SVG
+                    </button>
+                    <button class="btn btn-warning" onclick="copyQRImage()" id="copy-qr" disabled>
+                        <i class="fa-solid fa-copy"></i> Copy Image
+                    </button>
+                    <button class="btn btn-secondary" onclick="printQR()" id="print-qr" disabled>
+                        <i class="fa-solid fa-print"></i> Print
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ============ QUICK TEMPLATES ============ -->
+        <div class="templates-box">
+            <h4><i class="fa-solid fa-bolt"></i> Quick Templates</h4>
+            <div class="templates-grid">
+                <button class="template-btn" onclick="loadTemplate('website')">
+                    <i class="fa-solid fa-globe"></i>
+                    <span>Website URL</span>
+                </button>
+                <button class="template-btn" onclick="loadTemplate('youtube')">
+                    <i class="fa-brands fa-youtube"></i>
+                    <span>YouTube Video</span>
+                </button>
+                <button class="template-btn" onclick="loadTemplate('whatsapp')">
+                    <i class="fa-brands fa-whatsapp"></i>
+                    <span>WhatsApp Chat</span>
+                </button>
+                <button class="template-btn" onclick="loadTemplate('instagram')">
+                    <i class="fa-brands fa-instagram"></i>
+                    <span>Instagram Profile</span>
+                </button>
+                <button class="template-btn" onclick="loadTemplate('maps')">
+                    <i class="fa-solid fa-map-location-dot"></i>
+                    <span>Google Maps</span>
+                </button>
+                <button class="template-btn" onclick="loadTemplate('upi')">
+                    <i class="fa-solid fa-indian-rupee-sign"></i>
+                    <span>UPI Payment</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Help Section -->
+        <div class="help-box">
+            <h4><i class="fa-solid fa-circle-question"></i> How to Use QR Code Generator</h4>
+            <ul>
+                <li>Pehle <b>QR Code Type</b> select karein — Text/URL, WiFi, Email, Phone, SMS, ya vCard.</li>
+                <li>Us type ke hisaab se <b>content fields</b> mein apni details bharein.</li>
+                <li><b>Customize</b> section mein size, colors, aur error correction set karein.</li>
+                <li><b>Logo upload</b> karke QR code ke center mein apna logo lagayein.</li>
+                <li><b>Quick Templates</b> se ek click mein popular QR codes banayein.</li>
+                <li><b>Generate QR Code</b> button dabayein ya live preview dekhein.</li>
+                <li><b>PNG</b>, <b>SVG</b>, <b>Copy Image</b>, ya <b>Print</b> options se QR code use karein.</li>
+                <li>Error Correction level barhane se QR code tootne par bhi scan hoga (logo ke saath H use karein).</li>
+                <li>Sab kuch <b>client-side</b> hai — aapka data kabhi server par nahi jata.</li>
+            </ul>
+        </div>
+
+    </main>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="footer">
+        <p>© 2025 Tool Hub — All Your Online Tools in One Place</p>
+    </footer>
+
+    <!-- ============ TOAST ============ -->
+    <div id="toast" class="toast">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toast-message">Message</span>
+    </div>
+
+    <!-- QR Generator JS -->
+    <script src="qr-script.js"></script>
+</body>
+</html>

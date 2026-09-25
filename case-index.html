@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Converter - Tool Hub</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Case Converter CSS -->
+    <link rel="stylesheet" href="case-style.css">
+</head>
+<body>
+
+    <!-- ============ TOP NAVBAR ============ -->
+    <header class="top-navbar">
+        <div class="navbar-left">
+            <a href="index.html" class="back-btn" title="Back to Home">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <a href="index.html" class="navbar-logo">
+                <i class="fa-solid fa-wrench"></i>
+                <span>Tool Hub</span>
+            </a>
+        </div>
+        <div class="navbar-right">
+            <button id="theme-toggle" title="Toggle Theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+            <button class="share-btn" onclick="shareTool()" title="Share this tool">
+                <i class="fa-solid fa-share-nodes"></i> Share
+            </button>
+        </div>
+    </header>
+
+    <!-- ============ BREADCRUMB ============ -->
+    <div class="breadcrumb-bar">
+        <div class="breadcrumb">
+            <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+            <i class="fa-solid fa-chevron-right"></i>
+            <a href="alltools-index.html?cat=text">Text Tools</a>
+            <i class="fa-solid fa-chevron-right"></i>
+            <span>Case Converter</span>
+        </div>
+    </div>
+
+    <!-- ============ MAIN CONTENT ============ -->
+    <main class="container">
+
+        <!-- Tool Header -->
+        <div class="tool-header">
+            <div class="tool-icon">
+                <i class="fa-solid fa-font"></i>
+            </div>
+            <div>
+                <h1>Case Converter</h1>
+                <p>Convert text to UPPERCASE, lowercase, Title Case, Sentence case, camelCase, snake_case, kebab-case & more — instantly.</p>
+            </div>
+        </div>
+
+        <!-- ============ CASE BUTTONS ============ -->
+        <div class="case-buttons-panel">
+            <div class="case-buttons-header">
+                <h3><i class="fa-solid fa-wand-magic-sparkles"></i> Choose Conversion</h3>
+                <span class="hint">Click any button to instantly convert your text</span>
+            </div>
+
+            <div class="case-buttons-grid">
+                <button class="case-btn" onclick="convertCase('uppercase')" data-case="uppercase">
+                    <i class="fa-solid fa-arrow-up"></i>
+                    <div>
+                        <span class="case-label">UPPERCASE</span>
+                        <small>ALL CAPS TEXT</small>
+                    </div>
+                </button>
+
+                <button class="case-btn" onclick="convertCase('lowercase')" data-case="lowercase">
+                    <i class="fa-solid fa-arrow-down"></i>
+                    <div>
+                        <span class="case-label">lowercase</span>
+                        <small>all small letters</small>
+                    </div>
+                </button>
+
+                <button class="case-btn" onclick="convertCase('title')" data-case="title">
+                    <i class="fa-solid fa-heading"></i>
+                    <div>
+                        <span class="case-label">Title Case</span>
+                        <small>Every Word Capitalized</small>
+                    </div>
+                </button>
+
+                <button class="case-btn" onclick="convertCase('sentence')" data-case="sentence">
+                    <i class="fa-solid fa-paragraph"></i>
+                    <div>
+                        <span class="case-label">Sentence case</span>
+                        <small>First letter capitalized</small>
+                    </div>
+                </button>
+
+                <button class="case-btn" onclick="convertCase('capitalize')" data-case="capitalize">
+                    <i class="fa-solid fa-a"></i>
+                    <div>
+                        <span class="case-label">Capitalize Each</span>
+                        <small>Each word first letter</small>
+                    </div>
+                </button>
+
+                <button class="case-btn" onclick="convertCase('alternating')" data-case="alternating">
+                    <i class="fa-solid fa-shuffle"></i>
+                    <div>
+                        <span class="case-label">aLtErNaTiNg</span>
+                        <small>Alternating case</small>
+                    </div>
+                </button>
+
+                <button class="case-btn" onclick="convertCase('inverse')" data-case="inverse">
+                    <i class="fa-solid fa-right-left"></i>
+                    <div>
+                        <span class="case-label">iNVERSE cASE</span>
+                        <small>Swap upper ↔ lower</small>
+                    </div>
+                </button>
+
+                <button class="case-btn" onclick="convertCase('camel')" data-case="camel">
+                    <i class="fa-solid fa-camel"></i>
+                    <div>
+                        <span class="case-label">camelCase</span>
+                        <small>For variables</small>
+                    </div>
+                </button>
+
+                <button class="case-btn" onclick="convertCase('pascal')" data-case="pascal">
+                    <i class="fa-solid fa-p"></i>
+                    <div>
+                        <span class="case-label">PascalCase</span>
+                        <small>For classes</small>
+                    </div>
+                </button>
+
+                <button class="case-btn" onclick="convertCase('snake')" data-case="snake">
+                    <i class="fa-solid fa-minus"></i>
+                    <div>
+                        <span class="case-label">snake_case</span>
+                        <small>underscore_separated</small>
+                    </div>
+                </button>
+
+                <button class="case-btn" onclick="convertCase('kebab')" data-case="kebab">
+                    <i class="fa-solid fa-minus"></i>
+                    <div>
+                        <span class="case-label">kebab-case</span>
+                        <small>dash-separated</small>
+                    </div>
+                </button>
+
+                <button class="case-btn" onclick="convertCase('constant')" data-case="constant">
+                    <i class="fa-solid fa-lock"></i>
+                    <div>
+                        <span class="case-label">CONSTANT_CASE</span>
+                        <small>For constants</small>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <!-- ============ EDITOR AREA ============ -->
+        <div class="editor-layout">
+
+            <!-- Input -->
+            <div class="editor-panel">
+                <div class="panel-header">
+                    <div class="panel-title">
+                        <i class="fa-solid fa-keyboard"></i> Input Text
+                    </div>
+                    <div class="panel-actions">
+                        <button class="mini-btn" onclick="pasteText()" title="Paste">
+                            <i class="fa-solid fa-paste"></i>
+                        </button>
+                        <button class="mini-btn" onclick="clearInput()" title="Clear">
+                            <i class="fa-solid fa-eraser"></i>
+                        </button>
+                        <button class="mini-btn" onclick="loadSample()" title="Sample">
+                            <i class="fa-solid fa-flask"></i>
+                        </button>
+                    </div>
+                </div>
+                <textarea 
+                    id="case-input" 
+                    class="case-textarea" 
+                    placeholder="Type or paste your text here...&#10;&#10;Then click any case button above to convert."
+                    spellcheck="false"
+                ></textarea>
+                <div class="panel-footer">
+                    <span><i class="fa-solid fa-font"></i> <b id="input-words">0</b> words</span>
+                    <span><i class="fa-solid fa-text-width"></i> <b id="input-chars">0</b> chars</span>
+                    <span><i class="fa-solid fa-list"></i> <b id="input-lines">0</b> lines</span>
+                </div>
+            </div>
+
+            <!-- Output -->
+            <div class="editor-panel">
+                <div class="panel-header">
+                    <div class="panel-title">
+                        <i class="fa-solid fa-file-code"></i> Output
+                        <span id="active-case-badge" class="case-badge">—</span>
+                    </div>
+                    <div class="panel-actions">
+                        <button class="mini-btn" onclick="copyOutput()" title="Copy">
+                            <i class="fa-solid fa-copy"></i>
+                        </button>
+                        <button class="mini-btn" onclick="downloadOutput()" title="Download">
+                            <i class="fa-solid fa-download"></i>
+                        </button>
+                        <button class="mini-btn" onclick="useAsInput()" title="Use as input">
+                            <i class="fa-solid fa-arrow-up"></i>
+                        </button>
+                    </div>
+                </div>
+                <textarea 
+                    id="case-output" 
+                    class="case-textarea" 
+                    placeholder="Converted text will appear here..."
+                    spellcheck="false"
+                    readonly
+                ></textarea>
+                <div class="panel-footer">
+                    <span><i class="fa-solid fa-font"></i> <b id="output-words">0</b> words</span>
+                    <span><i class="fa-solid fa-text-width"></i> <b id="output-chars">0</b> chars</span>
+                    <span><i class="fa-solid fa-list"></i> <b id="output-lines">0</b> lines</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ============ ACTION ROW ============ -->
+        <div class="action-row">
+            <button class="btn btn-primary" onclick="copyOutput()">
+                <i class="fa-solid fa-copy"></i> Copy Result
+            </button>
+            <button class="btn btn-success" onclick="downloadOutput()">
+                <i class="fa-solid fa-download"></i> Download .txt
+            </button>
+            <button class="btn btn-info" onclick="swapText()">
+                <i class="fa-solid fa-right-left"></i> Swap Input ↔ Output
+            </button>
+            <button class="btn btn-warning" onclick="clearAll()">
+                <i class="fa-solid fa-eraser"></i> Clear All
+            </button>
+            <button class="btn btn-secondary" onclick="shareTool()">
+                <i class="fa-solid fa-share-nodes"></i> Share
+            </button>
+        </div>
+
+        <!-- ============ CASE GUIDE ============ -->
+        <div class="guide-panel">
+            <h4><i class="fa-solid fa-book"></i> Case Types Explained</h4>
+            <div class="guide-grid">
+                <div class="guide-item">
+                    <div class="guide-preview" style="font-weight:700;">HELLO WORLD</div>
+                    <div class="guide-info">
+                        <b>UPPERCASE</b>
+                        <p>Sab letters capital. Headers &amp; emphasis ke liye best.</p>
+                    </div>
+                </div>
+                <div class="guide-item">
+                    <div class="guide-preview">hello world</div>
+                    <div class="guide-info">
+                        <b>lowercase</b>
+                        <p>Sab letters small. Casual writing ke liye.</p>
+                    </div>
+                </div>
+                <div class="guide-item">
+                    <div class="guide-preview">Hello World</div>
+                    <div class="guide-info">
+                        <b>Title Case</b>
+                        <p>Har word ka pehla letter capital. Headlines ke liye.</p>
+                    </div>
+                </div>
+                <div class="guide-item">
+                    <div class="guide-preview">Hello world</div>
+                    <div class="guide-info">
+                        <b>Sentence case</b>
+                        <p>Sirf pehla letter capital, baqi small.</p>
+                    </div>
+                </div>
+                <div class="guide-item">
+                    <div class="guide-preview" style="font-family:monospace;">camelCase</div>
+                    <div class="guide-info">
+                        <b>camelCase</b>
+                        <p>JS variables &amp; functions ke liye convention.</p>
+                    </div>
+                </div>
+                <div class="guide-item">
+                    <div class="guide-preview" style="font-family:monospace;">PascalCase</div>
+                    <div class="guide-info">
+                        <b>PascalCase</b>
+                        <p>Classes &amp; components ke liye.</p>
+                    </div>
+                </div>
+                <div class="guide-item">
+                    <div class="guide-preview" style="font-family:monospace;">snake_case</div>
+                    <div class="guide-info">
+                        <b>snake_case</b>
+                        <p>Python variables &amp; database columns.</p>
+                    </div>
+                </div>
+                <div class="guide-item">
+                    <div class="guide-preview" style="font-family:monospace;">kebab-case</div>
+                    <div class="guide-info">
+                        <b>kebab-case</b>
+                        <p>CSS classes &amp; URLs ke liye.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Help Section -->
+        <div class="help-box">
+            <h4><i class="fa-solid fa-circle-question"></i> How to Use Case Converter</h4>
+            <ul>
+                <li>Apna text <b>Input Text</b> box mein type ya paste karein.</li>
+                <li>Upar diye gaye <b>Case Buttons</b> mein se koi bhi click karein.</li>
+                <li>Converted text <b>Output</b> box mein instantly aa jayega.</li>
+                <li><b>Copy</b>, <b>Download</b>, ya <b>Use as Input</b> se output ko reuse karein.</li>
+                <li><b>Swap</b> button se input aur output exchange ho jayenge.</li>
+                <li>12 different case types available hain — coding se writing tak sab ke liye.</li>
+                <li>Live word/char/line counts dono boxes mein dikhte hain.</li>
+                <li>Sab kuch <b>client-side</b> hai — aapka text kabhi server par nahi jata.</li>
+            </ul>
+        </div>
+
+    </main>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="footer">
+        <p>© 2025 Tool Hub — All Your Online Tools in One Place</p>
+    </footer>
+
+    <!-- ============ TOAST ============ -->
+    <div id="toast" class="toast">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toast-message">Message</span>
+    </div>
+
+    <!-- Case Converter JS -->
+    <script src="case-script.js"></script>
+</body>
+</html>

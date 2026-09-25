@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Compressor - Tool Hub</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Image Compressor CSS -->
+    <link rel="stylesheet" href="imgcomp-style.css">
+</head>
+<body>
+
+    <!-- ============ TOP NAVBAR ============ -->
+    <header class="top-navbar">
+        <div class="navbar-left">
+            <a href="index.html" class="back-btn" title="Back to Home">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <a href="index.html" class="navbar-logo">
+                <i class="fa-solid fa-wrench"></i>
+                <span>Tool Hub</span>
+            </a>
+        </div>
+        <div class="navbar-right">
+            <button id="theme-toggle" title="Toggle Theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+            <button class="share-btn" onclick="shareTool()" title="Share this tool">
+                <i class="fa-solid fa-share-nodes"></i> Share
+            </button>
+        </div>
+    </header>
+
+    <!-- ============ BREADCRUMB ============ -->
+    <div class="breadcrumb-bar">
+        <div class="breadcrumb">
+            <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+            <i class="fa-solid fa-chevron-right"></i>
+            <a href="index.html">Image Tools</a>
+            <i class="fa-solid fa-chevron-right"></i>
+            <span>Image Compressor</span>
+        </div>
+    </div>
+
+    <!-- ============ MAIN CONTENT ============ -->
+    <main class="container">
+
+        <!-- Tool Header -->
+        <div class="tool-header">
+            <div class="tool-icon">
+                <i class="fa-solid fa-image"></i>
+            </div>
+            <div>
+                <h1>Image Compressor</h1>
+                <p>Compress JPG, PNG & WebP images instantly in your browser. Reduce file size without losing quality — 100% private & secure.</p>
+            </div>
+        </div>
+
+        <!-- ============ UPLOAD AREA ============ -->
+        <div class="upload-area" id="upload-area">
+            <input type="file" id="file-input" accept="image/*" multiple hidden>
+            <div class="upload-content">
+                <div class="upload-icon">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                </div>
+                <h3>Drag & Drop Images Here</h3>
+                <p>ya phir <span class="browse-link">browse</span> karein</p>
+                <p class="upload-note">Supported: JPG, PNG, WebP, GIF • Max size: 20MB each</p>
+                <button class="btn btn-primary" onclick="document.getElementById('file-input').click()">
+                    <i class="fa-solid fa-folder-open"></i> Choose Images
+                </button>
+            </div>
+        </div>
+
+        <!-- ============ SETTINGS PANEL ============ -->
+        <div class="settings-panel" id="settings-panel" style="display: none;">
+            <div class="settings-header">
+                <h3><i class="fa-solid fa-sliders"></i> Compression Settings</h3>
+                <button class="btn btn-secondary btn-sm" onclick="clearAllImages()" title="Clear All">
+                    <i class="fa-solid fa-trash"></i> Clear All
+                </button>
+            </div>
+
+            <div class="settings-grid">
+                <!-- Quality Slider -->
+                <div class="setting-item">
+                    <label>
+                        <i class="fa-solid fa-star"></i> Quality
+                        <span class="value-badge" id="quality-value">80%</span>
+                    </label>
+                    <input type="range" id="quality-slider" min="10" max="100" value="80" step="5">
+                    <div class="range-labels">
+                        <span>Smaller File</span>
+                        <span>Better Quality</span>
+                    </div>
+                </div>
+
+                <!-- Max Width -->
+                <div class="setting-item">
+                    <label>
+                        <i class="fa-solid fa-arrows-left-right"></i> Max Width (px)
+                        <span class="value-badge" id="width-value">1920</span>
+                    </label>
+                    <input type="range" id="width-slider" min="320" max="4000" value="1920" step="80">
+                    <div class="range-labels">
+                        <span>320px</span>
+                        <span>4000px</span>
+                    </div>
+                </div>
+
+                <!-- Output Format -->
+                <div class="setting-item">
+                    <label>
+                        <i class="fa-solid fa-file-export"></i> Output Format
+                    </label>
+                    <select id="format-select" class="format-select">
+                        <option value="original">Keep Original</option>
+                        <option value="jpeg" selected>JPEG (Best Compression)</option>
+                        <option value="webp">WebP (Modern & Small)</option>
+                        <option value="png">PNG (Lossless)</option>
+                    </select>
+                </div>
+
+                <!-- Quick Presets -->
+                <div class="setting-item">
+                    <label>
+                        <i class="fa-solid fa-bolt"></i> Quick Presets
+                    </label>
+                    <div class="presets">
+                        <button class="preset-btn" onclick="applyPreset('light')" title="Light compression">🎈 Light</button>
+                        <button class="preset-btn active" onclick="applyPreset('balanced')" title="Balanced">⚖️ Balanced</button>
+                        <button class="preset-btn" onclick="applyPreset('aggressive')" title="Aggressive">🔥 Aggressive</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="settings-actions">
+                <button class="btn btn-success" onclick="compressAll()">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Compress All Images
+                </button>
+                <button class="btn btn-info" onclick="downloadAll()" id="download-all-btn" disabled>
+                    <i class="fa-solid fa-download"></i> Download All (<span id="download-count">0</span>)
+                </button>
+            </div>
+        </div>
+
+        <!-- ============ OVERALL STATS ============ -->
+        <div class="overall-stats" id="overall-stats" style="display: none;">
+            <div class="stat-box">
+                <i class="fa-solid fa-images"></i>
+                <div>
+                    <h4 id="stat-total-images">0</h4>
+                    <p>Images</p>
+                </div>
+            </div>
+            <div class="stat-box">
+                <i class="fa-solid fa-file-arrow-down"></i>
+                <div>
+                    <h4 id="stat-original-size">0 KB</h4>
+                    <p>Original Size</p>
+                </div>
+            </div>
+            <div class="stat-box">
+                <i class="fa-solid fa-file-arrow-up"></i>
+                <div>
+                    <h4 id="stat-compressed-size">0 KB</h4>
+                    <p>Compressed Size</p>
+                </div>
+            </div>
+            <div class="stat-box highlight">
+                <i class="fa-solid fa-piggy-bank"></i>
+                <div>
+                    <h4 id="stat-saved">0%</h4>
+                    <p>Space Saved</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ IMAGES GRID ============ -->
+        <div class="images-grid" id="images-grid"></div>
+
+        <!-- Help Section -->
+        <div class="help-box">
+            <h4><i class="fa-solid fa-circle-question"></i> How to Use Image Compressor</h4>
+            <ul>
+                <li>Apni images <b>drag & drop</b> karein ya <b>browse</b> button se select karein.</li>
+                <li><b>Quality slider</b> se compression level set karein (10% = smallest, 100% = original).</li>
+                <li><b>Max Width</b> se image ki width limit karein — bari images automatically resize hongi.</li>
+                <li><b>Output Format</b> choose karein: JPEG (best compression), WebP (modern), PNG (lossless).</li>
+                <li><b>Quick Presets</b> se ek click mein best settings lagayein.</li>
+                <li><b>Compress All</b> button dabayein — sab images ek saath compress hongi.</li>
+                <li>Har image ka <b>before/after preview</b> aur <b>size comparison</b> dekhein.</li>
+                <li>Individual images ko <b>Download</b>, <b>Replace</b>, ya <b>Delete</b> karein.</li>
+                <li><b>Download All</b> se sab images ek saath download karein.</li>
+                <li>Aapki images <b>kabhi server par nahi jati</b> — 100% client-side & private.</li>
+            </ul>
+        </div>
+
+    </main>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="footer">
+        <p>© 2025 Tool Hub — All Your Online Tools in One Place</p>
+    </footer>
+
+    <!-- ============ TOAST ============ -->
+    <div id="toast" class="toast">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toast-message">Message</span>
+    </div>
+
+    <!-- Image Compressor JS -->
+    <script src="imgcomp-script.js"></script>
+</body>
+</html>
