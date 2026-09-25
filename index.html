@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#2563eb">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Tool Hub">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Tool Hub">
+    <meta name="description" content="50+ Free Online Tools - Calculator, Converter, Generator & More">
+    
+    <!-- Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" href="icons/icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="icons/icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="96x96" href="icons/icon-96x96.png">
+    <link rel="apple-touch-icon" sizes="128x128" href="icons/icon-128x128.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="icons/icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="icons/icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="icons/icon-192x192.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/icon-72x72.png">
+    
+    <title>Tool Hub - All Your Online Tools in One Place</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">
+            <i class="fa-solid fa-wrench"></i>
+            <h2>Tool Hub</h2>
+        </div>
+        <nav>
+    <ul>
+        <li onclick="showSection('home')" class="active">
+            <i class="fa-solid fa-house"></i> Home
+        </li>
+        <li onclick="window.location.href='alltools-index.html'">
+            <i class="fa-solid fa-toolbox"></i> All Tools
+        </li>
+        <li onclick="window.location.href='favorites-index.html'">
+            <i class="fa-solid fa-heart"></i> Favorites
+            <span class="badge-count" id="fav-count-badge">0</span>
+        </li>
+        <li onclick="window.location.href='history-index.html'">
+            <i class="fa-solid fa-clock-rotate-left"></i> History
+            <span class="badge-count" id="history-count-badge">0</span>
+        </li>
+    </ul>
+</nav>
+        <div class="categories">
+            <h3>Categories</h3>
+            <ul>
+                <li onclick="filterCategory('text')"><i class="fa-solid fa-font"></i> Text Tools</li>
+                <li onclick="filterCategory('calc')"><i class="fa-solid fa-calculator"></i> Calculator Tools</li>
+                <li onclick="filterCategory('dev')"><i class="fa-solid fa-code"></i> Developer Tools</li>
+                <li onclick="filterCategory('image')"><i class="fa-solid fa-image"></i> Image Tools</li>
+                <li onclick="filterCategory('gen')"><i class="fa-solid fa-wand-magic-sparkles"></i> Generator Tools</li>
+                <li onclick="filterCategory('date')"><i class="fa-solid fa-calendar-day"></i> Date & Time</li>
+                <li onclick="filterCategory('finance')"><i class="fa-solid fa-coins"></i> Finance</li>
+            </ul>
+        </div>
+       <div class="login-box">
+    <i class="fa-solid fa-crown"></i>
+    <p>Save Your Favorite Tools</p>
+    <button onclick="AuthSystem.openModal('login')">Login / Sign Up</button>
+</div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Navbar -->
+        <header>
+              <div class="search-bar">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="navbar-search" placeholder="Search tools... (Press / to focus)" autocomplete="off">
+        <div class="search-suggestions" id="navbar-suggestions"></div>
+    </div>
+            <div class="nav-actions">
+                <button id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+                <button id="pwa-install-btn" class="install-btn" style="display: none;">
+        <i class="fa-solid fa-download"></i> Install App
+    </button>
+                <button class="contact-btn"><i class="fa-solid fa-envelope"></i> Contact</button>
+            </div>
+            <link rel="stylesheet" href="auth.css">
+        </header>
+
+        <!-- Home Section (Hero & Tools Grid) -->
+        <section id="home-section">
+            <div class="hero">
+                <h1>Tool Hub</h1>
+                <p>50+ Free Online Tools</p>
+                <p>Simplify your work with our powerful collection of online tools. Fast, easy, and 100% free!</p>
+               <div class="hero-search">
+    <div class="hero-search-wrapper">
+        <input type="text" id="hero-search" placeholder="Search for tools..." autocomplete="off">
+        <div class="search-suggestions" id="hero-suggestions"></div>
+    </div>
+    <button onclick="document.getElementById('hero-search').dispatchEvent(new KeyboardEvent('keypress', {key: 'Enter'}))">
+        Search
+    </button>
+</div>
+            </div>
+
+            <!-- Popular Tools Grid -->
+            <div class="section-title">
+                <h2>🔥 Popular Tools</h2>
+                <a href="#">View All →</a>
+            </div>
+            <div class="tools-grid" id="popular-tools-grid">
+                <!-- Tools will be injected here by JS -->
+            </div>
+
+            <!-- Browse by Category -->
+            <div class="section-title">
+                <h2>📂 Browse by Category</h2>
+            </div>
+            
+            <div class="category-grid">
+               
+                <div class="cat-card" onclick="window.location.href='alltools-index.html?cat=text'">
+    <i class="fa-solid fa-font"></i> ALL Tools <span>50+ tools</span>
+</div>
+            </div>
+        </section>
+
+        <!-- Tool View Section (Jab koi tool open hoga) -->
+        <section id="tool-view-section" style="display: none;">
+            <div class="breadcrumb">
+                <a href="#" onclick="showSection('home')">Home</a> / <span id="current-tool-name">Tool Name</span>
+            </div>
+            <div id="tool-container">
+                <!-- Dynamic Tool Content Loads Here -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Toast Notification -->
+     <script src="search.js"></script>
+    <div id="toast" class="toast">Message here</div>
+    <script src="pwa-init.js"></script>
+    <script src="script.js"></script>
+<script src="auth.js"></script>
+    <script src="favorites-history.js"></script>
+</body>
+</html>

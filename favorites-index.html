@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-152x152.png">
+    <link rel="icon" type="image/png" href="icons/icon-96x96.png">
+    <title>My Favorites - Tool Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="alltools-style.css">
+    <link rel="stylesheet" href="favorites-history-style.css">
+</head>
+<body>
+
+    <!-- ============ TOP NAVBAR ============ -->
+    <header class="top-navbar">
+        <div class="navbar-left">
+            <a href="index.html" class="back-btn" title="Back to Home">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <a href="index.html" class="navbar-logo">
+                <i class="fa-solid fa-wrench"></i>
+                <span>Tool Hub</span>
+            </a>
+        </div>
+        <div class="navbar-right">
+            <button id="theme-toggle" title="Toggle Theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+            <button class="share-btn" onclick="sharePage()" title="Share">
+                <i class="fa-solid fa-share-nodes"></i> Share
+            </button>
+        </div>
+    </header>
+
+    <!-- ============ BREADCRUMB ============ -->
+    <div class="breadcrumb-bar">
+        <div class="breadcrumb">
+            <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+            <i class="fa-solid fa-chevron-right"></i>
+            <span>My Favorites</span>
+        </div>
+    </div>
+
+    <!-- ============ MAIN ============ -->
+    <main class="container">
+
+        <div class="page-header fav-header">
+            <div class="page-title">
+                <h1><i class="fa-solid fa-heart"></i> My Favorites</h1>
+                <p>Your saved tools — <span id="fav-total-count">0</span> tools saved</p>
+            </div>
+            <button class="clear-all-btn" id="clear-fav-btn" onclick="clearAllFavorites()" style="display: none;">
+                <i class="fa-solid fa-trash"></i> Clear All
+            </button>
+        </div>
+
+        <!-- Tools Grid -->
+        <div class="tools-grid" id="favorites-grid"></div>
+
+        <!-- Empty State -->
+        <div class="empty-state" id="fav-empty" style="display: none;">
+            <div class="empty-icon">
+                <i class="fa-solid fa-heart-crack"></i>
+            </div>
+            <h2>No favorites yet</h2>
+            <p>Start adding tools to your favorites by clicking the ❤️ heart icon on any tool card.</p>
+            <div class="empty-actions">
+                <a href="alltools-index.html" class="btn btn-primary">
+                    <i class="fa-solid fa-toolbox"></i> Browse All Tools
+                </a>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="footer">
+        <p>© 2025 Tool Hub — All Your Online Tools in One Place</p>
+    </footer>
+
+    <!-- Toast -->
+    <div id="toast" class="toast">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toast-message">Message</span>
+    </div>
+
+    <!-- Scripts -->
+    <script src="alltools-script.js"></script>
+    <script src="favorites-history.js"></script>
+    <script src="favorites-page.js"></script>
+    <script src="pwa-init.js"></script>
+</body>
+</html>

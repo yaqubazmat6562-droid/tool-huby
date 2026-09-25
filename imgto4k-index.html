@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="description" content="Convert any image to 4K resolution (3840×2160) online free. High-quality upscaling with advanced algorithms.">
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Image to 4K">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-152x152.png">
+    <link rel="icon" type="image/png" href="icons/icon-96x96.png">
+    
+    <title>Image to 4K Converter - Tool Hub</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="alltools-style.css">
+    <link rel="stylesheet" href="auth.css">
+    <link rel="stylesheet" href="imgto4k-style.css">
+</head>
+
+<body>
+
+<!-- ============ TOP NAVBAR ============ -->
+<header class="top-navbar">
+    <div class="navbar-left">
+        <a href="index.html" class="back-btn" title="Back">
+            <i class="fa-solid fa-arrow-left"></i>
+        </a>
+        <a href="index.html" class="navbar-logo">
+            <i class="fa-solid fa-wrench"></i>
+            <span>Tool Hub</span>
+        </a>
+    </div>
+    <div class="navbar-right">
+        <a href="favorites-index.html" class="nav-icon-btn" title="Favorites">
+            <i class="fa-solid fa-heart"></i>
+        </a>
+        <a href="history-index.html" class="nav-icon-btn" title="History">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+        </a>
+        <button id="theme-toggle" title="Toggle Theme">
+            <i class="fa-solid fa-moon"></i>
+        </button>
+        <button class="share-btn" onclick="shareTool()" title="Share">
+            <i class="fa-solid fa-share-nodes"></i> <span>Share</span>
+        </button>
+        <button id="navbar-login-btn" class="navbar-login-btn" onclick="AuthSystem.openModal('login')">
+            <i class="fa-solid fa-right-to-bracket"></i> <span>Login</span>
+        </button>
+    </div>
+</header>
+
+<!-- ============ BREADCRUMB ============ -->
+<div class="breadcrumb-bar">
+    <div class="breadcrumb">
+        <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+        <i class="fa-solid fa-chevron-right"></i>
+        <a href="alltools-index.html">All Tools</a>
+        <i class="fa-solid fa-chevron-right"></i>
+        <span>Image to 4K</span>
+    </div>
+</div>
+
+<!-- ============ MAIN CONTENT ============ -->
+<main class="container">
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="page-title">
+            <h1><i class="fa-solid fa-image"></i> Image to 4K Converter</h1>
+            <p>Upscale any image to stunning 4K resolution (3840×2160) with advanced algorithms</p>
+        </div>
+    </div>
+
+    <!-- ============ UPLOAD ZONE ============ -->
+    <div class="upload-zone" id="upload-zone">
+        <input type="file" id="file-input" accept="image/*" hidden>
+        <div class="upload-content">
+            <div class="upload-icon">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+            </div>
+            <h2>Drop your image here</h2>
+            <p>or click to browse from your device</p>
+            <button class="upload-btn" onclick="document.getElementById('file-input').click()">
+                <i class="fa-solid fa-folder-open"></i> Choose Image
+            </button>
+            <div class="upload-hint">
+                <span><i class="fa-solid fa-check"></i> JPG, PNG, WebP, GIF, BMP</span>
+                <span><i class="fa-solid fa-check"></i> Max 25 MB</span>
+                <span><i class="fa-solid fa-check"></i> 100% Private</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ EDITOR (Hidden initially) ============ -->
+    <div class="editor-container" id="editor-container" style="display: none;">
+
+        <!-- Preview Section -->
+        <div class="preview-grid">
+            <!-- Original -->
+            <div class="preview-card">
+                <div class="preview-header">
+                    <div class="preview-title">
+                        <i class="fa-solid fa-image"></i>
+                        <span>Original</span>
+                    </div>
+                    <span class="preview-dim" id="original-dim">—</span>
+                </div>
+                <div class="preview-image-wrapper">
+                    <img id="original-preview" alt="Original">
+                </div>
+                <div class="preview-info">
+                    <span id="original-size">—</span>
+                    <span id="original-format">—</span>
+                </div>
+            </div>
+
+            <!-- Result -->
+            <div class="preview-card highlight">
+                <div class="preview-header">
+                    <div class="preview-title">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        <span>4K Result</span>
+                    </div>
+                    <span class="preview-dim" id="result-dim">—</span>
+                </div>
+                <div class="preview-image-wrapper">
+                    <img id="result-preview" alt="Result" style="display: none;">
+                    <div class="result-placeholder" id="result-placeholder">
+                        <i class="fa-solid fa-hourglass-half"></i>
+                        <p>Click "Convert to 4K" to see result</p>
+                    </div>
+                </div>
+                <div class="preview-info">
+                    <span id="result-size">—</span>
+                    <span id="result-format">—</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Panel -->
+        <div class="settings-panel">
+            <h3><i class="fa-solid fa-sliders"></i> Conversion Settings</h3>
+
+            <!-- Target Resolution -->
+            <div class="setting-group">
+                <label>Target Resolution</label>
+                <div class="resolution-grid">
+                    <button class="res-btn active" data-res="3840x2160" onclick="selectResolution(this, 3840, 2160)">
+                        <i class="fa-solid fa-tv"></i>
+                        <strong>4K UHD</strong>
+                        <small>3840 × 2160</small>
+                    </button>
+                    <button class="res-btn" data-res="2560x1440" onclick="selectResolution(this, 2560, 1440)">
+                        <i class="fa-solid fa-desktop"></i>
+                        <strong>2K QHD</strong>
+                        <small>2560 × 1440</small>
+                    </button>
+                    <button class="res-btn" data-res="1920x1080" onclick="selectResolution(this, 1920, 1080)">
+                        <i class="fa-solid fa-laptop"></i>
+                        <strong>Full HD</strong>
+                        <small>1920 × 1080</small>
+                    </button>
+                    <button class="res-btn" data-res="custom" onclick="selectResolution(this, 0, 0)">
+                        <i class="fa-solid fa-crop-simple"></i>
+                        <strong>Custom</strong>
+                        <small>Your size</small>
+                    </button>
+                </div>
+
+                <!-- Custom Resolution Inputs -->
+                <div class="custom-res" id="custom-res" style="display: none;">
+                    <div class="custom-input">
+                        <label>Width (px)</label>
+                        <input type="number" id="custom-width" value="3840" min="100" max="8000">
+                    </div>
+                    <span class="x-mark">×</span>
+                    <div class="custom-input">
+                        <label>Height (px)</label>
+                        <input type="number" id="custom-height" value="2160" min="100" max="8000">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Aspect Ratio -->
+            <div class="setting-group">
+                <label>
+                    <input type="checkbox" id="keep-aspect" checked style="display:none;">
+                    <span class="toggle-checkbox" onclick="toggleAspect()" id="aspect-toggle">
+                        <i class="fa-solid fa-check"></i>
+                    </span>
+                    Keep aspect ratio (avoid stretching)
+                </label>
+            </div>
+
+            <!-- Quality Slider -->
+            <div class="setting-group">
+                <label>
+                    Output Quality
+                    <span class="quality-value" id="quality-value">95%</span>
+                </label>
+                <input type="range" id="quality-slider" min="60" max="100" value="95" 
+                       oninput="updateQuality(this.value)" class="quality-slider">
+                <div class="slider-labels">
+                    <span>Smaller file</span>
+                    <span>Best quality</span>
+                </div>
+            </div>
+
+            <!-- Sharpening -->
+            <div class="setting-group">
+                <label>
+                    Sharpening
+                    <span class="quality-value" id="sharpen-value">Medium</span>
+                </label>
+                <input type="range" id="sharpen-slider" min="0" max="3" value="1" 
+                       oninput="updateSharpen(this.value)" class="quality-slider">
+                <div class="slider-labels">
+                    <span>None</span>
+                    <span>Low</span>
+                    <span>Medium</span>
+                    <span>High</span>
+                </div>
+            </div>
+
+            <!-- Output Format -->
+            <div class="setting-group">
+                <label>Output Format</label>
+                <div class="format-tabs">
+                    <button class="format-btn active" data-format="image/jpeg" onclick="selectFormat(this, 'image/jpeg')">
+                        <i class="fa-solid fa-file-image"></i> JPG
+                    </button>
+                    <button class="format-btn" data-format="image/png" onclick="selectFormat(this, 'image/png')">
+                        <i class="fa-solid fa-file-image"></i> PNG
+                    </button>
+                    <button class="format-btn" data-format="image/webp" onclick="selectFormat(this, 'image/webp')">
+                        <i class="fa-solid fa-file-image"></i> WebP
+                    </button>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button class="btn-convert" id="convert-btn" onclick="convertImage()">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <span>Convert to 4K</span>
+                </button>
+                <button class="btn-download" id="download-btn" onclick="downloadResult()" disabled>
+                    <i class="fa-solid fa-download"></i>
+                    <span>Download</span>
+                </button>
+                <button class="btn-reset" onclick="resetTool()">
+                    <i class="fa-solid fa-rotate-left"></i>
+                    <span>New Image</span>
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ============ INFO SECTION ============ -->
+    <section class="info-section" id="info-section">
+        <h2><i class="fa-solid fa-circle-info"></i> About Image to 4K Converter</h2>
+        
+        <div class="info-grid">
+            <div class="info-card">
+                <i class="fa-solid fa-rocket"></i>
+                <h3>High-Speed Processing</h3>
+                <p>Optimized algorithms process images quickly without uploading to any server.</p>
+            </div>
+            <div class="info-card">
+                <i class="fa-solid fa-shield-halved"></i>
+                <h3>100% Private</h3>
+                <p>Your images never leave your device. All processing happens locally in your browser.</p>
+            </div>
+            <div class="info-card">
+                <i class="fa-solid fa-mobile-screen"></i>
+                <h3>Works Everywhere</h3>
+                <p>Mobile, tablet, or desktop — convert images to 4K on any device.</p>
+            </div>
+            <div class="info-card">
+                <i class="fa-solid fa-star"></i>
+                <h3>Best Quality</h3>
+                <p>Multi-step resampling with sharpening for crisp, professional 4K output.</p>
+            </div>
+        </div>
+
+        <div class="faq-section">
+            <h2><i class="fa-solid fa-circle-question"></i> Frequently Asked Questions</h2>
+            
+            <details class="faq-item">
+                <summary>What is 4K resolution?</summary>
+                <p>4K UHD resolution is 3840 × 2160 pixels — 4 times the pixel count of Full HD (1080p). It's the standard for modern TVs, monitors, and high-quality prints.</p>
+            </details>
+            
+            <details class="faq-item">
+                <summary>Will my image lose quality?</summary>
+                <p>Upscaling always involves some interpolation. However, our advanced multi-step algorithm with optional sharpening produces the best possible result by minimizing blur and artifacts.</p>
+            </details>
+            
+            <details class="faq-item">
+                <summary>Is there a file size limit?</summary>
+                <p>We recommend images under 25 MB for smooth processing. Very large images may take longer on mobile devices.</p>
+            </details>
+            
+            <details class="faq-item">
+                <summary>Do you store my images?</summary>
+                <p>No! All processing happens 100% locally in your browser using HTML5 Canvas. Your images never leave your device and are never uploaded to any server.</p>
+            </details>
+            
+            <details class="faq-item">
+                <summary>Which format should I choose?</summary>
+                <p><strong>JPG</strong> — Best for photos (smaller file size). <strong>PNG</strong> — Best for graphics with transparency (larger). <strong>WebP</strong> — Modern format with great compression (best of both).</p>
+            </details>
+        </div>
+    </section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+    <p>© 2025 Tool Hub — All Your Online Tools in One Place</p>
+</footer>
+
+<!-- ============ TOAST ============ -->
+<div id="toast" class="toast">
+    <i class="fa-solid fa-circle-check"></i>
+    <span id="toast-message">Message</span>
+</div>
+
+<!-- ============ SCRIPTS ============ -->
+<script src="auth.js"></script>
+<script src="imgto4k-script.js"></script>
+<script src="pwa-init.js"></script>
+</body>
+</html>
