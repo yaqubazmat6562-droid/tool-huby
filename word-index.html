@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Counter - Tool Hub</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Word Counter CSS -->
+    <link rel="stylesheet" href="word-style.css">
+</head>
+<body>
+
+    <!-- ============ TOP NAVBAR ============ -->
+    <header class="top-navbar">
+        <div class="navbar-left">
+            <a href="index.html" class="back-btn" title="Back to Home">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <a href="index.html" class="navbar-logo">
+                <i class="fa-solid fa-wrench"></i>
+                <span>Tool Hub</span>
+            </a>
+        </div>
+        <div class="navbar-right">
+            <button id="theme-toggle" title="Toggle Theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+            <button class="share-btn" onclick="shareTool()" title="Share this tool">
+                <i class="fa-solid fa-share-nodes"></i> Share
+            </button>
+        </div>
+    </header>
+
+    <!-- ============ BREADCRUMB ============ -->
+    <div class="breadcrumb-bar">
+        <div class="breadcrumb">
+            <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+            <i class="fa-solid fa-chevron-right"></i>
+            <a href="index.html">Text Tools</a>
+            <i class="fa-solid fa-chevron-right"></i>
+            <span>Word Counter</span>
+        </div>
+    </div>
+
+    <!-- ============ MAIN CONTENT ============ -->
+    <main class="container">
+
+        <!-- Tool Header -->
+        <div class="tool-header">
+            <div class="tool-icon">
+                <i class="fa-solid fa-file-word"></i>
+            </div>
+            <div>
+                <h1>Word Counter</h1>
+                <p>Count words, characters, sentences, paragraphs & reading time instantly. 100% free & secure.</p>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <i class="fa-solid fa-font"></i>
+                <h3 id="word-count">0</h3>
+                <p>Words</p>
+            </div>
+            <div class="stat-card">
+                <i class="fa-solid fa-text-width"></i>
+                <h3 id="char-count">0</h3>
+                <p>Characters</p>
+            </div>
+            <div class="stat-card">
+                <i class="fa-solid fa-spell-check"></i>
+                <h3 id="char-no-space">0</h3>
+                <p>Chars (No Space)</p>
+            </div>
+            <div class="stat-card">
+                <i class="fa-solid fa-paragraph"></i>
+                <h3 id="sentence-count">0</h3>
+                <p>Sentences</p>
+            </div>
+            <div class="stat-card">
+                <i class="fa-solid fa-align-left"></i>
+                <h3 id="para-count">0</h3>
+                <p>Paragraphs</p>
+            </div>
+            <div class="stat-card">
+                <i class="fa-solid fa-clock"></i>
+                <h3 id="reading-time">0m</h3>
+                <p>Reading Time</p>
+            </div>
+        </div>
+
+        <!-- Textarea -->
+        <div class="textarea-box">
+            <div class="textarea-header">
+                <label for="word-counter-input">
+                    <i class="fa-solid fa-pen"></i> Enter Your Text
+                </label>
+                <span id="live-indicator" class="live-dot"></span>
+            </div>
+            <textarea 
+                id="word-counter-input" 
+                placeholder="Type or paste your text here... Statistics will update automatically in real-time."
+                spellcheck="false"
+            ></textarea>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <button class="btn btn-primary" onclick="copyText()">
+                <i class="fa-solid fa-copy"></i> Copy Text
+            </button>
+            <button class="btn btn-warning" onclick="clearText()">
+                <i class="fa-solid fa-eraser"></i> Clear
+            </button>
+            <button class="btn btn-success" onclick="downloadText()">
+                <i class="fa-solid fa-download"></i> Download .txt
+            </button>
+            <button class="btn btn-info" onclick="shareTool()">
+                <i class="fa-solid fa-share-nodes"></i> Share Tool
+            </button>
+            <button class="btn btn-secondary" onclick="pasteText()">
+                <i class="fa-solid fa-paste"></i> Paste
+            </button>
+        </div>
+
+        <!-- Extra Statistics -->
+        <div class="extra-stats">
+            <div class="extra-card">
+                <h4><i class="fa-solid fa-chart-simple"></i> Advanced Stats</h4>
+                <div class="extra-grid">
+                    <div><span>Avg. Word Length:</span> <b id="avg-word-len">0</b></div>
+                    <div><span>Longest Word:</span> <b id="longest-word">-</b></div>
+                    <div><span>Unique Words:</span> <b id="unique-words">0</b></div>
+                    <div><span>Speaking Time:</span> <b id="speaking-time">0m</b></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Help Section -->
+        <div class="help-box">
+            <h4><i class="fa-solid fa-circle-question"></i> How to Use Word Counter</h4>
+            <ul>
+                <li>Apna text upar wale box mein <b>type</b> ya <b>paste</b> karein.</li>
+                <li>Statistics <b>automatically real-time</b> update hongi.</li>
+                <li><b>Copy</b> button se text clipboard mein copy karein.</li>
+                <li><b>Clear</b> button se poora text hata dein.</li>
+                <li><b>Download</b> se text ko <b>.txt</b> file mein save karein.</li>
+                <li><b>Paste</b> button se clipboard ka text seedha paste karein.</li>
+                <li>Reading Time <b>200 WPM</b> aur Speaking Time <b>130 WPM</b> par based hai.</li>
+                <li>Aapka text <b>kabhi bhi server par nahi jata</b> — 100% client-side & private.</li>
+            </ul>
+        </div>
+
+    </main>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="footer">
+        <p>© 2025 Tool Hub — All Your Online Tools in One Place</p>
+    </footer>
+
+    <!-- ============ TOAST ============ -->
+    <div id="toast" class="toast">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toast-message">Message</span>
+    </div>
+
+    <!-- Word Counter JS -->
+    <script src="word-script.js"></script>
+</body>
+</html>
