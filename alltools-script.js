@@ -49,6 +49,10 @@ const ALL_TOOLS = [
    { id: 'grayscale-img', name: 'Grayscale Image', category: 'image', icon: 'fa-circle-half-stroke', desc: 'Convert colored images to grayscale.', page: 'grayscale-index.html', popular: true },
     { id: 'img-metadata', name: 'Image Metadata Viewer', category: 'image', icon: 'fa-info-circle', desc: 'View EXIF & metadata of your images.', page: 'imgmetadata-index.html', popular: true },
     { id: 'img-to-4k', name: 'Image to 4K Converter', category: 'image', icon: 'fa-image', desc: 'Upscale any image to stunning 4K resolution (3840×2160) with advanced algorithms.', page: 'imgto4k-index.html', popular: true },
+    { id: 'img-compressor', name: 'Image Compressor', category: 'image', icon: 'fa-image', desc: '...', page: 'imagetools-index.html?tool=img-compressor', popular: true },
+{ id: 'img-resizer', name: 'Image Resizer', category: 'image', icon: 'fa-expand', desc: '...', page: 'imagetools-index.html?tool=img-resizer', popular: true },
+{ id: 'img-cropper', name: 'Image Cropper', category: 'image', icon: 'fa-crop', desc: '...', page: 'imagetools-index.html?tool=img-cropper', popular: true },
+
 
     // ============ GENERATOR TOOLS ============
     { id: 'pass-gen', name: 'Password Generator', category: 'gen', icon: 'fa-key', desc: 'Generate secure passwords with custom rules & bulk option.', page: 'passgen-index.html', popular: true },

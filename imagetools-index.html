@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#2563eb">
+    <title>Image Tools - Tool Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="alltools-style.css">
+    <link rel="stylesheet" href="tools-style.css">
+</head>
+<body>
+
+<!-- TOP NAVBAR -->
+<header class="top-navbar">
+    <div class="navbar-left">
+        <a href="index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
+        <a href="index.html" class="navbar-logo">
+            <i class="fa-solid fa-wrench"></i>
+            <span>Tool Hub</span>
+        </a>
+    </div>
+    <div class="navbar-right">
+        <a href="favorites-index.html" class="nav-icon-btn"><i class="fa-solid fa-heart"></i></a>
+        <button id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+    </div>
+</header>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb-bar">
+    <div class="breadcrumb">
+        <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+        <i class="fa-solid fa-chevron-right"></i>
+        <a href="alltools-index.html?cat=image">Image Tools</a>
+        <i class="fa-solid fa-chevron-right"></i>
+        <span id="current-tool-name">Image Tools</span>
+    </div>
+</div>
+
+<main class="container">
+
+    <!-- TOOLS LIST VIEW -->
+    <div id="tools-list-view">
+        <div class="page-header">
+            <div class="page-title">
+                <h1><i class="fa-solid fa-image"></i> Image Tools</h1>
+                <p>11 powerful tools to edit, convert & optimize images</p>
+            </div>
+        </div>
+
+        <div class="tools-grid" id="image-tools-grid"></div>
+    </div>
+
+    <!-- TOOL VIEW (Dynamic) -->
+    <div id="tool-view" style="display: none;">
+        <div class="tool-header">
+            <button class="back-to-tools" onclick="showToolsList()">
+                <i class="fa-solid fa-arrow-left"></i> Back to Image Tools
+            </button>
+            <h1 id="tool-title"></h1>
+            <p id="tool-desc"></p>
+        </div>
+        <div id="tool-content"></div>
+    </div>
+
+</main>
+
+<footer class="footer">
+    <p>© 2025 Tool Hub — All Your Online Tools in One Place</p>
+</footer>
+
+<div id="toast" class="toast">
+    <i class="fa-solid fa-circle-check"></i>
+    <span id="toast-message">Message</span>
+</div>
+
+<!-- Libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="imagetools-script.js"></script>
+</body>
+</html>

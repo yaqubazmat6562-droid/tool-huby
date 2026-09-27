@@ -70,6 +70,9 @@
                 <li onclick="filterCategory('calc')"><i class="fa-solid fa-calculator"></i> Calculator Tools</li>
                 <li onclick="filterCategory('dev')"><i class="fa-solid fa-code"></i> Developer Tools</li>
                 <li onclick="filterCategory('image')"><i class="fa-solid fa-image"></i> Image Tools</li>
+                <li onclick="window.location.href='imagetools-index.html'">
+    <i class="fa-solid fa-image"></i> Image Tools
+</li>
                 <li onclick="filterCategory('gen')"><i class="fa-solid fa-wand-magic-sparkles"></i> Generator Tools</li>
                 <li onclick="filterCategory('date')"><i class="fa-solid fa-calendar-day"></i> Date & Time</li>
                 <li onclick="filterCategory('finance')"><i class="fa-solid fa-coins"></i> Finance</li>
@@ -78,28 +81,36 @@
        <div class="login-box">
     <i class="fa-solid fa-crown"></i>
     <p>Save Your Favorite Tools</p>
-    <button onclick="AuthSystem.openModal('login')">Login / Sign Up</button>
+    
 </div>
     </aside>
 
     <!-- Main Content -->
     <main class="main-content">
         <!-- Top Navbar -->
-        <header>
-              <div class="search-bar">
+       <header>
+    <div class="search-bar">
         <i class="fa-solid fa-magnifying-glass"></i>
         <input type="text" id="navbar-search" placeholder="Search tools... (Press / to focus)" autocomplete="off">
         <div class="search-suggestions" id="navbar-suggestions"></div>
     </div>
-            <div class="nav-actions">
-                <button id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
-                <button id="pwa-install-btn" class="install-btn" style="display: none;">
-        <i class="fa-solid fa-download"></i> Install App
-    </button>
-                <button class="contact-btn"><i class="fa-solid fa-envelope"></i> Contact</button>
-            </div>
-            <link rel="stylesheet" href="auth.css">
-        </header>
+    <div class="nav-actions">
+        <!-- Login button (jab user logged out ho) -->
+        <button class="login-nav-btn" id="navbar-login-btn" onclick="AuthSystem.openModal('login')">
+            <i class="fa-solid fa-right-to-bracket"></i>
+            <span>Login</span>
+        </button>
+
+        <!-- User menu (jab user logged in ho - JS inject karega) -->
+
+        <button id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+        <button id="pwa-install-btn" class="install-btn" style="display: none;">
+            <i class="fa-solid fa-download"></i> Install App
+        </button>
+        <button class="contact-btn"><i class="fa-solid fa-envelope"></i> Contact</button>
+    </div>
+    <link rel="stylesheet" href="auth.css">
+</header>
 
         <!-- Home Section (Hero & Tools Grid) -->
         <section id="home-section">
